@@ -1,5 +1,15 @@
 export default function Home() {
   return (
-	<div>Home</div>
-  )
+    <div className="min-h-screen">
+      {/*Theme toggle*/}
+
+      {/*Background*/}
+
+      {/*Nav Bar*/}
+
+      {/*Body*/}
+
+      {/*Footer*/}
+    </div>
+  );
 }
