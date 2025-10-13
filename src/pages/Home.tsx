@@ -1,3 +1,4 @@
+import { Background } from "../components/background/Background";
 import { ThemeToggle } from "../components/theme_toggle/ThemeToggle";
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
 	  </div>
       
       {/*Background*/}
+	  <Background starDensity={0.0001} meteorNumber={4}/>
 
       {/*Nav Bar*/}
 
