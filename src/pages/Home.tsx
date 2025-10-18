@@ -1,4 +1,5 @@
 import { Background } from "../components/background/Background";
+import { HeroSection } from "../components/hero_section/HeroSection";
 import { Navbar } from "../components/navbar/Navbar";
 import { ThemeToggle } from "../components/theme_toggle/ThemeToggle";
 
@@ -17,6 +18,9 @@ export default function Home() {
 		<Navbar />
 
       {/*Body*/}
+		<main>
+			<HeroSection />
+		</main>
 
       {/*Footer*/}
     </div>
