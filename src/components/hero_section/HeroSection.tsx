@@ -1,6 +1,7 @@
+import React, { memo } from "react";
 import { ArrowDown } from "lucide-react";
 
-const Title = () => {
+const Title: React.FC = memo(() => {
   return (
     <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
       <span className="opacity-0 animate-fade-in">Hi, I'm </span>
@@ -12,25 +13,29 @@ const Title = () => {
       </span>
     </h1>
   );
-};
+});
 
-const Paragraph = () => {
+const Paragraph: React.FC = memo(() => {
   return (
-    <p className="text-lg md:text-xl text-muted-foreground max-2-2xl mx-auto opacity-0 animate-fade-in-delay-3">
-      Introduction parragraph.
+    <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
+      Introduction paragraph.
     </p>
   );
-};
+});
 
-const ViewWorkButton = () => {
+const ViewWorkButton: React.FC = memo(() => {
   return (
-    <div className=" opacity-0 animate-fade-in-delay-4 pt-4">
-      <a href="projects" className="cosmic-button">
+    <div className="opacity-0 animate-fade-in-delay-4 pt-4">
+      <a
+        href="/projects"
+        className="cosmic-button"
+        aria-label="View my projects"
+      >
         View My Work
       </a>
     </div>
   );
-};
+});
 
 const ScrollHint = () => {
   return (
@@ -41,7 +46,7 @@ const ScrollHint = () => {
   );
 };
 
-export const HeroSection = () => {
+export const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
@@ -58,3 +63,5 @@ export const HeroSection = () => {
     </section>
   );
 };
+
+export default HeroSection;
