@@ -1,3 +1,4 @@
+import { AboutMeSection } from "../components/about_me_section/AboutMeSection";
 import { Background } from "../components/background/Background";
 import { HeroSection } from "../components/hero_section/HeroSection";
 import { Navbar } from "../components/navbar/Navbar";
@@ -20,6 +21,7 @@ export default function Home() {
       {/*Body*/}
 		<main>
 			<HeroSection />
+			<AboutMeSection />
 		</main>
 
       {/*Footer*/}
