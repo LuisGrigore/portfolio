@@ -1,5 +1,6 @@
 import { AboutMeSection } from "../components/about_me_section/AboutMeSection";
 import { Background } from "../components/background/Background";
+import { ContactSection } from "../components/contact_section/ContactSection";
 import { HeroSection } from "../components/hero_section/HeroSection";
 import { Navbar } from "../components/navbar/Navbar";
 import { ProjectsSection } from "../components/projects_section/ProjectsSection";
@@ -26,10 +27,11 @@ export default function Home() {
           <HeroSection />
         </div>
         <div className="snap-start min-h-screen">
-          <div className="h-full overflow-y-auto">
+          <div className="h-full overflow-y-auto pt-30">
             <AboutMeSection />
             <SkillsSection />
             <ProjectsSection />
+			<ContactSection />
           </div>
         </div>
       </main>
