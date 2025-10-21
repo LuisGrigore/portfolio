@@ -9,22 +9,28 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/*Theme toggle*/}
-	  <div className="fixed max-sm:hidden top-5 right-5 z-50 p-2 ">
-		<ThemeToggle />
-	  </div>
-      
+      <div className="fixed max-sm:hidden top-5 right-5 z-50 p-2 ">
+        <ThemeToggle />
+      </div>
+
       {/*Background*/}
-	  <Background starDensity={0.0001} meteorNumber={4}/>
+      <Background starDensity={0.0001} meteorNumber={4} />
 
       {/*Nav Bar*/}
-		<Navbar />
+      <Navbar />
 
       {/*Body*/}
-		<main>
-			<HeroSection />
-			<AboutMeSection />
-			<SkillsSection />
-		</main>
+      <main className="snap-y snap-mandatory h-screen overflow-y-scroll">
+        <div className="snap-start h-screen">
+          <HeroSection />
+        </div>
+        <div className="snap-start min-h-screen">
+          <div className="h-full overflow-y-auto">
+            <AboutMeSection />
+            <SkillsSection />
+          </div>
+        </div>
+      </main>
 
       {/*Footer*/}
     </div>
