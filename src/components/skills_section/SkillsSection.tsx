@@ -20,7 +20,7 @@ type CategoryFilterProps = {
   onClick: () => void;
 };
 
-const CategoryButton = ({
+const CategoryButton:React.FC<CategoryFilterProps> = ({
   category,
   isSelected,
   onClick,
@@ -42,7 +42,7 @@ const CategoryButton = ({
 
 type SkillCardProps = { skill: Skill };
 
-const SkillCard = ({ skill }: SkillCardProps) => {
+const SkillCard:React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
   return (
     <div className="bg-card p-6 rounded-lg shadow-lg card-hover">
       <div className="text-left mb-4">
@@ -61,7 +61,7 @@ const SkillCard = ({ skill }: SkillCardProps) => {
   );
 };
 
-export const SkillsSection = () => {
+export const SkillsSection:React.FC = () => {
   const { filterSkills, categories, selectedCategory, selectCategory } =
     useSkillCategorySelector();
 

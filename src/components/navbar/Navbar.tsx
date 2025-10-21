@@ -15,7 +15,7 @@ const navItems: NavItem[] = [
   { name: "Contact", href: "#contact" },
 ];
 
-const MobileNavbar = () => {
+const MobileNavbar:React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   return (
     <>
@@ -50,7 +50,7 @@ const MobileNavbar = () => {
   );
 };
 
-const DesktopNavbar = () => {
+const DesktopNavbar:React.FC = () => {
   return (
     <div className="hidden md:flex space-x-8">
       {navItems.map((item, key) => (
@@ -66,7 +66,7 @@ const DesktopNavbar = () => {
   );
 };
 
-const TitleText = () => {
+const TitleText:React.FC = () => {
   return (
     <a
       className="text-xl font-bold text-primary flex items-center"
@@ -80,7 +80,7 @@ const TitleText = () => {
   );
 };
 
-export const Navbar = () => {
+export const Navbar:React.FC = () => {
   const isScrolled = useNavbar();
   return (
     <nav

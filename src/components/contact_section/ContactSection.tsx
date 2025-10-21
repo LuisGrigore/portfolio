@@ -10,7 +10,7 @@ interface FormFieldProps extends Omit<InputProps, "type"> {
   type?: "text" | "email" | "textarea";
 }
 
-const FormField = ({ label, type = "text", name, ...props }: FormFieldProps) => {
+const FormField:React.FC<FormFieldProps> = ({ label, type = "text", name, ...props }: FormFieldProps) => {
   const id = props.id || name;
   const inputClasses = "w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary";
   
@@ -49,7 +49,7 @@ interface ContactInfoCardProps {
   href?: string;
 }
 
-const ContactInfoCard = ({ icon: Icon, title, content, href }: ContactInfoCardProps) => {
+const ContactInfoCard: React.FC<ContactInfoCardProps> = ({ icon: Icon, title, content, href }: ContactInfoCardProps) => {
   const ContentWrapper = href ? 'a' : 'span';
   const contentProps = href ? { href, className: "text-muted-foreground hover:text-primary transition-colors" } : { className: "text-muted-foreground" };
 
@@ -68,7 +68,7 @@ const ContactInfoCard = ({ icon: Icon, title, content, href }: ContactInfoCardPr
   );
 };
 
-export const ContactSection = () => {
+export const ContactSection: React.FC = () => {
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">

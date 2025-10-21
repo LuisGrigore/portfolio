@@ -61,7 +61,11 @@ const projects: Project[] = [
   },
 ];
 
-const ProjectCard = ({ project }: { project: Project }) => {
+type ProjectCardProps = {
+  project: Project;
+};
+
+const ProjectCard:React.FC<ProjectCardProps> = ({ project }: ProjectCardProps) => {
   return (
     <div className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover flex flex-col h-full">
       <div className="h-48 overflow-hidden">
@@ -110,7 +114,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
   );
 };
 
-export const ProjectsSection = () => {
+export const ProjectsSection:React.FC = () => {
   return (
     <section id="projects" className="py-24 px-4 relative">
       <div className="container mx-auto max-w-5xl">
