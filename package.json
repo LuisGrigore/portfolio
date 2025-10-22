@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-	"dev": "vite",
-	"build": "tsc -b && vite build",
-	"lint": "eslint src --ext .ts,.tsx",
-	"preview": "vite preview",
-	"typecheck": "tsc --noEmit",
-	"check": "npm run lint && npm run typecheck"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint src --ext .ts,.tsx",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck"
   },
   "dependencies": {
     "@radix-ui/react-toast": "^1.2.15",
