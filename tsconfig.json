@@ -1,7 +1,37 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+	"compilerOptions": {
+	/* === Configuración general === */
+	"target": "ES2022",
+	"module": "ESNext",
+	"lib": ["DOM", "DOM.Iterable", "ESNext"],
+	"moduleResolution": "Node",
+	"jsx": "react-jsx",
+	"allowJs": false,
+	"strict": true,
+	"noImplicitAny": true,
+	"strictNullChecks": true,
+	"noUnusedLocals": true,
+	"noUnusedParameters": true,
+	"noFallthroughCasesInSwitch": true,
+
+	/* === Paths y estructura === */
+	"baseUrl": "./src",
+	"paths": {
+	  "@/*": ["*"]
+	},
+
+	/* === Salida y compatibilidad === */
+	"esModuleInterop": true,
+	"forceConsistentCasingInFileNames": true,
+	"skipLibCheck": true,
+	"isolatedModules": true,
+
+	/* === Output opcional === */
+	"resolveJsonModule": true
+	},
+	"files": [],
+	"references": [
+	{ "path": "./tsconfig.app.json" },
+	{ "path": "./tsconfig.node.json" }
+	]
 }

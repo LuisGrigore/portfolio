@@ -10,6 +10,8 @@
 
   --color-card: hsl(var(--card));
 
+  --color-star: hsl(var(--star));
+
   --animate-float: float 6s ease-in-out infinite;
   --animate-pause-subtle: pause-subtle 4s ease-in-out infinite;
   --animate-fade-in: fade-in 0.7s ease-out forwards;
@@ -73,6 +75,8 @@
     --primary-foreground: 210 40% 98%;
 
     --border: 214 32% 91%;
+	--star: 359 100% 0%;
+    --glow-star: 359 100% 0% / 0.3; 
   }
 
   .dark {
@@ -85,6 +89,9 @@
     --primary-foreground: 213 31% 91%;
 
     --border: 217 33% 20%;
+
+	--star: 0 0% 100%;
+	--glow-star: 0 0% 100% / 0.3;
   }
 
   * {
@@ -145,13 +152,13 @@
 }
 
 @utility star {
-  @apply absolute rounded-full bg-white;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+  @apply absolute rounded-full bg-star;
+  box-shadow: 0 0 8px 2px hsl(var(--glow-star));
 }
 
 @utility meteor {
-  @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+  @apply absolute bg-linear-to-r from-star via-star to-transparent rounded-full;
+  box-shadow: 0 0 10px 5px hsl(var(--glow-star));
 }
 
 #root {
