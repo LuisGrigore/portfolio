@@ -17,7 +17,7 @@ const projects: Project[] = [
     title: "TaskFlow — Collaborative Task Manager",
     description:
       "A real-time task board for teams with drag-and-drop, comments, and activity feeds.",
-    imageUrl: "public/projects/Screenshot from 2025-10-21 18-44-41.png",
+    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Socket.IO", "MongoDB"],
   },
   {
@@ -25,7 +25,7 @@ const projects: Project[] = [
     title: "ShopWise — Minimal E-commerce Frontend",
     description:
       "A fast, accessible storefront with product browsing, cart, and checkout flow (mocked payments).",
-    imageUrl: "public/projects/Screenshot from 2025-10-21 18-44-41.png",
+    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
     tags: ["React", "TypeScript", "Vite", "Tailwind CSS"],
   },
   {
@@ -33,7 +33,7 @@ const projects: Project[] = [
     title: "FitLog — Personal Fitness Tracker",
     description:
       "Track workouts, progress charts, and custom routines with a focus on data visualization.",
-    imageUrl: "public/projects/Screenshot from 2025-10-21 18-44-41.png",
+    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
     tags: ["React", "TypeScript", "Recharts", "IndexedDB"],
   },
   {
@@ -41,7 +41,7 @@ const projects: Project[] = [
     title: "CookBook — Recipe Manager & Meal Planner",
     description:
       "Save, organize, and plan meals with shopping list generation and recipe scaling.",
-    imageUrl: "public/projects/Screenshot from 2025-10-21 18-44-41.png",
+    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
     tags: ["React", "TypeScript", "SQLite", "Node.js"],
   },
   {
@@ -49,7 +49,7 @@ const projects: Project[] = [
     title: "PortFolio Studio — Static Site Builder",
     description:
       "A tiny static site generator and CMS for creating personal portfolio pages from Markdown.",
-    imageUrl: "public/projects/Screenshot from 2025-10-21 18-44-41.png",
+    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
     tags: ["Next.js", "TypeScript", "Markdown"],
   },
   {
@@ -57,7 +57,7 @@ const projects: Project[] = [
     title: "WeatherCast — Location-aware Weather Dashboard",
     description:
       "Clean, animated weather dashboard with hourly/daily forecasts and bookmarked locations.",
-    imageUrl: "public/projects/Screenshot from 2025-10-21 18-44-41.png",
+    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
     tags: ["React", "TypeScript", "OpenWeatherMap API", "Geolocation"],
   },
 ];
