@@ -7,7 +7,7 @@ import { ProjectsSection } from "../components/projects_section/ProjectsSection"
 import { SkillsSection } from "../components/skills_section/SkillsSection";
 import { ThemeToggle } from "../components/theme_toggle/ThemeToggle";
 
-export const Home:React.FC = () =>{
+const Home:React.FC = () =>{
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <div className="fixed max-sm:hidden top-5 right-5 z-50 p-2 ">
@@ -31,3 +31,5 @@ export const Home:React.FC = () =>{
     </div>
   );
 }
+
+export default Home;
