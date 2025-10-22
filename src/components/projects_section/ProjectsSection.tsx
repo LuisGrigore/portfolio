@@ -1,4 +1,5 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
+import { SectionTitle } from "../section-titile/SectionTitle";
 
 type Project = {
   id: number;
@@ -65,7 +66,9 @@ type ProjectCardProps = {
   project: Project;
 };
 
-const ProjectCard:React.FC<ProjectCardProps> = ({ project }: ProjectCardProps) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  project,
+}: ProjectCardProps) => {
   return (
     <div className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover flex flex-col h-full">
       <div className="h-48 overflow-hidden">
@@ -114,17 +117,16 @@ const ProjectCard:React.FC<ProjectCardProps> = ({ project }: ProjectCardProps) =
   );
 };
 
-export const ProjectsSection:React.FC = () => {
+export const ProjectsSection: React.FC = () => {
   return (
     <section id="projects" className="py-24 px-4 relative">
       <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          Featured <span className="text-primary">Projects</span>
-        </h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Here are some of the projects I've worked on recently. Feel free to
-          explore and check out the code on GitHub!
-        </p>
+        <SectionTitle
+          text_white="My"
+          text_primary="Projects"
+          introduction="Here are some of the projects I've worked on recently. Feel free to
+          explore and check out the code on GitHub!"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, indx) => {
             return <ProjectCard key={indx} project={project} />;
@@ -134,7 +136,7 @@ export const ProjectsSection:React.FC = () => {
           <a
             className="cosmic-button w-fit flex items-center mx-auto gap-2"
             target="_blank"
-			href="https://github.com/LuisGrigore"
+            href="https://github.com/LuisGrigore"
           >
             Check My GitHub <ArrowRight />
           </a>

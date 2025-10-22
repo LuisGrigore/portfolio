@@ -1,13 +1,6 @@
 import React from "react";
 import { Briefcase, Code, User } from "lucide-react";
-
-const Title: React.FC = () => {
-  return (
-    <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-      About <span className="text-primary">Me</span>
-    </h2>
-  );
-};
+import { SectionTitle } from "../section-titile/SectionTitle";
 
 const FirstSection: React.FC = () => {
   return (
@@ -49,24 +42,22 @@ type Skill = {
 };
 
 type SkillSectionProps = { skill: Skill };
-const SkillSection: React.FC<SkillSectionProps> = React.memo(
-  ({ skill }) => {
-    const { icon, name, description } = skill;
-    return (
-      <div className="gradient-border p-6 card-hover">
-        <div className="flex items-start gap-4">
-          <div className="p-3 rounded-full bg-primary/10 flex items-center justify-center">
-            {icon}
-          </div>
-          <div className="text-left">
-            <h4 className="font-semibold text-lg">{name}</h4>
-            <p className="text-muted-foreground">{description}</p>
-          </div>
+const SkillSection: React.FC<SkillSectionProps> = React.memo(({ skill }) => {
+  const { icon, name, description } = skill;
+  return (
+    <div className="gradient-border p-6 card-hover">
+      <div className="flex items-start gap-4">
+        <div className="p-3 rounded-full bg-primary/10 flex items-center justify-center">
+          {icon}
+        </div>
+        <div className="text-left">
+          <h4 className="font-semibold text-lg">{name}</h4>
+          <p className="text-muted-foreground">{description}</p>
         </div>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 const SKILLS: Skill[] = [
   {
@@ -104,7 +95,7 @@ export const AboutMeSection: React.FC = () => {
       aria-labelledby="about-title"
     >
       <div className="container mx-auto max-w-5xl ">
-        <Title />
+        <SectionTitle text_white="About" text_primary="Me" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <FirstSection />
           <SecondSection />

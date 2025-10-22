@@ -1,3 +1,4 @@
+import { SectionTitle } from "../section-titile/SectionTitle";
 import { Category, type CategoryFilter, type Skill } from "./types";
 import { useSkillCategorySelector } from "./useSkillCategorySelector";
 
@@ -20,7 +21,7 @@ type CategoryFilterProps = {
   onClick: () => void;
 };
 
-const CategoryButton:React.FC<CategoryFilterProps> = ({
+const CategoryButton: React.FC<CategoryFilterProps> = ({
   category,
   isSelected,
   onClick,
@@ -42,7 +43,7 @@ const CategoryButton:React.FC<CategoryFilterProps> = ({
 
 type SkillCardProps = { skill: Skill };
 
-const SkillCard:React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
+const SkillCard: React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
   return (
     <div className="bg-card p-6 rounded-lg shadow-lg card-hover">
       <div className="text-left mb-4">
@@ -61,16 +62,14 @@ const SkillCard:React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
   );
 };
 
-export const SkillsSection:React.FC = () => {
+export const SkillsSection: React.FC = () => {
   const { filterSkills, categories, selectedCategory, selectCategory } =
     useSkillCategorySelector();
 
   return (
     <section id="skills" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl ">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-          My <span className="text-primary">Skills</span>
-        </h2>
+        <SectionTitle text_white="My" text_primary="Skills" />
 
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories.map((category, indx) => (
@@ -85,7 +84,7 @@ export const SkillsSection:React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filterSkills(skills).map((skill, index) => {
-            return <SkillCard key={index} skill={skill}/>;
+            return <SkillCard key={index} skill={skill} />;
           })}
         </div>
       </div>
