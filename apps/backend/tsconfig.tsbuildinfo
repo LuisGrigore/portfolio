@@ -1,0 +1,1 @@
+{"root":["./src/db.ts","./src/mappers/message.mapper.ts","./src/mappers/project.mapper.ts","./src/models/message.model.ts","./src/models/project.model.ts","./src/netlify/functions/getProjects/getProjects.mts","./src/netlify/functions/sendMessage/sendMessage.mts","./src/services/message.service.ts","./src/services/project.service.ts"],"version":"5.9.3"}
