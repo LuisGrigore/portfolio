@@ -1,0 +1,29 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "description": "",
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev:frontend": "npm run dev --workspace @portfolio/frontend",
+    "dev:backend": "npm run dev --workspace @portfolio/backend",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisGrigore/portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisGrigore/portfolio/issues"
+  },
+  "homepage": "https://github.com/LuisGrigore/portfolio#readme"
+}

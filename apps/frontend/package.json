@@ -1,23 +1,23 @@
 {
-  "name": "portfolio",
-  "private": true,
+  "name": "@portfolio/frontend",
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b ../../packages/dtos && vite build",
     "lint": "eslint src --ext .ts,.tsx",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck"
   },
   "dependencies": {
+    "@portfolio/dtos": "1.0.0",
     "@radix-ui/react-toast": "^1.2.15",
     "@tailwindcss/vite": "^4.1.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.545.0",
-    "node": "^24.10.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.4",
@@ -27,15 +27,15 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@types/node": "^24.6.0",
-    "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.4",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
-    "vite": "^7.1.9"
+    "vite": "^7.1.12"
   }
 }

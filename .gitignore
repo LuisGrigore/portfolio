@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node
 node_modules
 dist
 dist-ssr
@@ -23,5 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment files
-portfolio_backend/.env
+# Environment files (ignore all .env files in any folder)
+**/.env*
+.env*
+
+# Local Netlify folder
+.netlify

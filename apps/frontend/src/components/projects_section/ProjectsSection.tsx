@@ -1,66 +1,7 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
 import { SectionTitle } from "../section-titile/SectionTitle";
-
-type Project = {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  tags: string[];
-  githubUrl?: string;
-  demoUrl?: string;
-};
-
-const projects: Project[] = [
-  {
-    id: 1,
-    title: "TaskFlow — Collaborative Task Manager",
-    description:
-      "A real-time task board for teams with drag-and-drop, comments, and activity feeds.",
-    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
-    tags: ["React", "TypeScript", "Tailwind CSS", "Socket.IO", "MongoDB"],
-  },
-  {
-    id: 2,
-    title: "ShopWise — Minimal E-commerce Frontend",
-    description:
-      "A fast, accessible storefront with product browsing, cart, and checkout flow (mocked payments).",
-    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
-    tags: ["React", "TypeScript", "Vite", "Tailwind CSS"],
-  },
-  {
-    id: 3,
-    title: "FitLog — Personal Fitness Tracker",
-    description:
-      "Track workouts, progress charts, and custom routines with a focus on data visualization.",
-    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
-    tags: ["React", "TypeScript", "Recharts", "IndexedDB"],
-  },
-  {
-    id: 4,
-    title: "CookBook — Recipe Manager & Meal Planner",
-    description:
-      "Save, organize, and plan meals with shopping list generation and recipe scaling.",
-    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
-    tags: ["React", "TypeScript", "SQLite", "Node.js"],
-  },
-  {
-    id: 5,
-    title: "PortFolio Studio — Static Site Builder",
-    description:
-      "A tiny static site generator and CMS for creating personal portfolio pages from Markdown.",
-    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
-    tags: ["Next.js", "TypeScript", "Markdown"],
-  },
-  {
-    id: 6,
-    title: "WeatherCast — Location-aware Weather Dashboard",
-    description:
-      "Clean, animated weather dashboard with hourly/daily forecasts and bookmarked locations.",
-    imageUrl: "/projects/Screenshot from 2025-10-21 18-44-41.png",
-    tags: ["React", "TypeScript", "OpenWeatherMap API", "Geolocation"],
-  },
-];
+import { useProjectSection } from "./useProjectSection";
+import type { Project } from "../../model/project.model";
 
 type ProjectCardProps = {
   project: Project;
@@ -98,14 +39,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <div className="flex space-x-3">
             <a
               href={project.demoUrl || "#"}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
+              className={project.demoUrl ? "text-foreground/80 hover:text-primary transition-colors duration-300" : "hidden"}
               target="_blank"
             >
               <ExternalLink size={20} />
             </a>
             <a
               href={project.githubUrl || "#"}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
+              className={project.githubUrl ? "text-foreground/80 hover:text-primary transition-colors duration-300" : "hidden"}
               target="_blank"
             >
               <Github size={20} />
@@ -118,6 +59,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 };
 
 export const ProjectsSection: React.FC = () => {
+  const projects = useProjectSection();
   return (
     <section id="projects" className="py-24 px-4 relative">
       <div className="container mx-auto max-w-5xl">
@@ -128,8 +70,8 @@ export const ProjectsSection: React.FC = () => {
           explore and check out the code on GitHub!"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, indx) => {
-            return <ProjectCard key={indx} project={project} />;
+          {projects.map((project) => {
+            return <ProjectCard key={project.id.toString()} project={project} />;
           })}
         </div>
         <div className="text-center mt-12">

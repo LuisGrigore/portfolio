@@ -2,6 +2,7 @@ import { Mail, MapPin, Phone, Send } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { SectionTitle } from "../section-titile/SectionTitle";
+import { useContactForm } from "./useContactForm";
 
 type InputProps = ComponentProps<"input">;
 type TextareaProps = ComponentProps<"textarea">;
@@ -81,6 +82,17 @@ const ContactInfoCard: React.FC<ContactInfoCardProps> = ({
 };
 
 export const ContactSection: React.FC = () => {
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    content,
+    setContent,
+    isSubmitting,
+    handleSubmit,
+  } = useContactForm();
+
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
@@ -126,9 +138,9 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-card p-8 rounded-lg shadow-xs">
+          <div className="bg-card/50 p-8 rounded-lg backdrop-blur-sm">
             <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="flex flex-col items-center justify-center gap-4">
                 <FormField
                   label="Name"
@@ -136,6 +148,8 @@ export const ContactSection: React.FC = () => {
                   type="text"
                   required
                   placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
 
                 <FormField
@@ -144,6 +158,8 @@ export const ContactSection: React.FC = () => {
                   type="email"
                   required
                   placeholder="Enter your professional email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <FormField
@@ -152,12 +168,16 @@ export const ContactSection: React.FC = () => {
                   type="textarea"
                   required
                   placeholder="Share the details of your project, questions, or just say hello!"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
                 />
+
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="cosmic-button mt-6 w-full flex items-center justify-center gap-2"
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                   <Send size={16} />
                 </button>
               </div>
