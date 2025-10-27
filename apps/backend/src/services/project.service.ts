@@ -1,7 +1,7 @@
-import { connectDB } from "../db";
-import { Project, IProject } from "../models/project.model";
-import { toProjectDTO } from "../mappers/project.mapper";
-import { ProjectDTO } from "../../../packages/dtos/src/project.dto";
+import { connectDB } from "../db.js";
+import { IProject, Project } from "../models/project.model.js";
+import { toProjectDTO } from "../mappers/project.mapper.js";
+import { ProjectDTO } from "@portfolio/dtos/src/project.dto.js";
 
 export async function getAllProjects(): Promise<ProjectDTO[]> {
   await connectDB();

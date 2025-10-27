@@ -1,4 +1,4 @@
-import { SectionTitle } from "../section-titile/SectionTitle";
+import { SectionTitle } from "@components/section_titile/SectionTitle";
 import { Category, type CategoryFilter, type Skill } from "./types";
 import { useSkillCategorySelector } from "./useSkillCategorySelector";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Message } from "../../model/message.model";
+import type { Message } from "../../models/message.model";
 import { sendMessage } from "../../services/message.service";
 
 

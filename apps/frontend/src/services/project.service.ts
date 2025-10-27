@@ -1,6 +1,6 @@
-import type { ProjectDTO } from "../../../dtos/project.dto";
+import type { ProjectDTO } from "@portfolio/dtos";
 import { mapProjectData } from "../mappers/project.mapper";
-import type { Project } from "../model/project.model";
+import type { Project } from "../models/project.model";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

@@ -1,11 +1,11 @@
-import { AboutMeSection } from "../components/about_me_section/AboutMeSection";
-import { Background } from "../components/background/Background";
-import { ContactSection } from "../components/contact_section/ContactSection";
-import { HeroSection } from "../components/hero_section/HeroSection";
-import { Navbar } from "../components/navbar/Navbar";
-import { ProjectsSection } from "../components/projects_section/ProjectsSection";
-import { SkillsSection } from "../components/skills_section/SkillsSection";
-import { ThemeToggle } from "../components/theme_toggle/ThemeToggle";
+import { AboutMeSection } from "@components/about_me_section/AboutMeSection";
+import { Background } from "@components/background/Background";
+import { ContactSection } from "@components/contact_section/ContactSection";
+import { HeroSection } from "@components/hero_section/HeroSection";
+import { Navbar } from "@components/navbar/Navbar";
+import { ProjectsSection } from "@components/projects_section/ProjectsSection";
+import { SkillsSection } from "@components/skills_section/SkillsSection";
+import { ThemeToggle } from "@components/theme_toggle/ThemeToggle";
 
 export const Home:React.FC = () =>{
   return (

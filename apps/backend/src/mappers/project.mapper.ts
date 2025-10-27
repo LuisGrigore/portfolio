@@ -1,9 +1,9 @@
-import { ProjectDTO } from "../../../packages/dtos/src/project.dto";
-import { IProject } from "../models/project.model";
+import { ProjectDTO } from "@portfolio/dtos/src/project.dto.js";
+import { IProject } from "../models/project.model.js";
 
 export function toProjectDTO(project: IProject): ProjectDTO {
   return {
-    id: project._id.toString(),
+    id: "project._id.toString()",
     title: project.title,
     description: project.description,
     image_url: project.image_url,

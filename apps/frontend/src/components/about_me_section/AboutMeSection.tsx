@@ -1,6 +1,6 @@
 import React from "react";
 import { Briefcase, Code, User } from "lucide-react";
-import { SectionTitle } from "../section-titile/SectionTitle";
+import { SectionTitle } from "@components/section_titile/SectionTitle";
 
 const FirstSection: React.FC = () => {
   return (

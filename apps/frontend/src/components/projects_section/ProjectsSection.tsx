@@ -1,7 +1,7 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import { SectionTitle } from "../section-titile/SectionTitle";
+import { SectionTitle } from "../section_titile/SectionTitle";
 import { useProjectSection } from "./useProjectSection";
-import type { Project } from "../../model/project.model";
+import type { Project } from "../../models/project.model";
 
 type ProjectCardProps = {
   project: Project;
@@ -20,7 +20,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         />
       </div>
 
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-6 flex flex-col grow">
         <div className="flex flex-wrap gap-2 mb-4">
           {project.tags.map((tag) => (
             <span className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground">
@@ -29,10 +29,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ))}
         </div>
 
-        <h3 className="text-xl font-semibold mb-1 flex-grow">
+        <h3 className="text-xl font-semibold mb-1 grow">
           {project.title}
         </h3>
-        <p className="text-muted-foreground text-sm mb-4 flex-grow">
+        <p className="text-muted-foreground text-sm mb-4 grow">
           {project.description}
         </p>
         <div className="flex justify-between items-center mt-auto">

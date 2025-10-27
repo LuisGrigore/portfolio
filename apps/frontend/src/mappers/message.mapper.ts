@@ -1,5 +1,5 @@
-import type { Message } from "../model/message.model";
-import type { MessageDTO } from '../../../dtos/message.dto';
+import type { MessageDTO } from "@portfolio/dtos";
+import type { Message } from "models/message.model";
 
 export const mapMessageDto= (message:Message): MessageDTO => {
   return {

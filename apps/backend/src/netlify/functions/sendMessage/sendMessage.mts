@@ -1,29 +1,30 @@
-import type { Handler } from "@netlify/functions";
-import {
-  createProject,
-  getAllProjects,
-} from "../../../services/project.service";
+import { Handler } from "@netlify/functions";
+import { createMessage } from "../../../services/message.service.js";
 
 export const handler: Handler = async (event) => {
   try {
-    if (event.httpMethod === "GET") {
-      const projects = await getAllProjects();
+    if (event.httpMethod === "OPTIONS") {
       return {
         statusCode: 200,
         headers: {
-          "Content-Type": "application/json; charset=utf-8",
           "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST",
+          "Access-Control-Allow-Headers": "Content-Type",
         },
-        body: JSON.stringify(projects),
+        body: "",
       };
     }
-
     if (event.httpMethod === "POST") {
       const data = JSON.parse(event.body || "{}");
-      const newProject = await createProject(data);
+      const newMesage = await createMessage(data);
       return {
         statusCode: 201,
-        body: JSON.stringify(newProject),
+		headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST,OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+        body: JSON.stringify(newMesage),
       };
     }
 

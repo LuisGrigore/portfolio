@@ -1,5 +1,5 @@
-import { mapMessageDto } from "../mappers/message.mapper";
-import type { Message } from "../model/message.model";
+import { mapMessageDto } from "@mappers/message.mapper";
+import type { Message } from "@models/message.model";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

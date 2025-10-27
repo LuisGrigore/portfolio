@@ -1,5 +1,5 @@
 import type { ProjectDTO } from '@portfolio/dtos';
-import type { Project } from '../model/project.model';
+import type { Project } from 'models/project.model';
 
 export function mapProjectData(projectDto: ProjectDTO):Project {
   return {

@@ -6,9 +6,9 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -b ../../packages/dtos && tsc",
-    "dev": "ts-node-dev src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.json",
+    "dev": "netlify dev",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@portfolio/dtos": "1.0.0",

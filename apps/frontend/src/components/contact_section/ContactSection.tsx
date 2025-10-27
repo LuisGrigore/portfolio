@@ -1,7 +1,7 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ComponentProps } from "react";
-import { SectionTitle } from "../section-titile/SectionTitle";
+import { SectionTitle } from "@components/section_titile/SectionTitle";
 import { useContactForm } from "./useContactForm";
 
 type InputProps = ComponentProps<"input">;
