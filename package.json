@@ -15,6 +15,13 @@
     "test": "npm run test --workspaces"
   },
   "dependencies": {},
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "@types/node": "^24.6.0",
+    "eslint": "^9.36.0",
+    "@eslint/js": "^9.36.0",
+    "typescript-eslint": "^8.45.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LuisGrigore/portfolio.git"
