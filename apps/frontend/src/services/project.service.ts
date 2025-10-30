@@ -1,21 +1,23 @@
-import type { ProjectDTO } from "@portfolio/dtos";
+import  { ProjectsDTOArrayValidationSchema } from "@portfolio/dtos";
 import { mapProjectData } from "../mappers/project.mapper";
 import type { Project } from "../models/project.model";
+import * as TE from "fp-ts/lib/TaskEither";
+import { fpFetchJson, type FetchParseError } from "../fp_react/fetch/fpFetchJson";
+import { pipe } from "fp-ts/function";
+import * as t from "io-ts";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export const getAllProjects = async (): Promise<Project[]> => {
-  try {
-    const response = await fetch(`${apiUrl}/getProjects`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+export type GetAllError = FetchParseError | t.Errors;
 
-    const projectDtos: ProjectDTO[] = await response.json();
-    const projects: Project[] = projectDtos.map(mapProjectData);
-    return projects;
-  } catch (error) {
-    console.error("❌ Error fetching projects:", error);
-    return [];
-  }
-};
+export const getAllProjects = (): TE.TaskEither<GetAllError, Project[]> =>
+  pipe(
+    fpFetchJson<unknown[]>(`${apiUrl}/getProjects`),
+    TE.chain((data) =>
+      pipe(
+        TE.fromEither(ProjectsDTOArrayValidationSchema.decode(data)),
+        TE.mapLeft((errors) => errors as GetAllError)
+      )
+    ),
+	TE.map((projectDtos) => projectDtos.map(mapProjectData))
+  );

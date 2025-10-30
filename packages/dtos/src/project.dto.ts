@@ -1,10 +1,19 @@
+import * as t from "io-ts";
 
-export interface ProjectDTO {
-  id: string;
-  title: string;
-  description: string;
-  image_url: string;
-  tags: string[];
-  github_url?: string;
-  demo_url?: string;
-}
+export const ProjectDTOValidationSchema = t.intersection([
+  t.type({
+    id: t.string,
+    title: t.string,
+    description: t.string,
+    image_url: t.string,
+    tags: t.array(t.string),
+  }),
+  t.partial({
+    github_url: t.string,
+    demo_url: t.string,
+  }),
+]);
+
+export const ProjectsDTOArrayValidationSchema = t.array(ProjectDTOValidationSchema); 
+
+export type ProjectDTO = t.TypeOf<typeof ProjectDTOValidationSchema>;

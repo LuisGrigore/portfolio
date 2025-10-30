@@ -1,7 +1,7 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
 import { SectionTitle } from "../section_titile/SectionTitle";
-import { useProjectSection } from "./useProjectSection";
 import type { Project } from "../../models/project.model";
+import { useProjectSection } from "./useProjectSection";
 
 type ProjectCardProps = {
   project: Project;
@@ -29,9 +29,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ))}
         </div>
 
-        <h3 className="text-xl font-semibold mb-1 grow">
-          {project.title}
-        </h3>
+        <h3 className="text-xl font-semibold mb-1 grow">{project.title}</h3>
         <p className="text-muted-foreground text-sm mb-4 grow">
           {project.description}
         </p>
@@ -39,14 +37,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <div className="flex space-x-3">
             <a
               href={project.demoUrl || "#"}
-              className={project.demoUrl ? "text-foreground/80 hover:text-primary transition-colors duration-300" : "hidden"}
+              className={
+                project.demoUrl
+                  ? "text-foreground/80 hover:text-primary transition-colors duration-300"
+                  : "hidden"
+              }
               target="_blank"
             >
               <ExternalLink size={20} />
             </a>
             <a
               href={project.githubUrl || "#"}
-              className={project.githubUrl ? "text-foreground/80 hover:text-primary transition-colors duration-300" : "hidden"}
+              className={
+                project.githubUrl
+                  ? "text-foreground/80 hover:text-primary transition-colors duration-300"
+                  : "hidden"
+              }
               target="_blank"
             >
               <Github size={20} />
@@ -59,7 +65,45 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 };
 
 export const ProjectsSection: React.FC = () => {
-  const projects = useProjectSection();
+  const { projects } = useProjectSection();
+
+  if (projects._tag === "Loading" || projects._tag === "Idle") {
+    return (
+      <section id="projects" className="py-24 px-4 relative">
+        <div className="container mx-auto max-w-5xl">
+          <SectionTitle
+            text_white="My"
+            text_primary="Projects"
+            introduction="Here are some of the projects I've worked on recently. Feel free to
+	        explore and check out the code on GitHub!"
+          />
+          <div className="text-center mt-12">
+            <p>Loading projects...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+  if (projects._tag === "Error") {
+    return (
+      <section id="projects" className="py-24 px-4 relative">
+        <div className="container mx-auto max-w-5xl">
+          <SectionTitle
+            text_white="My"
+            text_primary="Projects"
+            introduction="Here are some of the projects I've worked on recently. Feel free to
+	        explore and check out the code on GitHub!"
+          />
+          <div className="text-center mt-12">
+            <p>Error loading projects: {String(projects.error)}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const { data: projectsData } = projects;
+
   return (
     <section id="projects" className="py-24 px-4 relative">
       <div className="container mx-auto max-w-5xl">
@@ -70,8 +114,10 @@ export const ProjectsSection: React.FC = () => {
           explore and check out the code on GitHub!"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => {
-            return <ProjectCard key={project.id.toString()} project={project} />;
+          {projectsData.map((project) => {
+            return (
+              <ProjectCard key={project.id.toString()} project={project} />
+            );
           })}
         </div>
         <div className="text-center mt-12">
