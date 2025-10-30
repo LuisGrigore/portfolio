@@ -31,7 +31,7 @@ export const useAsync = <E, A>() => {
     eqAsyncState<E, A>()
   );
 
-  const performe = (task: TE.TaskEither<E, A>) => {
+  const runTask = (task: TE.TaskEither<E, A>) => {
     setState({ _tag: "Loading" });
     task().then((result) =>
       E.match<E, A, void>(
@@ -40,14 +40,14 @@ export const useAsync = <E, A>() => {
       )(result)
     );
   };
-  return [state, performe] as const;
+  return [state, runTask] as const;
 };
 
 export const useAsyncOnce = <E, A>(task: TE.TaskEither<E, A>) => {
-  const [state, performe] = useAsync<E, A>();
+  const [state, runTask] = useAsync<E, A>();
 
   useEffect(() => {
-    performe(task);
+    runTask(task);
   }, [task]);
   return state;
 };
