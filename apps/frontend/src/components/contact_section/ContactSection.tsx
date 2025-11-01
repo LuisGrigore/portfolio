@@ -1,8 +1,9 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { ComponentProps } from "react";
+import { useEffect, useRef, type ComponentProps } from "react";
 import { SectionTitle } from "@components/section_titile/SectionTitle";
 import { useContactForm } from "./useContactForm";
+import { usePopup } from "@components/popup/PopupProvider";
 
 type InputProps = ComponentProps<"input">;
 type TextareaProps = ComponentProps<"textarea">;
@@ -64,17 +65,21 @@ const ContactInfoCard: React.FC<ContactInfoCardProps> = ({
   const contentProps = href
     ? {
         href,
-        className: "text-muted-foreground hover:text-primary transition-colors",
+        className:
+          "text-muted-foreground hover:text-primary transition-colors break-words",
       }
-    : { className: "text-muted-foreground" };
+    : { className: "text-muted-foreground break-words" };
 
   return (
-    <div className="flex items-start space-x-4 px-15">
-      <div className="p-3 rounded-full bg-primary/10">
-        <Icon className="h-6 w-6 text-primary" />
+    <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-4 space-y-3 sm:space-y-0 text-center sm:text-left px-4 sm:px-0">
+      <div className="flex justify-center sm:justify-start">
+        <div className="p-3 rounded-full bg-primary/10 flex items-center justify-center mx-auto sm:mx-0">
+          <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
+        </div>
       </div>
-      <div className="w-full">
-        <h4 className="font-medium">{title}</h4>
+
+      <div className="flex-1">
+        <h4 className="font-medium text-base sm:text-lg">{title}</h4>
         <ContentWrapper {...contentProps}>{content}</ContentWrapper>
       </div>
     </div>
@@ -82,16 +87,24 @@ const ContactInfoCard: React.FC<ContactInfoCardProps> = ({
 };
 
 export const ContactSection: React.FC = () => {
-  const {
-    name,
-    setName,
-    email,
-    setEmail,
-    content,
-    setContent,
-    isSubmitting,
-    handleSubmit,
-  } = useContactForm();
+  const { state, handleSubmit } = useContactForm();
+  const { showPopup } = usePopup();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state._tag === "Success") {
+      showPopup({
+        type: "Success",
+        message: "Your message was sent successfully 🚀.",
+      });
+      formRef.current?.reset();
+    } else if (state._tag === "Error") {
+      showPopup({
+        type: "Error",
+        message: "Something went wrong while sending the message.",
+      });
+    }
+  }, [state._tag, showPopup]);
 
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
@@ -102,6 +115,7 @@ export const ContactSection: React.FC = () => {
           introduction="I'm always open to discussing new projects, creative ideas, or
           opportunities to be part of your visions. Feel free to reach out!"
         />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="space-y-8 bg-card/50 p-8 rounded-lg backdrop-blur-sm">
             <div>
@@ -118,18 +132,14 @@ export const ContactSection: React.FC = () => {
                 content="luiscristiangrigore@proton.me"
                 href="mailto:luiscristiangrigore@proton.me"
               />
-
               <div className="h-px bg-border/50" />
-
               <ContactInfoCard
                 icon={Phone}
                 title="Give me a call"
                 content="+34 640 748 517"
                 href="tel:+34640748517"
               />
-
               <div className="h-px bg-border/50" />
-
               <ContactInfoCard
                 icon={MapPin}
                 title="Based in"
@@ -137,10 +147,13 @@ export const ContactSection: React.FC = () => {
               />
             </div>
           </div>
-
-          <div className="bg-card/50 p-8 rounded-lg backdrop-blur-sm">
+          <div className="bg-card/50 p-8 rounded-lg backdrop-blur-sm relative">
             <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form
+              ref={formRef}
+              className="space-y-6"
+              onSubmit={handleSubmit}
+            >
               <div className="flex flex-col items-center justify-center gap-4">
                 <FormField
                   label="Name"
@@ -148,36 +161,27 @@ export const ContactSection: React.FC = () => {
                   type="text"
                   required
                   placeholder="Enter your full name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
                 />
-
                 <FormField
                   label="Email"
                   name="email"
                   type="email"
                   required
                   placeholder="Enter your professional email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                 />
-
                 <FormField
                   label="Message"
                   name="message"
                   type="textarea"
                   required
                   placeholder="Share the details of your project, questions, or just say hello!"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
                 />
-
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={state._tag === "Loading"}
                   className="cosmic-button mt-6 w-full flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {state._tag === "Loading" ? "Sending..." : "Send Message"}
                   <Send size={16} />
                 </button>
               </div>
@@ -188,3 +192,4 @@ export const ContactSection: React.FC = () => {
     </section>
   );
 };
+

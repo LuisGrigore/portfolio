@@ -14,6 +14,6 @@ export const ProjectDTOValidationSchema = t.intersection([
   }),
 ]);
 
-export const ProjectsDTOArrayValidationSchema = t.array(ProjectDTOValidationSchema); 
+export const ProjectDTOsValidationSchema = t.array(ProjectDTOValidationSchema); 
 
 export type ProjectDTO = t.TypeOf<typeof ProjectDTOValidationSchema>;

@@ -1,33 +1,33 @@
-import { useEffect, useMemo } from "react";
-import { getAllProjects, type GetAllError } from "@services/project.service";
+import { useCallback, useEffect } from "react";
 import {
-  useAsync,
-  type AsyncState,
-} from "../../fp_react/hooks/useAsync";
+  getAllProjects,
+  getProjectsByTags,
+  type GetProjectsError,
+} from "@services/project.service";
+import { useAsync, type AsyncState } from "../../fp_react/hooks/useAsync";
 import type { Project } from "@models/project.model";
+import { pipe } from "fp-ts/lib/function";
 
 interface UseProyectSection {
-  projects: AsyncState<GetAllError, readonly Project[]>;
+  projects: AsyncState<GetProjectsError, readonly Project[]>;
   getAllProjects: () => void;
-  getProjectsByTag: (tag: string) => void;
+  getProjectsByTag: (tags: string[]) => void;
 }
 
 export const useProjectSection = (): UseProyectSection => {
-  const [projects, runTask] = useAsync<GetAllError, readonly Project[]>();
-  const getAllProjectsMemoTask = useMemo(
-    () => getAllProjects(),
-    []
-  );
-  const getProjectsByTagMemoTask = useMemo(
-    () => getAllProjects(),
-    []
-  );
+  const [projects, runTask] = useAsync<GetProjectsError, readonly Project[]>();
+
+  const getAllProjectsCallback = useCallback(getAllProjects, []);
+
+  const getProjectsByTagCallback = useCallback(getProjectsByTags, []);
+
   useEffect(() => {
-    runTask(getAllProjectsMemoTask);
-  }, [getAllProjectsMemoTask]);
+    runTask(getAllProjectsCallback());
+  }, [getAllProjectsCallback]);
   return {
     projects: projects,
-    getAllProjects: () => runTask(getAllProjectsMemoTask),
-    getProjectsByTag: (tag: string) => runTask(getProjectsByTagMemoTask),
+    getAllProjects: () => pipe(getAllProjectsCallback(), runTask),
+    getProjectsByTag: (tags: string[]) =>
+      pipe(getProjectsByTagCallback(tags), runTask),
   };
 };

@@ -1,50 +1,36 @@
-import { useState } from "react";
 import type { Message } from "../../models/message.model";
 import { sendMessage } from "../../services/message.service";
+import { pipe } from "fp-ts/lib/function";
+import { useAsync, type AsyncState } from "../../fp_react/hooks/useAsync";
 
 
-export const useContactForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [content, setContent] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+interface UseContactSection {
+  state: AsyncState<unknown, unknown>;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
 
-  const resetForm = () => {
-    setName("");
-    setEmail("");
-    setContent("");
-  };
+export const useContactForm = () : UseContactSection => {
+  const [state, runTask] = useAsync();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    const newMessage: Message = {
-      // id se omite al enviar
-      name,
-      email,
-      content,
-      createdAt: new Date(),
-    };
-
-    try {
-      await sendMessage(newMessage);
-      resetForm();
-    } catch (error) {
-      console.error("Error sending message:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    pipe(
+      new FormData(e.currentTarget),
+      Object.fromEntries,
+      (values) =>
+        ({
+          name: String(values.name ?? ""),
+          email: String(values.email ?? ""),
+          content: String(values.message ?? ""),
+          createdAt: new Date(),
+        } as Message),
+      sendMessage,
+      runTask
+    );
   };
 
   return {
-    name,
-    setName,
-    email,
-    setEmail,
-    content,
-    setContent,
-    isSubmitting,
+    state,
     handleSubmit,
   };
 };
