@@ -3,18 +3,21 @@ import { ProjectTagDTOsValidationSchema } from "@portfolio/dtos";
 import { mapProjectData } from "../mappers/project.mapper";
 import type { Project } from "../models/project.model";
 import * as TE from "fp-ts/lib/TaskEither";
-import {
-  fpFetchJson,
-  type FetchParseError,
-} from "../fp_react/fetch/fpFetchJson";
+import { fpFetchJson } from "../fp_react/fetch/fpFetchJson";
 import { pipe } from "fp-ts/function";
-import * as t from "io-ts";
 import { taskEitherWithBackoff } from "../fp_react/async_utils/retryTaskEither";
 import type { ProjectTag } from "@models/projectTag.model";
+import type { NetworkError, HttpError } from "fp_react/errors/networkErrors";
+import type { ParseError } from "fp_react/errors/parseErrors";
+import type { ValidationError } from "errors/validationErrors";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export type GetResourceError = FetchParseError | t.Errors;
+export type GetResourceError =
+  | NetworkError
+  | HttpError
+  | ParseError
+  | ValidationError;
 
 const getProjectsFromEndpoint = (
   url: string
@@ -25,7 +28,13 @@ const getProjectsFromEndpoint = (
       TE.chain((data) =>
         pipe(
           TE.fromEither(ProjectDTOsValidationSchema.decode(data)),
-          TE.mapLeft((errors) => errors as GetResourceError)
+          TE.mapLeft(
+            (error) =>
+              ({
+                _tag: "ValidationError",
+                cause: error,
+              } as GetResourceError)
+          )
         )
       ),
       TE.map((projectDtos) => projectDtos.map(mapProjectData))
@@ -53,7 +62,13 @@ export const getAllProjectTags = (): TE.TaskEither<
       TE.chain((data) =>
         pipe(
           TE.fromEither(ProjectTagDTOsValidationSchema.decode(data)),
-          TE.mapLeft((errors) => errors as GetResourceError)
+          TE.mapLeft(
+            (error) =>
+              ({
+                _tag: "ValidationError",
+                cause: error,
+              } as GetResourceError)
+          )
         )
       ),
       TE.map((projectTagDtos) =>

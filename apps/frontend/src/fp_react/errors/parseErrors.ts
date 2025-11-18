@@ -1,5 +1,4 @@
-import type { ErrorWithCause, ErrorWithMessage } from "./errors";
 
-export interface ParseError extends ErrorWithCause, ErrorWithMessage {
+export interface ParseError extends Error {
   readonly _tag: "ParseError";
 }

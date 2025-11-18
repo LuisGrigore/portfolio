@@ -43,6 +43,46 @@ export const useAsync = <E, A>() => {
   return [state, runTask] as const;
 };
 
+type AsyncMatch<E, A, R> = {
+  Idle: () => R;
+  Loading: () => R;
+  Error: (error: E) => R;
+  Success: (data: A) => R;
+};
+
+export const useAsyncNew = <E, A>() => {
+  const [state, setState] = useStable<AsyncState<E, A>>(
+    { _tag: "Idle" },
+    eqAsyncState<E, A>()
+  );
+
+  const runTask = (task: TE.TaskEither<E, A>) => {
+    setState({ _tag: "Loading" });
+    task().then(
+      E.match(
+        (error) => setState({ _tag: "Error", error }),
+        (data) => setState({ _tag: "Success", data })
+      )
+    );
+  };
+
+  const match = <R>(matcher: AsyncMatch<E, A, R>): R => {
+    switch (state._tag) {
+      case "Idle":
+        return matcher.Idle();
+      case "Loading":
+        return matcher.Loading();
+      case "Error":
+        return matcher.Error(state.error);
+      case "Success":
+        return matcher.Success(state.data);
+    }
+  };
+
+  return [ match, runTask ] as const;
+};
+
+
 export const useAsyncOnce = <E, A>(task: TE.TaskEither<E, A>) => {
   const [state, runTask] = useAsync<E, A>();
 

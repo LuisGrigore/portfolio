@@ -5,14 +5,10 @@ import { HeroSection } from "@components/hero_section/HeroSection";
 import { Navbar } from "@components/navbar/Navbar";
 import { ProjectsSection } from "@components/projects_section/ProjectsSection";
 import { SkillsSection } from "@components/skills_section/SkillsSection";
-import { ThemeToggle } from "@components/theme_toggle/ThemeToggle";
 
 export const Home:React.FC = () =>{
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <div className="fixed max-sm:hidden top-5 right-5 z-50 p-2 ">
-        <ThemeToggle />
-      </div>
       <Background starDensity={0.0001} meteorNumber={4} />
       <Navbar />
       <main className="snap-y snap-mandatory h-screen overflow-y-scroll">

@@ -1,9 +1,10 @@
 import type { ParseError } from "fp_react/errors/parseErrors";
-import { fpFetch, type FetchError } from "./fpFetch";
+import { fpFetch } from "./fpFetch";
 import { pipe } from "fp-ts//function";
 import * as TE from "fp-ts/TaskEither";
+import type { NetworkError, HttpError } from "fp_react/errors/networkErrors";
 
-export type FetchParseError = FetchError | ParseError;
+export type FetchParseError = NetworkError | HttpError | ParseError;
 
 export const fpFetchJson = <A>(
   input: RequestInfo | URL,
@@ -14,9 +15,8 @@ export const fpFetchJson = <A>(
     TE.chain((res) =>
       TE.tryCatch<FetchParseError, A>(
         () => res.json() as Promise<A>,
-        (err) => ({
+        () => ({
           _tag: "ParseError",
-          cause: err instanceof Error ? err : new Error(String(err)),
         } as ParseError)
       )
     )

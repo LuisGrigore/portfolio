@@ -1,6 +1,5 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { useNavbar } from "./useNavbar";
 
 type NavItem = {
   name: string;
@@ -81,14 +80,10 @@ const TitleText:React.FC = () => {
 };
 
 export const Navbar:React.FC = () => {
-  const isScrolled = useNavbar();
   return (
     <nav
       className={
-        "fixed w-full z-40 transition-all duration-300 " +
-        (isScrolled
-          ? "py-3 bg-background/80 backdrop-blur-md shadow-xs"
-          : "py-5")
+        "fixed w-full z-40 transition-all duration-300 py-3 bg-background/80 backdrop-blur-md shadow-xs"
       }
     >
       <div className="container flex items-center justify-between">

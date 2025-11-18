@@ -1,6 +1,6 @@
-import type { ErrorWithCause } from "./errors";
+import * as t from "io-ts";
 
-export interface ValidationError extends ErrorWithCause {
+export interface ValidationError extends Error {
   readonly _tag: "ValidationError";
-  readonly cause?: unknown;
+  readonly cause?: t.Errors;
 }
