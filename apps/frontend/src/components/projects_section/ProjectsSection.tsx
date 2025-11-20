@@ -4,25 +4,30 @@ import { SectionTitle } from "../section_titile/SectionTitle";
 import { useProjectSection } from "./useProjectSection";
 import TagFilterBar from "./TagFilterBar";
 import ProjectsGrid from "./ProjectsGrid";
-
+import { useProjectTags } from "@hooks/useProjectTags";
+import { matchError } from "@errors/errorHandler";
 
 export const ProjectsSection: React.FC = () => {
   const { projects, getAllProjects, getProjectsByTag } = useProjectSection();
-  const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
-
-  const onToggleTag = (tag: string) => {
-    setSelectedTags((prev) => {
-      const next = prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag];
-      if (next.length === 0) getAllProjects();
-      else getProjectsByTag(next);
-      return next;
-    });
-  };
+  const { matchTags } = useProjectTags();
 
   const onClear = () => {
-    setSelectedTags([]);
     getAllProjects();
   };
+
+  const loading = () => (
+    <div className="mb-6">
+      <p className="text-sm text-muted-foreground">Loading tags...</p>
+    </div>
+  );
+
+  const errorDisplay = (mssg: string, error:string) => (
+    <div className="mb-6">
+      <p className="text-sm text-destructive">
+        {mssg} : {error}
+      </p>
+    </div>
+  );
 
   return (
     <section id="projects" className="py-24 px-4 relative">
@@ -33,8 +38,24 @@ export const ProjectsSection: React.FC = () => {
           introduction="Here are some of the projects I've worked on recently. Feel free to
           explore and check out the code on GitHub!"
         />
-
-        <TagFilterBar selectedTags={selectedTags} onToggleTag={onToggleTag} onClear={onClear} />
+        {matchTags({
+          Idle: loading,
+          Loading: loading,
+          Error: (error) =>
+            matchError(error, {
+              NetworkError: (error) => errorDisplay("NetworkError while loading tags", error.cause.message),
+              HttpError: (error) => errorDisplay("HttpError while loading tags", error.status.toString()),
+              ParseError: (error) => errorDisplay("ParseError while loading tags", error.message),
+              ValidationError: (error) => errorDisplay("ValidationError while loading tags", error.cause?.toString() || ""),
+            }),
+          Success: (tags) => (
+            <TagFilterBar
+              tags={tags}
+              onSelectionChange={(tags) => getProjectsByTag(tags.map((tag) => tag.tag))}
+			  onClear={onClear}
+            />
+          ),
+        })}
 
         <ProjectsGrid projects={projects} />
 

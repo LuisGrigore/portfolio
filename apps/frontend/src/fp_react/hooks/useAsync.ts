@@ -43,7 +43,7 @@ export const useAsync = <E, A>() => {
   return [state, runTask] as const;
 };
 
-type AsyncMatch<E, A, R> = {
+export type AsyncMatch<E, A, R> = {
   Idle: () => R;
   Loading: () => R;
   Error: (error: E) => R;

@@ -18,6 +18,7 @@
       "@mappers/*": ["mappers/*"],
       "@models/*": ["models/*"],
       "@assets/*": ["assets/*"],
+	  "@errors/*": ["errors/*"],
     }
   },
   "include": ["src"]

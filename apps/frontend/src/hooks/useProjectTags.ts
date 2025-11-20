@@ -3,10 +3,16 @@ import {
   getAllProjectTags,
   type GetResourceError,
 } from "@services/project.service";
-import { useAsyncNew } from "../fp_react/hooks/useAsync";
+import { useAsyncNew, type AsyncMatch } from "../fp_react/hooks/useAsync";
 import { useCallback, useEffect } from "react";
 
-export const useProjectTags = () => {
+interface UseProjectTags {
+  matchTags: <R>(
+    matcher: AsyncMatch<GetResourceError, readonly ProjectTag[], R>
+  ) => R;
+}
+
+export const useProjectTags = (): UseProjectTags => {
   const [matchTags, runTagsTask] = useAsyncNew<
     GetResourceError,
     readonly ProjectTag[]
@@ -14,8 +20,8 @@ export const useProjectTags = () => {
 
   const getAllProjectTagsCallback = useCallback(getAllProjectTags, []);
 
-  useEffect(()=>{
-	runTagsTask(getAllProjectTagsCallback());
-  },[getAllProjectTagsCallback])
-  return {matchTags};
+  useEffect(() => {
+    runTagsTask(getAllProjectTagsCallback());
+  }, [getAllProjectTagsCallback]);
+  return { matchTags };
 };
