@@ -1,9 +1,9 @@
-import type { TagFilter } from "@models/projectTag.model";
+import type { TagFilter } from "@models/ProjectTag.model";
 import {
   getAllProjectTags,
   type GetResourceError,
 } from "@services/project.service";
-import { useAsyncNew, type AsyncMatch } from "../fp_react/hooks/useAsync";
+import { useAsync, type AsyncMatch } from "../fp_react/hooks/useAsync";
 import { useCallback, useEffect } from "react";
 
 interface UseProjectTags {
@@ -13,7 +13,7 @@ interface UseProjectTags {
 }
 
 export const useProjectTags = (): UseProjectTags => {
-  const [matchTags, runTagsTask] = useAsyncNew<
+  const [matchTags, runTagsTask] = useAsync<
     GetResourceError,
     readonly TagFilter[]
   >();

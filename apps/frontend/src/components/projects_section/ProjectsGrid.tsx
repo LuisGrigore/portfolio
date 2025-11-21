@@ -1,5 +1,5 @@
 import React from "react";
-import type { Project } from "@models/project.model";
+import type { Project } from "@models/Project.model";
 import { ExternalLink, Github } from "lucide-react";
 
 type ProjectsGridProps = {

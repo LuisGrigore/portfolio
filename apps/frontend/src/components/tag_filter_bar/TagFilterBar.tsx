@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { TagFilter } from "@models/projectTag.model";
+import type { TagFilter } from "@models/ProjectTag.model";
 
 type TagFilterBarProps = {
   tags: readonly TagFilter[];

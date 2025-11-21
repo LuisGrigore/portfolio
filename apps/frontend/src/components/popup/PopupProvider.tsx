@@ -1,13 +1,6 @@
 import { createContext, useCallback, useContext, useState, type FC, type ReactNode } from "react";
 import { PopupList } from "./PopupList"; // 👈 importar el nuevo componente
-
-type PopupType = "Success" | "Error" | "Info";
-
-interface Popup {
-  id: number;
-  type: PopupType;
-  message: string;
-}
+import type { PopupType, Popup } from "@models/Popup.model";
 
 interface PopupContextType {
   showPopup: (popup: { type?: PopupType; message: string }) => void;
@@ -40,7 +33,7 @@ export const PopupProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <PopupContext.Provider value={{ showPopup }}>
       {children}
-      <PopupList popups={popups} closePopup={closePopup} /> {/* 👈 aquí se usa */}
+      <PopupList popups={popups} closePopup={closePopup} />
     </PopupContext.Provider>
   );
 };

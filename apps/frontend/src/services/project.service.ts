@@ -7,12 +7,12 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { fpFetchJson } from "../fp_react/fetch/fpFetchJson";
 import { pipe } from "fp-ts/function";
 import { taskEitherWithBackoff } from "../fp_react/async_utils/retryTaskEither";
-import { TagFilterFactory, type TagFilter } from "@models/projectTag.model";
+import { TagFilterFactory, type TagFilter } from "@models/ProjectTag.model";
 import type { NetworkError, HttpError } from "fp_react/errors/networkErrors";
 import type { ParseError } from "fp_react/errors/parseErrors";
 import type { ValidationError } from "errors/validationErrors";
 import * as t from "io-ts";
-import { ProjectFactory } from "@models/project.model";
+import { ProjectFactory } from "@models/Project.model";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

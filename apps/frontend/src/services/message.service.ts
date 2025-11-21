@@ -1,4 +1,4 @@
-import { MessageFactory, type Message } from "@models/message.model";
+import { MessageFactory, type Message } from "@models/Message.model";
 import {
   fpFetchJson,
   type FetchParseError,

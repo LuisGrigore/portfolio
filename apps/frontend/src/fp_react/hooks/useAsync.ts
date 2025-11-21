@@ -1,5 +1,5 @@
 import * as TE from "fp-ts/TaskEither";
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { useStable } from "fp-ts-react-stable-hooks";
 import * as Eq from "fp-ts/Eq";
 import * as E from "fp-ts/Either";
@@ -25,24 +25,6 @@ const eqAsyncState = <E, A>(): Eq.Eq<AsyncState<E, A>> =>
     }
   });
 
-export const useAsync = <E, A>() => {
-  const [state, setState] = useStable<AsyncState<E, A>>(
-    { _tag: "Idle" },
-    eqAsyncState<E, A>()
-  );
-
-  const runTask = (task: TE.TaskEither<E, A>) => {
-    setState({ _tag: "Loading" });
-    task().then((result) =>
-      E.match<E, A, void>(
-        (error) => setState({ _tag: "Error", error }),
-        (data) => setState({ _tag: "Success", data })
-      )(result)
-    );
-  };
-  return [state, runTask] as const;
-};
-
 export type AsyncMatch<E, A, R> = {
   Idle: () => R;
   Loading: () => R;
@@ -50,13 +32,13 @@ export type AsyncMatch<E, A, R> = {
   Success: (data: A) => R;
 };
 
-export const useAsyncNew = <E, A>() => {
+export const useAsync = <E, A>() => {
   const [state, setState] = useStable<AsyncState<E, A>>(
     { _tag: "Idle" },
     eqAsyncState<E, A>()
   );
 
-  const runTask = (task: TE.TaskEither<E, A>) => {
+  const runTask = useCallback((task: TE.TaskEither<E, A>) => {
     setState({ _tag: "Loading" });
     task().then(
       E.match(
@@ -64,9 +46,9 @@ export const useAsyncNew = <E, A>() => {
         (data) => setState({ _tag: "Success", data })
       )
     );
-  };
+  },[]);
 
-  const match = <R>(matcher: AsyncMatch<E, A, R>): R => {
+  const match = useCallback(<R>(matcher: AsyncMatch<E, A, R>): R => {
     switch (state._tag) {
       case "Idle":
         return matcher.Idle();
@@ -77,18 +59,8 @@ export const useAsyncNew = <E, A>() => {
       case "Success":
         return matcher.Success(state.data);
     }
-  };
+  },[state]);
 
   return [ match, runTask ] as const;
-};
-
-
-export const useAsyncOnce = <E, A>(task: TE.TaskEither<E, A>) => {
-  const [state, runTask] = useAsync<E, A>();
-
-  useEffect(() => {
-    runTask(task);
-  }, [task]);
-  return state;
 };
 

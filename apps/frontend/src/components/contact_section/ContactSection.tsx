@@ -1,9 +1,8 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useEffect, useRef, type ComponentProps } from "react";
+import { useRef, type ComponentProps } from "react";
 import { SectionTitle } from "@components/section_titile/SectionTitle";
 import { useContactForm } from "./useContactForm";
-import { usePopup } from "@components/popup/PopupProvider";
 
 type InputProps = ComponentProps<"input">;
 type TextareaProps = ComponentProps<"textarea">;
@@ -87,24 +86,8 @@ const ContactInfoCard: React.FC<ContactInfoCardProps> = ({
 };
 
 export const ContactSection: React.FC = () => {
-  const { state, handleSubmit } = useContactForm();
-  const { showPopup } = usePopup();
   const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    if (state._tag === "Success") {
-      showPopup({
-        type: "Success",
-        message: "Your message was sent successfully 🚀.",
-      });
-      formRef.current?.reset();
-    } else if (state._tag === "Error") {
-      showPopup({
-        type: "Error",
-        message: "Something went wrong while sending the message.",
-      });
-    }
-  }, [state._tag, showPopup]);
+  const { sendButtonState, handleSubmit } = useContactForm(formRef);
 
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
@@ -149,11 +132,7 @@ export const ContactSection: React.FC = () => {
           </div>
           <div className="bg-card/50 p-8 rounded-lg backdrop-blur-sm relative">
             <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-            <form
-              ref={formRef}
-              className="space-y-6"
-              onSubmit={handleSubmit}
-            >
+            <form ref={formRef} className="space-y-6" onSubmit={handleSubmit}>
               <div className="flex flex-col items-center justify-center gap-4">
                 <FormField
                   label="Name"
@@ -170,18 +149,18 @@ export const ContactSection: React.FC = () => {
                   placeholder="Enter your professional email"
                 />
                 <FormField
-                  label="Message"
-                  name="message"
+                  label="Content"
+                  name="content"
                   type="textarea"
                   required
                   placeholder="Share the details of your project, questions, or just say hello!"
                 />
                 <button
                   type="submit"
-                  disabled={state._tag === "Loading"}
+                  disabled={sendButtonState === "Sending"}
                   className="cosmic-button mt-6 w-full flex items-center justify-center gap-2"
                 >
-                  {state._tag === "Loading" ? "Sending..." : "Send Message"}
+                  {sendButtonState === "Sending" ? "Sending..." : "Send Message"}
                   <Send size={16} />
                 </button>
               </div>
@@ -192,4 +171,3 @@ export const ContactSection: React.FC = () => {
     </section>
   );
 };
-

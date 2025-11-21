@@ -4,10 +4,10 @@ import {
   getProjectsByTags,
   type GetResourceError,
 } from "@services/project.service";
-import { useAsyncNew, type AsyncMatch } from "../fp_react/hooks/useAsync";
-import type { Project } from "@models/project.model";
+import { useAsync, type AsyncMatch } from "../fp_react/hooks/useAsync";
+import type { Project } from "@models/Project.model";
 import { pipe } from "fp-ts/lib/function";
-import type { TagFilter } from "@models/projectTag.model";
+import type { TagFilter } from "@models/ProjectTag.model";
 
 interface UseProyects {
   matchProjects: <R>(
@@ -18,7 +18,7 @@ interface UseProyects {
 }
 
 export const useProjects = (): UseProyects => {
-  const [matchProjects, runProjectsTask] = useAsyncNew<GetResourceError, readonly Project[]>();
+  const [matchProjects, runProjectsTask] = useAsync<GetResourceError, readonly Project[]>();
 
   const getAllProjectsCallback = useCallback(getAllProjects, []);
   const getProjectsByTagCallback = useCallback(getProjectsByTags, []);
