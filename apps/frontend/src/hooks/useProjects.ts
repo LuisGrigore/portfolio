@@ -7,13 +7,14 @@ import {
 import { useAsyncNew, type AsyncMatch } from "../fp_react/hooks/useAsync";
 import type { Project } from "@models/project.model";
 import { pipe } from "fp-ts/lib/function";
+import type { TagFilter } from "@models/projectTag.model";
 
 interface UseProyects {
   matchProjects: <R>(
 	  matcher: AsyncMatch<GetResourceError, readonly Project[], R>
 	) => R;
   getAllProjects: () => void;
-  getProjectsByTag: (tags: string[]) => void;
+  getProjectsByTag: (tags: TagFilter[]) => void;
 }
 
 export const useProjects = (): UseProyects => {
@@ -28,7 +29,7 @@ export const useProjects = (): UseProyects => {
   return {
 	matchProjects: matchProjects,
 	getAllProjects: () => pipe(getAllProjectsCallback(), runProjectsTask),
-	getProjectsByTag: (tags: string[]) =>
+	getProjectsByTag: (tags: TagFilter[]) =>
 	  pipe(getProjectsByTagCallback(tags), runProjectsTask),
   };
 };

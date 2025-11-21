@@ -1,5 +1,4 @@
-import { mapMessageDto } from "@mappers/message.mapper";
-import type { Message } from "@models/message.model";
+import { MessageFactory, type Message } from "@models/message.model";
 import {
   fpFetchJson,
   type FetchParseError,
@@ -17,9 +16,9 @@ export const sendMessage = (
   message: Message
 ): TE.TaskEither<SendMessageError, void> =>
   taskEitherWithBackoff(
-    pipe(message, mapMessageDto, (messageDto) =>
+    pipe(message, MessageFactory.toDTO, (messageDto) =>
       pipe(
-        fpFetchJson<unknown[]>(`${apiUrl}/sendMessage`, {
+        fpFetchJson<unknown[]>(`${apiUrl}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(messageDto),

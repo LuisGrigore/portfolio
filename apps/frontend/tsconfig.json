@@ -15,7 +15,6 @@
 	  "@hooks/*": ["hooks/*"],
       "@pages/*": ["pages/*"],
       "@services/*": ["services/*"],
-      "@mappers/*": ["mappers/*"],
       "@models/*": ["models/*"],
       "@assets/*": ["assets/*"],
 	  "@errors/*": ["errors/*"],

@@ -65,7 +65,7 @@ export const ProjectsSection: React.FC = () => {
             <TagFilterBar
               tags={tags}
               onSelectionChange={(tags) =>
-                getProjectsByTag(tags.map((tag) => tag.label))
+                getProjectsByTag(tags)
               }
               onClear={onClear}
             />
