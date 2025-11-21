@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import type { ProjectTag } from "@models/projectTag.model";
+import type { TagFilter } from "@models/projectTag.model";
 
 type TagFilterBarProps = {
-  tags: readonly ProjectTag[];
-  onSelectionChange?: (selectedTags: ProjectTag[]) => void;
+  tags: readonly TagFilter[];
+  onSelectionChange?: (selectedTags: TagFilter[]) => void;
   onClear?: () => void;
 };
 
@@ -12,9 +12,9 @@ const TagFilterBar: React.FC<TagFilterBarProps> = ({
   onSelectionChange,
   onClear,
 }) => {
-  const [selectedTags, setSelectedTags] = useState<ProjectTag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<TagFilter[]>([]);
 
-  const toggle = (tag: ProjectTag) => {
+  const toggle = (tag: TagFilter) => {
     const next = selectedTags.some((x) => x.id === tag.id)
       ? selectedTags.filter((x) => x.id !== tag.id)
       : [...selectedTags, tag];
@@ -31,19 +31,19 @@ const TagFilterBar: React.FC<TagFilterBarProps> = ({
 
   return (
 	 <div className="mb-6 flex flex-wrap items-center gap-3">
-         {tags.map((t) => {
-          const active = selectedTags.includes(t);
+         {tags.map((tag) => {
+          const active = selectedTags.includes(tag);
           return (
             <button
-              key={t.id}
-              onClick={() => toggle(t)}
+              key={tag.id}
+              onClick={() => toggle(tag)}
               className={`px-3 py-1 rounded-full text-sm font-medium transition-colors border ${
                 active
                   ? "bg-primary text-primary-foreground border-primary"
                   : "bg-transparent text-foreground/80 border-border"
               }`}
             >
-              {t.tag}
+              {tag.label}
             </button>
           );
         })}

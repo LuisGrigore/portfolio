@@ -1,4 +1,4 @@
-import type { ProjectTag } from "@models/projectTag.model";
+import type { TagFilter } from "@models/projectTag.model";
 import {
   getAllProjectTags,
   type GetResourceError,
@@ -8,14 +8,14 @@ import { useCallback, useEffect } from "react";
 
 interface UseProjectTags {
   matchTags: <R>(
-    matcher: AsyncMatch<GetResourceError, readonly ProjectTag[], R>
+    matcher: AsyncMatch<GetResourceError, readonly TagFilter[], R>
   ) => R;
 }
 
 export const useProjectTags = (): UseProjectTags => {
   const [matchTags, runTagsTask] = useAsyncNew<
     GetResourceError,
-    readonly ProjectTag[]
+    readonly TagFilter[]
   >();
 
   const getAllProjectTagsCallback = useCallback(getAllProjectTags, []);

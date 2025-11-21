@@ -6,7 +6,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { fpFetchJson } from "../fp_react/fetch/fpFetchJson";
 import { pipe } from "fp-ts/function";
 import { taskEitherWithBackoff } from "../fp_react/async_utils/retryTaskEither";
-import type { ProjectTag } from "@models/projectTag.model";
+import type { TagFilter } from "@models/projectTag.model";
 import type { NetworkError, HttpError } from "fp_react/errors/networkErrors";
 import type { ParseError } from "fp_react/errors/parseErrors";
 import type { ValidationError } from "errors/validationErrors";
@@ -54,7 +54,7 @@ export const getProjectsByTags = (tags: string[]) =>
 
 export const getAllProjectTags = (): TE.TaskEither<
   GetResourceError,
-  readonly ProjectTag[]
+  readonly TagFilter[]
 > =>
   taskEitherWithBackoff(
     pipe(
@@ -73,7 +73,7 @@ export const getAllProjectTags = (): TE.TaskEither<
       ),
       TE.map((projectTagDtos) =>
         projectTagDtos.map(
-          (dto) => ({ id: dto.id, tag: dto.tag } as ProjectTag)
+          (dto) => ({ id: dto.id, label: dto.tag } as TagFilter)
         )
       )
     ),

@@ -1,4 +1,4 @@
-export type ProjectTag = {
+export type TagFilter = {
   id: string;
-  tag: string;
+  label: string;
 };

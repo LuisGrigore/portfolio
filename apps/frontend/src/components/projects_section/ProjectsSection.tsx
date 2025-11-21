@@ -1,27 +1,27 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import { SectionTitle } from "../section_titile/SectionTitle";
-import { useProjectSection } from "./useProjectSection";
-import TagFilterBar from "./TagFilterBar";
+import { SectionTitle } from "@components/section_titile/SectionTitle";
+import TagFilterBar from "@components/tag_filter_bar/TagFilterBar";
 import ProjectsGrid from "./ProjectsGrid";
 import { useProjectTags } from "@hooks/useProjectTags";
 import { matchError } from "@errors/errorHandler";
+import { useProjects } from "@hooks/useProjects";
 
 export const ProjectsSection: React.FC = () => {
-  const { projects, getAllProjects, getProjectsByTag } = useProjectSection();
+  const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
   const { matchTags } = useProjectTags();
 
   const onClear = () => {
     getAllProjects();
   };
 
-  const loading = () => (
+  const loadingDisplay = (message: string) => (
     <div className="mb-6">
-      <p className="text-sm text-muted-foreground">Loading tags...</p>
+      <p className="text-sm text-muted-foreground">{message}</p>
     </div>
   );
 
-  const errorDisplay = (mssg: string, error:string) => (
+  const errorDisplay = (mssg: string, error: string) => (
     <div className="mb-6">
       <p className="text-sm text-destructive">
         {mssg} : {error}
@@ -39,25 +39,66 @@ export const ProjectsSection: React.FC = () => {
           explore and check out the code on GitHub!"
         />
         {matchTags({
-          Idle: loading,
-          Loading: loading,
+          Idle: () => loadingDisplay("Loading tags..."),
+          Loading: () => loadingDisplay("Loading tags..."),
           Error: (error) =>
             matchError(error, {
-              NetworkError: (error) => errorDisplay("NetworkError while loading tags", error.cause.message),
-              HttpError: (error) => errorDisplay("HttpError while loading tags", error.status.toString()),
-              ParseError: (error) => errorDisplay("ParseError while loading tags", error.message),
-              ValidationError: (error) => errorDisplay("ValidationError while loading tags", error.cause?.toString() || ""),
+              NetworkError: (error) =>
+                errorDisplay(
+                  "NetworkError while loading tags",
+                  error.cause.message
+                ),
+              HttpError: (error) =>
+                errorDisplay(
+                  "HttpError while loading tags",
+                  error.status.toString()
+                ),
+              ParseError: (error) =>
+                errorDisplay("ParseError while loading tags", error.message),
+              ValidationError: (error) =>
+                errorDisplay(
+                  "ValidationError while loading tags",
+                  error.cause?.toString() || ""
+                ),
             }),
           Success: (tags) => (
             <TagFilterBar
               tags={tags}
-              onSelectionChange={(tags) => getProjectsByTag(tags.map((tag) => tag.tag))}
-			  onClear={onClear}
+              onSelectionChange={(tags) =>
+                getProjectsByTag(tags.map((tag) => tag.label))
+              }
+              onClear={onClear}
             />
           ),
         })}
-
-        <ProjectsGrid projects={projects} />
+		{matchProjects({
+          Idle: () => loadingDisplay("Loading projects..."),
+          Loading: () => loadingDisplay("Loading projects..."),
+          Error: (error) =>
+            matchError(error, {
+              NetworkError: (error) =>
+                errorDisplay(
+                  "NetworkError while loading projects",
+                  error.cause.message
+                ),
+              HttpError: (error) =>
+                errorDisplay(
+                  "HttpError while loading projects",
+                  error.status.toString()
+                ),
+              ParseError: (error) =>
+                errorDisplay("ParseError while loading projects", error.message),
+              ValidationError: (error) =>
+                errorDisplay(
+                  "ValidationError while loading projects",
+                  error.cause?.toString() || ""
+                ),
+            }),
+          Success: (projects) => (
+           <ProjectsGrid projects={projects} />
+          ),
+        })}
+        
 
         <div className="text-center mt-12">
           <a
