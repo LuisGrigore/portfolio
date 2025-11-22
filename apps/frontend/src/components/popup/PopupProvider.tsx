@@ -1,5 +1,12 @@
-import { createContext, useCallback, useContext, useState, type FC, type ReactNode } from "react";
-import { PopupList } from "./PopupList"; // 👈 importar el nuevo componente
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+  type FC,
+  type ReactNode,
+} from "react";
+import { PopupList } from "./PopupList";
 import type { PopupType, Popup } from "@models/Popup.model";
 
 interface PopupContextType {
