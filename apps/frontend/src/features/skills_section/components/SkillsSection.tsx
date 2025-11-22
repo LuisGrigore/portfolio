@@ -1,6 +1,8 @@
 import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
-import { Category, type CategoryFilter, type Skill } from "../models/types";
+import { Category, type Skill } from "../models/types";
 import { useSkillCategorySelector } from "../hooks/useSkillCategorySelector";
+import TagFilterBar from "@shared/components/tag_filter_bar/TagFilterBar";
+import { TagFilterFactory } from "@shared/models/TagFilter.model";
 
 const skills: Skill[] = [
   { name: "React", level: 90, category: Category.Frontend },
@@ -14,32 +16,6 @@ const skills: Skill[] = [
   { name: "MongoDB", level: 75, category: Category.Backend },
   { name: "Docker", level: 45, category: Category.Backend },
 ];
-
-type CategoryFilterProps = {
-  category: CategoryFilter;
-  isSelected: boolean;
-  onClick: () => void;
-};
-
-const CategoryButton: React.FC<CategoryFilterProps> = ({
-  category,
-  isSelected,
-  onClick,
-}: CategoryFilterProps) => {
-  return (
-    <button
-      className={
-        "px-5 py-2 rounded-full transition-colors duration-300 capitalize" +
-        (isSelected
-          ? " bg-primary"
-          : " bg-secondary/70 text-foreground hover:bg-secondary")
-      }
-      onClick={onClick}
-    >
-      {category}
-    </button>
-  );
-};
 
 type SkillCardProps = { skill: Skill };
 
@@ -71,7 +47,7 @@ export const SkillsSection: React.FC = () => {
       <div className="container mx-auto max-w-5xl ">
         <SectionTitle text_white="My" text_primary="Skills" />
 
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        {/* <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories.map((category, indx) => (
             <CategoryButton
               category={category}
@@ -80,7 +56,9 @@ export const SkillsSection: React.FC = () => {
               onClick={() => selectCategory(category)}
             />
           ))}
-        </div>
+        </div> */}
+
+		<TagFilterBar tags={["Frontend", "Backend", "Fulstack"].map((cat, index) => TagFilterFactory.create(index.toString(), cat))}/>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filterSkills(skills).map((skill, index) => {

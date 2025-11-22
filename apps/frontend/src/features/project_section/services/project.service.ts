@@ -1,13 +1,15 @@
 import {
   ProjectDTOsValidationSchema,
-  type ProjectTagDTO,
+  TagDTOsValidationSchema,
+  type TagDTO,
 } from "@portfolio/dtos";
-import { ProjectTagDTOsValidationSchema } from "@portfolio/dtos";
 import * as TE from "fp-ts/lib/TaskEither";
-import { fpFetchJson } from "@shared/fp_react/fetch/fpFetchJson";
 import { pipe } from "fp-ts/function";
+
+import { fpFetchJson } from "@shared/fp_react/fetch/fpFetchJson";
 import { taskEitherWithBackoff } from "@shared/fp_react/async_utils/retryTaskEither";
-import { TagFilterFactory, type TagFilter } from "../../../shared/models/TagFilter.model";
+
+import { TagFilterFactory, type TagFilter } from "@shared/models/TagFilter.model";
 import type { NetworkError, HttpError } from "@shared/fp_react/errors/networkErrors";
 import type { ParseError } from "@shared/fp_react/errors/parseErrors";
 import type { ValidationError } from "@shared/errors/validationErrors";
@@ -79,8 +81,8 @@ export const getProjectsByTags = (tags: TagFilter[]) =>
 export const getAllProjectTags = () =>
   getResourceFromEndpoint(
     `${apiUrl}/projectTags`,
-    ProjectTagDTOsValidationSchema,
-    (projectTagDtos: ProjectTagDTO[]): TagFilter[] =>
+    TagDTOsValidationSchema,
+    (projectTagDtos: TagDTO[]): TagFilter[] =>
       projectTagDtos.map(TagFilterFactory.fromProjectTagDTO),
     defaultBackoffConfig
   );
