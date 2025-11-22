@@ -1,10 +1,11 @@
-import { AboutMeSection } from "@components/about_me_section/AboutMeSection";
-import { Background } from "@components/background/Background";
-import { ContactSection } from "@components/contact_section/ContactSection";
-import { HeroSection } from "@components/hero_section/HeroSection";
-import { Navbar } from "@components/navbar/Navbar";
-import { ProjectsSection } from "@components/projects_section/ProjectsSection";
-import { SkillsSection } from "@components/skills_section/SkillsSection";
+import { AboutMeSection } from "@features/about_section";
+import { ContactSection } from "@features/contact_section";
+import { ProjectsSection } from "@features/project_section";
+import { SkillsSection } from "@features/skills_section";
+import { Background } from "@shared/components/background/Background";
+import { HeroSection } from "@shared/components/hero_section/HeroSection";
+import { Navbar } from "@shared/components/navbar/Navbar";
+
 
 export const Home:React.FC = () =>{
   return (

@@ -11,13 +11,10 @@
 
     "baseUrl": "src",
     "paths": {
-      "@components/*": ["components/*"],
-	  "@hooks/*": ["hooks/*"],
+	  "@assets/*": ["assets/*"],
+      "@features/*": ["features/*"],
       "@pages/*": ["pages/*"],
-      "@services/*": ["services/*"],
-      "@models/*": ["models/*"],
-      "@assets/*": ["assets/*"],
-	  "@errors/*": ["errors/*"],
+      "@shared/*": ["shared/*"],
     }
   },
   "include": ["src"]
