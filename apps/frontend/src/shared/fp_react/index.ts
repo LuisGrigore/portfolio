@@ -1,5 +1,6 @@
 export * from "./hooks/useAsync"
 export * from "./fetch/fpFetch"
 export * from "./fetch/fpFetchJson"
+export * from "./fetch/getResourceFromEndpoint"
 export * from "./async_utils/retryTaskEither"
 export * from "./errors"

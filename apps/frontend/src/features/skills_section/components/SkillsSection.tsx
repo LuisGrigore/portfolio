@@ -1,21 +1,9 @@
 import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
-import { Category, type Skill } from "../models/types";
-import { useSkillCategorySelector } from "../hooks/useSkillCategorySelector";
 import TagFilterBar from "@shared/components/tag_filter_bar/TagFilterBar";
-import { TagFilterFactory } from "@shared/models/TagFilter.model";
-
-const skills: Skill[] = [
-  { name: "React", level: 90, category: Category.Frontend },
-  { name: "TypeScript", level: 35, category: Category.Frontend },
-  { name: "JavaScript", level: 95, category: Category.Frontend },
-  { name: "HTML/CSS", level: 90, category: Category.Frontend },
-  { name: "Tailwind CSS", level: 85, category: Category.Frontend },
-  { name: "Node.js", level: 80, category: Category.Backend },
-  { name: "Express.js", level: 75, category: Category.Backend },
-  { name: "PostgreSQL", level: 50, category: Category.Backend },
-  { name: "MongoDB", level: 75, category: Category.Backend },
-  { name: "Docker", level: 45, category: Category.Backend },
-];
+import { useSkills } from "../hooks/useSkills";
+import { useSkillTags } from "../hooks/useSkillTags";
+import { matchError } from "@shared/errors/errorHandler";
+import type { Skill } from "../models/Skill.model";
 
 type SkillCardProps = { skill: Skill };
 
@@ -39,32 +27,94 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
 };
 
 export const SkillsSection: React.FC = () => {
-  const { filterSkills, categories, selectedCategory, selectCategory } =
-    useSkillCategorySelector();
+  const { matchSkills, getAllSkills, getSkillsByTag } = useSkills();
+  const { matchTags } = useSkillTags();
+
+  const onClear = () => {
+    getAllSkills();
+  };
+
+  const loadingDisplay = (message: string) => (
+    <div className="mb-6">
+      <p className="text-sm text-muted-foreground">{message}</p>
+    </div>
+  );
+
+  const errorDisplay = (mssg: string, error: string) => (
+    <div className="mb-6">
+      <p className="text-sm text-destructive">
+        {mssg} : {error}
+      </p>
+    </div>
+  );
 
   return (
     <section id="skills" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl ">
         <SectionTitle text_white="My" text_primary="Skills" />
-
-        {/* <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category, indx) => (
-            <CategoryButton
-              category={category}
-              key={indx}
-              isSelected={selectedCategory === category}
-              onClick={() => selectCategory(category)}
+        {matchTags({
+          Idle: () => loadingDisplay("Loading tags..."),
+          Loading: () => loadingDisplay("Loading tags..."),
+          Error: (error) =>
+            matchError(error, {
+              NetworkError: (error) =>
+                errorDisplay(
+                  "NetworkError while loading tags",
+                  error.cause.message
+                ),
+              HttpError: (error) =>
+                errorDisplay(
+                  "HttpError while loading tags",
+                  error.status.toString()
+                ),
+              ParseError: (error) =>
+                errorDisplay("ParseError while loading tags", error.message),
+              ValidationError: (error) =>
+                errorDisplay(
+                  "ValidationError while loading tags",
+                  error.cause?.toString() || ""
+                ),
+            }),
+          Success: (tags) => (
+            <TagFilterBar
+              tags={tags}
+              onSelectionChange={(tags) => getSkillsByTag(tags)}
+              onClear={onClear}
             />
-          ))}
-        </div> */}
+          ),
+        })}
 
-		<TagFilterBar tags={["Frontend", "Backend", "Fulstack"].map((cat, index) => TagFilterFactory.create(index.toString(), cat))}/>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filterSkills(skills).map((skill, index) => {
-            return <SkillCard key={index} skill={skill} />;
-          })}
-        </div>
+        {matchSkills({
+          Idle: () => loadingDisplay("Loading skills..."),
+          Loading: () => loadingDisplay("Loading skills..."),
+          Error: (error) =>
+            matchError(error, {
+              NetworkError: (error) =>
+                errorDisplay(
+                  "NetworkError while loading skills",
+                  error.cause.message
+                ),
+              HttpError: (error) =>
+                errorDisplay(
+                  "HttpError while loading skills",
+                  error.status.toString()
+                ),
+              ParseError: (error) =>
+                errorDisplay("ParseError while loading skills", error.message),
+              ValidationError: (error) =>
+                errorDisplay(
+                  "ValidationError while loading skills",
+                  error.cause?.toString() || ""
+                ),
+            }),
+          Success: (skills) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {skills.map((skill, index) => {
+                return <SkillCard key={index} skill={skill} />;
+              })}
+            </div>
+          ),
+        })}
       </div>
     </section>
   );

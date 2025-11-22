@@ -2,9 +2,8 @@ import { useCallback, useEffect } from "react";
 import {
   getAllProjects,
   getProjectsByTags,
-  type GetResourceError,
 } from "../services/project.service";
-import { useAsync, type AsyncMatch } from "@shared/fp_react";
+import { useAsync, type AsyncMatch, type GetResourceError } from "@shared/fp_react";
 import type { Project } from "../models/Project.model";
 import { pipe } from "fp-ts/lib/function";
 import type { TagFilter } from "../../../shared/models/TagFilter.model";
