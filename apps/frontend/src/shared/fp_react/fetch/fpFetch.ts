@@ -1,5 +1,5 @@
 import { tryCatch, type TaskEither } from "fp-ts/TaskEither";
-import type { HttpError, NetworkError } from "@shared/fp_react/errors/networkErrors";
+import type { HttpError, NetworkError } from "../errors/networkErrors";
 
 export type FetchError = NetworkError | HttpError;
 

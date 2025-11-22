@@ -3,7 +3,7 @@ import {
   getAllProjectTags,
   type GetResourceError,
 } from "../services/project.service";
-import { useAsync, type AsyncMatch } from "@shared/fp_react/hooks/useAsync";
+import { useAsync, type AsyncMatch } from "@shared/fp_react";
 import { useCallback, useEffect } from "react";
 
 interface UseProjectTags {

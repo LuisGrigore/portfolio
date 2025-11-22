@@ -4,7 +4,7 @@ import {
   getProjectsByTags,
   type GetResourceError,
 } from "../services/project.service";
-import { useAsync, type AsyncMatch } from "@shared/fp_react/hooks/useAsync";
+import { useAsync, type AsyncMatch } from "@shared/fp_react";
 import type { Project } from "../models/Project.model";
 import { pipe } from "fp-ts/lib/function";
 import type { TagFilter } from "../../../shared/models/TagFilter.model";

@@ -1,8 +1,8 @@
-import type { ParseError } from "@shared/fp_react/errors/parseErrors";
 import { fpFetch } from "./fpFetch";
 import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
-import type { NetworkError, HttpError } from "@shared/fp_react/errors/networkErrors";
+import type { ParseError } from "../errors/parseErrors";
+import type { NetworkError, HttpError } from "../errors/networkErrors";
 
 export type FetchParseError = NetworkError | HttpError | ParseError;
 

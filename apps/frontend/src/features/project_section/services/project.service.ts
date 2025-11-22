@@ -5,15 +5,18 @@ import {
 } from "@portfolio/dtos";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/function";
-
-import { fpFetchJson } from "@shared/fp_react/fetch/fpFetchJson";
-import { taskEitherWithBackoff } from "@shared/fp_react/async_utils/retryTaskEither";
-
-import { TagFilterFactory, type TagFilter } from "@shared/models/TagFilter.model";
-import type { NetworkError, HttpError } from "@shared/fp_react/errors/networkErrors";
-import type { ParseError } from "@shared/fp_react/errors/parseErrors";
-import type { ValidationError } from "@shared/errors/validationErrors";
 import * as t from "io-ts";
+
+import { fpFetchJson, taskEitherWithBackoff } from "@shared/fp_react";
+import type { NetworkError, HttpError, ParseError } from "@shared/fp_react";
+
+import {
+  TagFilterFactory,
+  type TagFilter,
+} from "@shared/models/TagFilter.model";
+
+import type { ValidationError } from "@shared/errors/validationErrors";
+
 import { ProjectFactory } from "../models/Project.model";
 
 const apiUrl = import.meta.env.VITE_API_URL;

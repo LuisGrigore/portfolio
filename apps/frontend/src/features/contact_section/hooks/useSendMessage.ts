@@ -1,5 +1,5 @@
 import type { Message } from "../models/Message.model";
-import { useAsync } from "@shared/fp_react/hooks/useAsync";
+import { useAsync } from "@shared/fp_react";
 import { pipe } from "fp-ts/function";
 import { sendMessage } from "../services/message.service";
 

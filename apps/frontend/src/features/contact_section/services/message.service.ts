@@ -2,9 +2,9 @@ import { MessageFactory, type Message } from "../models/Message.model";
 import {
   fpFetchJson,
   type FetchParseError,
-} from "@shared/fp_react/fetch/fpFetchJson";
+  taskEitherWithBackoff,
+} from "@shared/fp_react";
 import { pipe } from "fp-ts/function";
-import { taskEitherWithBackoff } from "@shared/fp_react/async_utils/retryTaskEither";
 import * as TE from "fp-ts/TaskEither";
 import type { ValidationError } from "@shared/errors/validationErrors";
 
