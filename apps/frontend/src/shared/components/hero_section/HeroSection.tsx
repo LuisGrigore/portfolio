@@ -18,7 +18,7 @@ const Title: React.FC = memo(() => {
 const Paragraph: React.FC = memo(() => {
   return (
     <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
-      Introduction paragraph.
+      I’m a dedicated student currently pursuing a degree in Computer Science and Software Engineering, with a strong interest in building efficient, practical solutions through code. I’m also taking a C programming course, which has strengthened my understanding of low-level concepts and core programming fundamentals. I enjoy exploring new technologies, solving problems, and continually improving my skills as I work toward becoming a versatile and capable software developer.
     </p>
   );
 });

@@ -2,27 +2,29 @@ import { Handler } from "@netlify/functions";
 import { getAllProjectTags } from "../../../services/projectTags.service.js";
 
 export const handler: Handler = async (event) => {
-  try {
-	if (event.httpMethod === "GET") {
-	  const projects = await getAllProjectTags();
-	  return {
-		statusCode: 200,
-		headers: {
-		  "Content-Type": "application/json; charset=utf-8",
-		  "Access-Control-Allow-Origin": "*",
-		},
-		body: JSON.stringify(projects),
-	  };
-	}
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  };
 
-	return { statusCode: 405, body: "Método no permitido" };
+  try {
+    if (event.httpMethod === "OPTIONS") {
+      return { statusCode: 200, headers: corsHeaders, body: "OK" };
+    }
+
+    if (event.httpMethod === "GET") {
+      const tags = await getAllProjectTags();
+      return { statusCode: 200, headers: corsHeaders, body: JSON.stringify(tags) };
+    }
+
+    return { statusCode: 405, headers: corsHeaders, body: "Método no permitido" };
   } catch (error: any) {
-	console.error("❌ Error en getProjects:", error);
-	return {
-	  statusCode: 500,
-	  body: JSON.stringify({
-		error: error.message || "Error interno del servidor",
-	  }),
-	};
+    console.error("❌ Error en getProjectTags:", error);
+    return {
+      statusCode: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: error.message || "Error interno del servidor" }),
+    };
   }
 };

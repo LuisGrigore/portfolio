@@ -10,17 +10,19 @@ export const fpFetch = (
   tryCatch(
     async () => {
       const res = await fetch(input, init);
-
       if (!res.ok) {
         let body: unknown;
         try {
           body = await res.clone().json();
         } catch {
-          body = await res.text().catch(() => undefined);
+          try {
+            body = await res.text();
+          } catch {
+            body = undefined;
+          }
         }
-
         throw {
-          _tag: "HttpError" as const,
+          _tag: "HttpError",
           status: res.status,
           message: res.statusText,
           cause: undefined,
@@ -29,9 +31,19 @@ export const fpFetch = (
 
       return res;
     },
-    (err) =>
-      ({
+    (err) => {
+		console.log(err);
+      if (
+        err &&
+        typeof err === "object" &&
+        "_tag" in err &&
+        err._tag === "HttpError"
+      ) {
+        return err as HttpError;
+      }
+      return <NetworkError>{
         _tag: "NetworkError",
         cause: err instanceof Error ? err : new Error(String(err)),
-      } as NetworkError)
+      };
+    }
   );

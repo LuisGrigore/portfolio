@@ -15,7 +15,7 @@ import { ProjectFactory } from "../models/Project.model";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const defaultBackoffConfig: BackoffConfig = {
-  retries: 3,
+  retries: 1,
   delay: 500,
   factor: 2,
 };
