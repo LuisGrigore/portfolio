@@ -8,7 +8,8 @@
   ],
   "description": "",
   "scripts": {
-    "build": "npm run build --workspaces",
+
+	"build": "npm run -w @portfolio/dtos build && npm run -w @portfolio/backend build && npm run -w @portfolio/frontend build",
     "dev:frontend": "npm run dev --workspace @portfolio/frontend",
     "dev:backend": "npm run dev --workspace @portfolio/backend",
     "lint": "npm run lint --workspaces",
