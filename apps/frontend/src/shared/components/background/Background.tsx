@@ -53,13 +53,14 @@ export const Background = ({ starDensity, meteorNumber }: BackgroundProps) => {
   }, [generateBackground]);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {starsIO().map((star) => (
-        <StarDiv key={star.id} star={star} />
-      ))}
-      {meteorsIO().map((meteor) => (
-        <MeteorDiv key={meteor.id} meteor={meteor} />
-      ))}
-    </div>
+    // <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    //   {starsIO().map((star) => (
+    //     <StarDiv key={star.id} star={star} />
+    //   ))}
+    //   {meteorsIO().map((meteor) => (
+    //     <MeteorDiv key={meteor.id} meteor={meteor} />
+    //   ))}
+    // </div>
+	<></>
   );
 };

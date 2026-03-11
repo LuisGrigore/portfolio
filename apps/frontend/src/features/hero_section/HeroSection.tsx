@@ -5,19 +5,22 @@ import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { useRef } from "react";
 
-import fragmentShader from "./fragment.glsl?raw";
+// import fragmentShader from "./fragment.glsl?raw";
+import fragmentShader from "./fragment_p.glsl?raw";
 import vertexShader from "./vertex.glsl?raw";
 
 const Title: React.FC = memo(() => {
   return (
-    <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-      <span className="opacity-0 animate-fade-in">Hi, I'm </span>
-      <span className="text-primary opacity-0 animate-fade-in-delay-1">
+    <h1 className="text-4xl md:text-6xl font-bold tracking-tight ">
+      <span className="opacity-0 animate-fade-in drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] ">
+        Hi, I'm Luis.
+      </span>
+      {/* <span className="text-primary opacity-0 animate-fade-in-delay-1">
         Luis{" "}
       </span>
       <span className="text-gradient text-primary opacity-0 animate-fade-in-delay-2">
         Grigore.
-      </span>
+      </span> */}
     </h1>
   );
 });
@@ -25,13 +28,13 @@ const Title: React.FC = memo(() => {
 const Paragraph: React.FC = memo(() => {
   return (
     <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
-      I’m a dedicated student currently pursuing a degree in Computer Science
-      and Software Engineering, with a strong interest in building efficient,
-      practical solutions through code. I’m also taking a C programming course,
-      which has strengthened my understanding of low-level concepts and core
-      programming fundamentals. I enjoy exploring new technologies, solving
-      problems, and continually improving my skills as I work toward becoming a
-      versatile and capable software developer.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
     </p>
   );
 });
@@ -82,6 +85,10 @@ const GradientMaterial = shaderMaterial(
     uGrainIntensity: 0.125,
     uGrainSparsity: 0.0,
     uGrainSpeed: 0.0,
+    uDensity: 0.55, // cuántas partículas aparecen (0-1)
+    uParticleSize: 0.5, // tamaño base
+    uGlowStrength: 2, // intensidad del halo
+    uGridSize: 160.0,
   },
   vertexShader,
   fragmentShader,
@@ -106,8 +113,8 @@ function BackgroundPlane() {
 
   return (
     <mesh scale={[viewport.width, viewport.height, 1]}>
-      <planeGeometry args={[1, 1]} />  {/* <- 1,1 es suficiente */}
-      <gradientMaterial ref={material} />
+      <planeGeometry args={[1, 1]} /> {/* <- 1,1 es suficiente */}
+      <gradientMaterial ref={material} transparent />
     </mesh>
   );
 }
@@ -130,7 +137,6 @@ const HeroBackground = () => {
   );
 };
 
-
 export const HeroSection: React.FC = () => {
   return (
     <section
@@ -140,9 +146,11 @@ export const HeroSection: React.FC = () => {
       <HeroBackground />
 
       <div className="container max-w-4xl mx-auto text-center z-10">
-        <div>
+        <div className="bg-background/30 backdrop-blur-[2px] py-10 px-12 rounded-[50px]">
           <Title />
+          <div className="h-10" />
           <Paragraph />
+          <div className="h-10" />
           <ViewWorkButton />
         </div>
       </div>

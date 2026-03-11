@@ -18,12 +18,12 @@ export const sendMessage = (
   taskEitherWithBackoff(
     pipe(message, MessageFactory.toDTO, (messageDto) =>
       pipe(
-        fpFetchJson<unknown[]>(`${apiUrl}/messages`, {
+        fpFetchJson<unknown[]>(/*`${apiUrl}/messages`*/"", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(messageDto),
         }),
-        TE.mapLeft((error) => error as SendMessageError),
+		TE.mapLeft((error) => error as SendMessageError),
         TE.map(() => undefined)
       )
     ),
