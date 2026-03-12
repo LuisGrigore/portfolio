@@ -1,4 +1,4 @@
-precision mediump float;
+precision highp float;
 
 varying vec2 vUv;
 
@@ -84,7 +84,7 @@ float fbm(vec3 x) {
 	float v = 0.0;
 	float a = 0.5;
 	float f = 1.0;
-	for(int i = 0; i < 3; i++) { // Reducido de 4 a 3 iteraciones
+	for(int i = 0; i < 4; i++) {
 		v += a * snoise(x * f);
 		f *= 2.0;
 		a *= 0.5;
@@ -194,27 +194,29 @@ void main() {
     // float particle = core + glow * 0.4;
     // particle = clamp(particle, 0.0, 1.0);
 	float core = 1.0 - smoothstep(0.0, radius * 0.5, dist);
-	float glow = exp(-dist * uGlowStrength / (radius + 0.001));
+	float innerGlow = exp(-dist * uGlowStrength / radius);
+	float outerGlow = exp(-dist * (uGlowStrength * 0.2) / radius);
 
-	float particle = core + glow * 0.7;
+	float particle = core + innerGlow * 0.8 + outerGlow * 0.3;
 	particle = clamp(particle, 0.0, 1.0);
 
-	// Color más brillante en el núcleo
-	color = mix(color * 2.2, color, smoothstep(0.0, radius, dist));
-	color += glow * 0.12 * color;
+// Color más brillante en el núcleo — simula emisión de luz
+	color = mix(color * 2.5, color, smoothstep(0.0, radius, dist));
+	color += outerGlow * 0.15 * color; // el halo tinta el fondo cercano
 
 	particle *= particleActive;
 
-    // ── Grain (optimizado con FBM simplificado) ──
+    // ── Grain ─────────────────────────────────────────────────────────────────
 	vec2 nc = gl_FragCoord.xy / uGrainScale;
 	float grain = fbm(vec3(nc, 0.0));
 	grain = grain * 0.5 + 0.5;
 	grain -= 0.5;
+	grain = (grain > uGrainSparsity) ? grain : 0.0;
 	grain *= uGrainIntensity;
 
 	color += vec3(grain);
 	color = clamp(color, 0.0, 1.0);
 
-    // Fondo negro, partículas con su color
+    // Fondo negro, partículas con su color del gradiente
 	gl_FragColor = vec4(color * particle, particle);
 }
