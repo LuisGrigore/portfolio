@@ -18,32 +18,18 @@ import vertexShader from "./vertex.glsl?raw";
 
 const GradientMaterialA = shaderMaterial(
   {
-	uTime: 0,
-	uAspect: 1.0, // <- añade esto
-	uColors: [
-	  new THREE.Color("#130437"),
-	  new THREE.Color("#B34BD0"),
-	  new THREE.Color("#210751"),
-	  new THREE.Color("#3511A5"),
-	],
-	uPressure: new THREE.Vector2(7 / 4, 3 / 4),
-	uBlending: 9 / 10,
-	uYOffset: 21319 * (4.8 / 1000),
-	uFlowScale: 3.3,
-	uFlowEase: 0.37,
-	uFlowDistA: 0.4,
-	uFlowDistB: 10.0,
-	uShadows: 4 / 100,
-	uBrightness: 1.95,
-	uSaturation: 2 / 10,
-	uGrainScale: 6.0,
-	uGrainIntensity: 0.125,
-	uGrainSparsity: 0.0,
-	uGrainSpeed: 0.0,
-	uDensity: 0.7, // cuántas partículas aparecen (0-1)
-	uParticleSize: 0.05, // tamaño base
-	uGlowStrength: 1.5, // intensidad del halo
-	uGridSize: 120.0,
+    uTime: 0,
+    uAspect: 1.0,
+    uColors: [
+      new THREE.Color("#130437"),
+      new THREE.Color("#B34BD0"),
+      new THREE.Color("#210751"),
+      new THREE.Color("#3511A5"),
+    ],
+    uGridSize: 90.0,
+    uDensity: 0.52,
+    uParticleSize: 0.07,
+    uSpeed: 0.7,
   },
   vertexShader,
   fragmentShader,
@@ -61,7 +47,8 @@ function BackgroundPlane() {
 
   useFrame((state) => {
 	if (material.current) {
-	  material.current.uTime = state.clock.elapsedTime * 0.2;
+	  // update time with multiplier for more noticeable motion
+	  material.current.uTime = state.clock.elapsedTime * 2.0;
 	  material.current.uAspect = viewport.width / viewport.height;
 	}
   });
@@ -78,7 +65,7 @@ const GeneralBackground = () => {
 	<Canvas
 	  orthographic
 	  camera={{ position: [0, 0, 1] }}
-	  dpr={[1, 2]}
+	  dpr={[1, 1]}
 	  style={{
 		position: "absolute",
 		top: 0,
@@ -96,8 +83,6 @@ const GeneralBackground = () => {
 export const Home:React.FC = () =>{
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden relative">
-      {/* <Background starDensity={0.0001} meteorNumber={4} /> */}
-	  
       <div className="relative z-50">
         <Navbar />
       </div>
@@ -107,7 +92,7 @@ export const Home:React.FC = () =>{
         </div>
         <div className="snap-start min-h-screen relative">
           <GeneralBackground/>
-          <div className="h-full overflow-y-auto pt-30 relative z-10">
+          <div className="h-full pt-30 relative z-10">
             <AboutMeSection />
             <SkillsSection />
             <ProjectsSection />

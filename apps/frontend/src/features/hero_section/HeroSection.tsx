@@ -123,7 +123,8 @@ const HeroBackground = () => {
     <Canvas
       orthographic
       camera={{ position: [0, 0, 1] }}
-      dpr={[1, 2]}
+      dpr={[1, 1]} // Reducido de [1, 2]
+      //antialias={false} // Desactivado para mejor rendimiento
       style={{
         position: "absolute",
         top: 0,
