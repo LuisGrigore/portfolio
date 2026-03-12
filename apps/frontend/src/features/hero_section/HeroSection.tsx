@@ -11,8 +11,8 @@ import vertexShader from "./vertex.glsl?raw";
 
 const Title: React.FC = memo(() => {
   return (
-    <h1 className="text-4xl md:text-6xl font-bold tracking-tight ">
-      <span className="opacity-0 animate-fade-in drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] ">
+    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+      <span className="opacity-0 animate-fade-in drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">
         Hi, I'm Luis.
       </span>
       {/* <span className="text-primary opacity-0 animate-fade-in-delay-1">
@@ -27,7 +27,7 @@ const Title: React.FC = memo(() => {
 
 const Paragraph: React.FC = memo(() => {
   return (
-    <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
+    <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -144,16 +144,16 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center px-4"
+      className="relative min-h-screen flex flex-col items-center justify-center px-3 sm:px-4"
     >
       <HeroBackground />
 
       <div className="container max-w-4xl mx-auto text-center z-10">
-        <div className="bg-background/30 backdrop-blur-[2px] py-10 px-12 rounded-[50px]">
+        <div className="bg-background/30 backdrop-blur-[2px] py-6 px-4 sm:py-8 sm:px-8 md:py-10 md:px-12 rounded-[30px] sm:rounded-[40px] md:rounded-[50px]">
           <Title />
-          <div className="h-10" />
+          <div className="h-6 sm:h-8 md:h-10" />
           <Paragraph />
-          <div className="h-10" />
+          <div className="h-6 sm:h-8 md:h-10" />
           <ViewWorkButton />
         </div>
       </div>

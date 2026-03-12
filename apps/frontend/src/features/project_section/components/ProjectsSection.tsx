@@ -31,7 +31,7 @@ export const ProjectsSection: React.FC = () => {
   );
 
   return (
-    <section id="projects" className="py-24 px-4 relative">
+    <section id="projects" className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative">
       <div className="container mx-auto max-w-5xl">
         <SectionTitle
           text_white="My"

@@ -49,7 +49,7 @@ export const SkillsSection: React.FC = () => {
   );
 
   return (
-    <section id="skills" className="py-24 px-4 relative bg-secondary/30">
+    <section id="skills" className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl ">
         <SectionTitle text_white="My" text_primary="Skills" />
         {matchTags({
@@ -108,7 +108,7 @@ export const SkillsSection: React.FC = () => {
                 ),
             }),
           Success: (skills) => (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {skills.map((skill, index) => {
                 return <SkillCard key={index} skill={skill} />;
               })}

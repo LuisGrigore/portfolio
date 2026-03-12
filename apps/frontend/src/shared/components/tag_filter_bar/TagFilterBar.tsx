@@ -30,14 +30,14 @@ const TagFilterBar: React.FC<TagFilterBarProps> = ({
   };
 
   return (
-	 <div className="mb-6 flex flex-wrap items-center gap-3">
+	 <div className="mb-6 flex flex-wrap items-center gap-2 sm:gap-3">
          {tags.map((tag) => {
           const active = selectedTags.includes(tag);
           return (
             <button
               key={tag.id}
               onClick={() => toggle(tag)}
-              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors border ${
+              className={`px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors border touch-none ${
                 active
                   ? "bg-primary text-primary-foreground border-primary"
                   : "bg-transparent text-foreground/80 border-border"
@@ -50,7 +50,7 @@ const TagFilterBar: React.FC<TagFilterBarProps> = ({
 
         <button
           onClick={clear}
-          className="ml-2 px-3 py-1 rounded-full text-sm text-muted-foreground border border-dashed"
+          className="ml-1 sm:ml-2 px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm text-muted-foreground border border-dashed touch-none"
         >
           Clear
         </button>

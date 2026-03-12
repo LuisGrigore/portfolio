@@ -8,7 +8,7 @@ type ProjectsGridProps = {
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   <div className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover flex flex-col h-full">
-    <div className="h-48 overflow-hidden">
+    <div className="h-32 sm:h-40 md:h-48 overflow-hidden">
       <img
         src={project.imageUrl}
         alt={project.title}
@@ -16,7 +16,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
       />
     </div>
 
-    <div className="p-6 flex flex-col grow">
+    <div className="p-4 sm:p-6 flex flex-col grow">
       <div className="flex flex-wrap gap-2 mb-4">
         {project.tags.map((tag, indx) => (
           <span
@@ -28,8 +28,8 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
         ))}
       </div>
 
-      <h3 className="text-xl font-semibold mb-1 grow">{project.title}</h3>
-      <p className="text-muted-foreground text-sm mb-4 grow">
+      <h3 className="text-lg sm:text-xl font-semibold mb-1 grow">{project.title}</h3>
+      <p className="text-muted-foreground text-xs sm:text-sm mb-4 grow">
         {project.description}
       </p>
       <div className="flex justify-between items-center mt-auto">
@@ -64,7 +64,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
 
 export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
       {projects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}

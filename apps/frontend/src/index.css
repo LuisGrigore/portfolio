@@ -91,6 +91,20 @@
   body {
     @apply bg-background text-foreground transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
+    /* Improve font rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Mobile touch optimizations */
+  @media (max-width: 640px) {
+    body {
+      font-size: 16px; /* Prevent auto-zoom on input focus */
+    }
+
+    button, a, input, textarea, select {
+      min-height: 44px; /* Apple's recommended touch target size */
+    }
   }
 }
 
@@ -132,9 +146,12 @@
 }
 
 @utility cosmic-button {
-  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
+  @apply px-4 sm:px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
          transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
          hover:scale-105 active:scale-95;
+  /* Better touch feedback on mobile */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @utility star {

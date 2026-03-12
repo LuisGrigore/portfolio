@@ -4,28 +4,28 @@ import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
 
 const FirstSection: React.FC = () => {
   return (
-    <div className="space-y-6 ">
-      <h3 id="about-title" className="text-2xl font-semibold">
+    <div className="space-y-6">
+      <h3 id="about-title" className="text-xl sm:text-2xl font-semibold">
         Passionate and experienced developer.
       </h3>
-      <p className="text-muted-foreground">
+      <p className="text-sm sm:text-base text-muted-foreground">
         Soy desarrollador frontend con 5 años de experiencia creando interfaces
         accesibles y rendimiento optimizado. Me apasiona convertir diseños en
         experiencias interactivas y escalables.
       </p>
-      <p className="text-muted-foreground">
+      <p className="text-sm sm:text-base text-muted-foreground">
         Trabajo con React, TypeScript y Tailwind CSS. He colaborado en productos
         desde la fase de prototipado hasta el despliegue, priorizando usabilidad
         y mantenibilidad.
       </p>
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#contact" className="cosmic-button">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2">
+        <a href="#contact" className="cosmic-button text-center">
           Get In Touch
         </a>
         <a
           href="/assets/LuisGrigore_CV.pdf"
           download
-          className="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-colors duration-300"
+          className="px-4 sm:px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-colors duration-300 text-center text-sm sm:text-base"
           aria-label="Download CV"
         >
           Download CV
@@ -79,7 +79,7 @@ const SKILLS: Skill[] = [
 
 const SecondSection: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 gap-6 ">
+    <div className="grid grid-cols-1 gap-4 sm:gap-6">
       {SKILLS.map((skill, indx) => (
         <SkillSection key={indx} skill={skill} />
       ))}
@@ -91,12 +91,12 @@ export const AboutMeSection: React.FC = () => {
   return (
     <section
       id="about"
-      className="px-4 md:px-24 py-8 relative"
+      className="px-3 sm:px-4 md:px-8 lg:px-24 py-16 sm:py-20 md:py-24 relative"
       aria-labelledby="about-title"
     >
-      <div className="container mx-auto max-w-5xl ">
+      <div className="container mx-auto max-w-5xl">
         <SectionTitle text_white="About" text_primary="Me" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           <FirstSection />
           <SecondSection />
         </div>
