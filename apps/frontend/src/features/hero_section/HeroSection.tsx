@@ -121,7 +121,7 @@ function BackgroundPlane() {
 const HeroBackground = () => {
   return (
     <Canvas
-      orthographic // <- cambia perspectiva por ortográfica
+      orthographic
       camera={{ position: [0, 0, 1] }}
       dpr={[1, 2]}
       style={{
@@ -129,7 +129,9 @@ const HeroBackground = () => {
         top: 0,
         left: 0,
         width: "100%",
-        height: "100%",
+        height: "108%",
+        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
+        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
       }}
     >
       <BackgroundPlane />
