@@ -8,14 +8,14 @@
   ],
   "description": "",
   "scripts": {
-
-	"build": "npm run -w @portfolio/dtos build && npm run -w @portfolio/backend build && npm run -w @portfolio/frontend build",
+    "build": "npm run -w @portfolio/dtos build && npm run -w @portfolio/backend build && npm run -w @portfolio/frontend build",
     "dev:frontend": "npm run dev --workspace @portfolio/frontend",
     "dev:backend": "npm run dev --workspace @portfolio/backend",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces"
   },
   "dependencies": {
+    "@reactour/tour": "^3.8.0",
     "fp-ts": "^2.16.11",
     "fp-ts-react-stable-hooks": "^1.5.0",
     "io-ts": "^2.2.22",

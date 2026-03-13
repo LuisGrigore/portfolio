@@ -4,10 +4,11 @@ import { ExternalLink, Github } from "lucide-react";
 
 type ProjectsGridProps = {
   projects: readonly Project[];
+  onProjectClick: (project: Project) => void;
 };
 
-const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
-  <div className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover flex flex-col h-full">
+const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({ project, onClick }) => (
+  <div className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover flex flex-col h-full cursor-pointer" onClick={onClick}>
     <div className="h-32 sm:h-40 md:h-48 overflow-hidden">
       <img
         src={project.imageUrl}
@@ -62,11 +63,11 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   </div>
 );
 
-export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects }) => {
+export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, onProjectClick }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
       {projects.map((project) => (
-        <ProjectCard key={project.id} project={project} />
+        <ProjectCard key={project.id} project={project} onClick={() => onProjectClick(project)} />
       ))}
     </div>
   );

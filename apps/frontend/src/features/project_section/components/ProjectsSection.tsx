@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
 import TagFilterBar from "@shared/components/tag_filter_bar/TagFilterBar";
@@ -6,39 +6,41 @@ import ProjectsGrid from "./ProjectsGrid";
 import { useProjectTags } from "../hooks/useProjectTags";
 import { matchError } from "@shared/errors/errorHandler";
 import { useProjects } from "../hooks/useProjects";
-
+import type { Project } from "../models/Project.model";
+import ProjectModal from "./ProjectModal";
 
 export const ProjectsSection: React.FC = () => {
   const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
   const { matchTags } = useProjectTags();
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const onClear = () => {
-    getAllProjects();
-  };
+  const onClear = () => getAllProjects();
 
   const loadingDisplay = (message: string) => (
     <div className="mb-6">
       <p className="text-sm text-muted-foreground">{message}</p>
     </div>
   );
-
-  const errorDisplay = (mssg: string, error: string) => (
+  const errorDisplay = (msg: string, error: string) => (
     <div className="mb-6">
       <p className="text-sm text-destructive">
-        {mssg} : {error}
+        {msg}: {error}
       </p>
     </div>
   );
 
   return (
-    <section id="projects" className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative">
+    <section
+      id="projects"
+      className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative"
+    >
       <div className="container mx-auto max-w-5xl">
         <SectionTitle
           text_white="My"
           text_primary="Projects"
-          introduction="Here are some of the projects I've worked on recently. Feel free to
-          explore and check out the code on GitHub!"
+          introduction="Here are some of the projects I've worked on recently. Feel free to explore and check out the code on GitHub!"
         />
+
         {matchTags({
           Idle: () => loadingDisplay("Loading tags..."),
           Loading: () => loadingDisplay("Loading tags..."),
@@ -47,32 +49,31 @@ export const ProjectsSection: React.FC = () => {
               NetworkError: (error) =>
                 errorDisplay(
                   "NetworkError while loading tags",
-                  error.cause.message
+                  error.cause.message,
                 ),
               HttpError: (error) =>
                 errorDisplay(
                   "HttpError while loading tags",
-                  error.status.toString()
+                  error.status.toString(),
                 ),
               ParseError: (error) =>
                 errorDisplay("ParseError while loading tags", error.message),
               ValidationError: (error) =>
                 errorDisplay(
                   "ValidationError while loading tags",
-                  error.cause?.toString() || ""
+                  error.cause?.toString() || "",
                 ),
             }),
           Success: (tags) => (
             <TagFilterBar
               tags={tags}
-              onSelectionChange={(tags) =>
-                getProjectsByTag(tags)
-              }
+              onSelectionChange={(tags) => getProjectsByTag(tags)}
               onClear={onClear}
             />
           ),
         })}
-		{matchProjects({
+
+        {matchProjects({
           Idle: () => loadingDisplay("Loading projects..."),
           Loading: () => loadingDisplay("Loading projects..."),
           Error: (error) =>
@@ -80,26 +81,31 @@ export const ProjectsSection: React.FC = () => {
               NetworkError: (error) =>
                 errorDisplay(
                   "NetworkError while loading projects",
-                  error.cause.message
+                  error.cause.message,
                 ),
               HttpError: (error) =>
                 errorDisplay(
                   "HttpError while loading projects",
-                  error.status.toString()
+                  error.status.toString(),
                 ),
               ParseError: (error) =>
-                errorDisplay("ParseError while loading projects", error.message),
+                errorDisplay(
+                  "ParseError while loading projects",
+                  error.message,
+                ),
               ValidationError: (error) =>
                 errorDisplay(
                   "ValidationError while loading projects",
-                  error.cause?.toString() || ""
+                  error.cause?.toString() || "",
                 ),
             }),
           Success: (projects) => (
-           <ProjectsGrid projects={projects} />
+            <ProjectsGrid
+              projects={projects}
+              onProjectClick={setSelectedProject}
+            />
           ),
         })}
-        
 
         <div className="text-center mt-12">
           <a
@@ -111,6 +117,13 @@ export const ProjectsSection: React.FC = () => {
           </a>
         </div>
       </div>
+
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
     </section>
   );
 };
