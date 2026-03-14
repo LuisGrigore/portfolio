@@ -33,7 +33,7 @@ const FeedbackButton: React.FC = () => {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-[1200]
+        className="fixed bottom-6 right-6 z-1200
 		  flex items-center gap-2
 		  bg-primary text-white
 		  p-3 sm:px-4 sm:py-3
@@ -47,7 +47,7 @@ const FeedbackButton: React.FC = () => {
       {/* Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-[1250]
+          className="fixed inset-0 z-1250
           flex items-center justify-center
           bg-black/40 backdrop-blur-sm"
         >

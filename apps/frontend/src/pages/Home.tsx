@@ -2,7 +2,6 @@ import { AboutMeSection } from "@features/about_section";
 import { ContactSection } from "@features/contact_section";
 import { ProjectsSection } from "@features/project_section";
 import { SkillsSection } from "@features/skills_section";
-import { Background } from "@shared/components/background/Background";
 import { HeroSection } from "@features/hero_section/HeroSection";
 import { Navbar } from "@shared/components/navbar/Navbar";
 
