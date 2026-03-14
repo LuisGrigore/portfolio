@@ -5,13 +5,11 @@ import { SkillsSection } from "@features/skills_section";
 import { HeroSection } from "@features/hero_section/HeroSection";
 import { Navbar } from "@shared/components/navbar/Navbar";
 
-
 import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { useRef } from "react";
 
-// import fragmentShader from "./fragment.glsl?raw";
 import fragmentShader from "./fragment_p.glsl?raw";
 import vertexShader from "./vertex.glsl?raw";
 import FeedbackButton from "@shared/components/feedback/FeedbackButton";
@@ -37,7 +35,7 @@ const GradientMaterialA = shaderMaterial(
 extend({ GradientMaterialA });
 declare module "@react-three/fiber" {
   interface ThreeElements {
-	gradientMaterialA: any;
+    gradientMaterialA: any;
   }
 }
 
@@ -46,40 +44,40 @@ function BackgroundPlane() {
   const { viewport } = useThree();
 
   useFrame((state) => {
-	if (material.current) {
-	  material.current.uTime = state.clock.elapsedTime * 2.0;
-	  material.current.uAspect = viewport.width / viewport.height;
-	}
+    if (material.current) {
+      material.current.uTime = state.clock.elapsedTime * 2.0;
+      material.current.uAspect = viewport.width / viewport.height;
+    }
   });
 
   return (
-	<mesh scale={[viewport.width, viewport.height, 1]}>
-	  <planeGeometry args={[1, 1]} />
-	  <gradientMaterialA ref={material} transparent />
-	</mesh>
+    <mesh scale={[viewport.width, viewport.height, 1]}>
+      <planeGeometry args={[1, 1]} />
+      <gradientMaterialA ref={material} transparent />
+    </mesh>
   );
 }
 const GeneralBackground = () => {
   return (
-	<Canvas
-	  orthographic
-	  camera={{ position: [0, 0, 1] }}
-	  dpr={[1, 1]}
-	  style={{
-		position: "absolute",
-		top: 0,
-		left: 0,
-		width: "100%",
-		height: "100%",
-		zIndex: -1,
-	  }}
-	>
-	  <BackgroundPlane />
-	</Canvas>
+    <Canvas
+      orthographic
+      camera={{ position: [0, 0, 1] }}
+      dpr={[1, 1]}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: -1,
+      }}
+    >
+      <BackgroundPlane />
+    </Canvas>
   );
 };
 
-export const Home:React.FC = () =>{
+export const Home: React.FC = () => {
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden relative">
       <div className="relative z-50">
@@ -90,16 +88,16 @@ export const Home:React.FC = () =>{
           <HeroSection />
         </div>
         <div className="snap-start min-h-screen relative">
-          <GeneralBackground/>
+          <GeneralBackground />
           <div className="h-full pt-30 relative z-10">
             <AboutMeSection />
             <SkillsSection />
             <ProjectsSection />
-			<ContactSection />
+            <ContactSection />
           </div>
         </div>
       </main>
-	  <FeedbackButton/>
+      <FeedbackButton />
     </div>
   );
-}
+};
