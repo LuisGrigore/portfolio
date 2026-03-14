@@ -10,8 +10,8 @@ import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { useRef } from "react";
 
-import fragmentShader from "./fragment_p.glsl?raw";
-import vertexShader from "./vertex.glsl?raw";
+import fragmentShader from "./shaders/fragment_p.glsl?raw";
+import vertexShader from "./shaders/vertex.glsl?raw";
 import FeedbackButton from "@shared/components/feedback/FeedbackButton";
 
 const GradientMaterialA = shaderMaterial(
