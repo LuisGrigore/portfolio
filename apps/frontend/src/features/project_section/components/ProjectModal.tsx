@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X, ExternalLink, Github } from "lucide-react";
 import type { Project } from "../models/Project.model";
 
@@ -28,25 +29,31 @@ During development, several complex challenges were addressed, including cross-b
 Future Enhancements:
 The project is designed with extensibility in mind, allowing for easy addition of new features and integrations as requirements evolve.`;
 
-  return (
-    <>
-      {/* Overlay */}
-      <div className="fixed inset-0 bg-black/50 z-50" onClick={onClose} />
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
 
-      {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
+  const modalContent = (
+    <>
+      <div
+        className="fixed inset-0 bg-black/50 z-999 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      <div className="fixed inset-0 z-1000 flex items-center justify-center p-2 sm:p-4">
         <div className="bg-card rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] sm:max-h-[85vh] relative">
-          {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-2 right-2 sm:top-4 sm:right-4 text-muted-foreground hover:text-foreground transition-colors z-10 p-1"
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 text-muted-foreground hover:text-foreground transition-colors p-1"
           >
             <X size={20} className="sm:w-6 sm:h-6" />
           </button>
 
-          {/* Content */}
           <div className="p-4 sm:p-6 overflow-y-auto overflow-x-hidden max-h-[calc(90vh-1rem)] sm:max-h-[calc(85vh-3rem)]">
-            {/* Image */}
             <div className="mb-4 sm:mb-6">
               <img
                 src={project.imageUrl}
@@ -55,10 +62,10 @@ The project is designed with extensibility in mind, allowing for easy addition o
               />
             </div>
 
-            {/* Title */}
-            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 pr-8">{project.title}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 pr-8">
+              {project.title}
+            </h2>
 
-            {/* Tags */}
             <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
               {project.tags.map((tag, index) => (
                 <span
@@ -70,16 +77,14 @@ The project is designed with extensibility in mind, allowing for easy addition o
               ))}
             </div>
 
-            {/* Detailed Description */}
             <div className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-3 sm:space-y-4">
-              {detailedDescription.split('\n\n').map((paragraph, index) => (
-                <p key={index} className={paragraph.startsWith('•') ? 'ml-4' : ''}>
+              {detailedDescription.split("\n\n").map((paragraph, index) => (
+                <p key={index} className={paragraph.startsWith("•") ? "ml-4" : ""}>
                   {paragraph}
                 </p>
               ))}
             </div>
 
-            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8">
               {project.demoUrl && (
                 <a
@@ -107,6 +112,8 @@ The project is designed with extensibility in mind, allowing for easy addition o
       </div>
     </>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export default ProjectModal;
