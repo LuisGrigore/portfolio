@@ -9,6 +9,11 @@ import { useProjects } from "../hooks/useProjects";
 import type { Project } from "../models/Project.model";
 import ProjectModal from "./ProjectModal";
 
+import "tippy.js/dist/tippy.css"; // estilos base de Tippy
+import { ToolTip } from "@shared/components/tooltip/ToolTip";
+
+
+
 export const ProjectsSection: React.FC = () => {
   const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
   const { matchTags } = useProjectTags();
@@ -21,6 +26,7 @@ export const ProjectsSection: React.FC = () => {
       <p className="text-sm text-muted-foreground">{message}</p>
     </div>
   );
+
   const errorDisplay = (msg: string, error: string) => (
     <div className="mb-6">
       <p className="text-sm text-destructive">
@@ -65,11 +71,18 @@ export const ProjectsSection: React.FC = () => {
                 ),
             }),
           Success: (tags) => (
-            <TagFilterBar
-              tags={tags}
-              onSelectionChange={(tags) => getProjectsByTag(tags)}
-              onClear={onClear}
-            />
+            <ToolTip
+			step = {1}
+              id="tag-filter-tooltip"
+			  placement={window.innerWidth < 1444 ? "top" : "right"}
+              content="Filter projects by selecting tags. Click 'Clear' to show all projects."
+            >
+              <TagFilterBar
+                tags={tags}
+                onSelectionChange={(tags) => getProjectsByTag(tags)}
+                onClear={onClear}
+              />
+            </ToolTip>
           ),
         })}
 
