@@ -1,32 +1,20 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { MessageSquare, X, Star } from "lucide-react";
+import { useFeedback } from "../hooks/useFeedback";
 
-const FeedbackButton: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
-
-  const resetFeedback = () => {
-    setRating(0);
-    setHover(0);
-    setIsOpen(false);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const form = e.target as HTMLFormElement;
-    const message = (form.elements.namedItem("message") as HTMLTextAreaElement)
-      .value;
-
-    console.log({
-      rating,
-      message,
-    });
-
-    form.reset();
-    resetFeedback();
-  };
+export const Feedback: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const {
+    isOpen,
+    setIsOpen,
+    rating,
+    setRating,
+    hover,
+    setHover,
+    sendButtonState,
+    handleSubmit,
+	resetFeedback,
+  } = useFeedback(formRef);
 
   return (
     <>
@@ -39,7 +27,7 @@ const FeedbackButton: React.FC = () => {
 		  p-3 sm:px-4 sm:py-3
 		  rounded-full
 		  shadow-lg hover:scale-105 transition"
-		      >
+      >
         <MessageSquare size={18} />
         <span className="hidden sm:inline">Feedback</span>
       </button>
@@ -69,7 +57,11 @@ const FeedbackButton: React.FC = () => {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-4"
+            >
               {/* Star Rating */}
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((star) => {
@@ -103,7 +95,7 @@ const FeedbackButton: React.FC = () => {
 
               {/* Text feedback */}
               <textarea
-                name="message"
+                name="content"
                 placeholder="Write your feedback..."
                 required
                 className="w-full h-28 p-3
@@ -118,7 +110,7 @@ const FeedbackButton: React.FC = () => {
                 py-2 rounded-md
                 hover:opacity-90 transition"
               >
-                Send Feedback
+				{sendButtonState === "Sending" ? "Sending..." : "Send Feedback"}
               </button>
             </form>
           </div>
@@ -127,5 +119,3 @@ const FeedbackButton: React.FC = () => {
     </>
   );
 };
-
-export default FeedbackButton;

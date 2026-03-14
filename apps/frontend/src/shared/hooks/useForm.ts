@@ -12,6 +12,5 @@ export const useForm = <T extends Record<string, any>>(
       onSubmit
     );
   };
-
   return { handleSubmit };
 };

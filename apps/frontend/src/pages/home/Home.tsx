@@ -3,7 +3,7 @@ import { ContactSection } from "@features/contact_section";
 import { ProjectsSection } from "@features/project_section";
 import { SkillsSection } from "@features/skills_section";
 import { HeroSection } from "@features/hero_section/HeroSection";
-import { Navbar } from "@shared/components/navbar/Navbar";
+import { Navbar } from "@features/navbar/Navbar";
 
 import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
@@ -12,7 +12,7 @@ import { useRef } from "react";
 
 import fragmentShader from "./shaders/fragment_p.glsl?raw";
 import vertexShader from "./shaders/vertex.glsl?raw";
-import FeedbackButton from "@shared/components/feedback/FeedbackButton";
+import { Feedback } from "@features/feedback";
 
 const GradientMaterialA = shaderMaterial(
   {
@@ -97,7 +97,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </main>
-      <FeedbackButton />
+      <Feedback />
     </div>
   );
 };

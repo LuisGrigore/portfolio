@@ -1,7 +1,7 @@
 import { MessageFactory } from "../models/Message.model";
 import { pipe } from "fp-ts/lib/function";
 import { useSendMessage } from "./useSendMessage";
-import { useForm } from "./useForm";
+import { useForm } from "../../../shared/hooks/useForm";
 import { useEffect, useState } from "react";
 import { usePopup } from "@shared/components/popup/PopupProvider";
 
