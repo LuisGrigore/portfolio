@@ -5,7 +5,6 @@ import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { useRef } from "react";
 
-// import fragmentShader from "./fragment.glsl?raw";
 import fragmentShader from "./fragment_p.glsl?raw";
 import vertexShader from "./vertex.glsl?raw";
 
@@ -15,12 +14,6 @@ const Title: React.FC = memo(() => {
       <span className="opacity-0 animate-fade-in drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">
         Hi, I'm Luis.
       </span>
-      {/* <span className="text-primary opacity-0 animate-fade-in-delay-1">
-        Luis{" "}
-      </span>
-      <span className="text-gradient text-primary opacity-0 animate-fade-in-delay-2">
-        Grigore.
-      </span> */}
     </h1>
   );
 });
@@ -43,7 +36,7 @@ const ViewWorkButton: React.FC = memo(() => {
   return (
     <div className="opacity-0 animate-fade-in-delay-4 pt-4">
       <a
-        href="/projects"
+        href="#projects"
         className="cosmic-button"
         aria-label="View my projects"
       >
@@ -85,9 +78,9 @@ const GradientMaterial = shaderMaterial(
     uGrainIntensity: 0.125,
     uGrainSparsity: 0.0,
     uGrainSpeed: 0.0,
-    uDensity: 0.55, // cuántas partículas aparecen (0-1)
-    uParticleSize: 0.5, // tamaño base
-    uGlowStrength: 2, // intensidad del halo
+    uDensity: 0.55,
+    uParticleSize: 0.5,
+    uGlowStrength: 2,
     uGridSize: 160.0,
   },
   vertexShader,
@@ -113,7 +106,7 @@ function BackgroundPlane() {
 
   return (
     <mesh scale={[viewport.width, viewport.height, 1]}>
-      <planeGeometry args={[1, 1]} /> {/* <- 1,1 es suficiente */}
+      <planeGeometry args={[1, 1]} />
       <gradientMaterial ref={material} transparent />
     </mesh>
   );
@@ -123,16 +116,17 @@ const HeroBackground = () => {
     <Canvas
       orthographic
       camera={{ position: [0, 0, 1] }}
-      dpr={[1, 1]} // Reducido de [1, 2]
-      //antialias={false} // Desactivado para mejor rendimiento
+      dpr={[1, 1]}
       style={{
         position: "absolute",
         top: 0,
         left: 0,
         width: "100%",
         height: "108%",
-        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
-        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
+        WebkitMaskImage:
+          "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)",
+        maskImage:
+          "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)",
       }}
     >
       <BackgroundPlane />
