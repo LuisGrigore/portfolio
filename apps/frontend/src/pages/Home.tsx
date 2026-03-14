@@ -15,6 +15,7 @@ import { useRef } from "react";
 // import fragmentShader from "./fragment.glsl?raw";
 import fragmentShader from "./fragment_p.glsl?raw";
 import vertexShader from "./vertex.glsl?raw";
+import FeedbackButton from "@shared/components/feedback/FeedbackButton";
 
 const GradientMaterialA = shaderMaterial(
   {
@@ -47,7 +48,6 @@ function BackgroundPlane() {
 
   useFrame((state) => {
 	if (material.current) {
-	  // update time with multiplier for more noticeable motion
 	  material.current.uTime = state.clock.elapsedTime * 2.0;
 	  material.current.uAspect = viewport.width / viewport.height;
 	}
@@ -55,7 +55,7 @@ function BackgroundPlane() {
 
   return (
 	<mesh scale={[viewport.width, viewport.height, 1]}>
-	  <planeGeometry args={[1, 1]} /> {/* <- 1,1 es suficiente */}
+	  <planeGeometry args={[1, 1]} />
 	  <gradientMaterialA ref={material} transparent />
 	</mesh>
   );
@@ -100,6 +100,7 @@ export const Home:React.FC = () =>{
           </div>
         </div>
       </main>
+	  <FeedbackButton/>
     </div>
   );
 }
