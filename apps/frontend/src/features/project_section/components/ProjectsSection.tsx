@@ -12,8 +12,6 @@ import ProjectModal from "./ProjectModal";
 import "tippy.js/dist/tippy.css"; // estilos base de Tippy
 import { ToolTip } from "@shared/components/tooltip/ToolTip";
 
-
-
 export const ProjectsSection: React.FC = () => {
   const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
   const { matchTags } = useProjectTags();
@@ -72,9 +70,9 @@ export const ProjectsSection: React.FC = () => {
             }),
           Success: (tags) => (
             <ToolTip
-			step = {1}
+              step={1}
               id="tag-filter-tooltip"
-			  placement={window.innerWidth < 1444 ? "top" : "right"}
+              placement={window.innerWidth < 1444 ? "top" : "right"}
               content="Filter projects by selecting tags. Click 'Clear' to show all projects."
             >
               <TagFilterBar

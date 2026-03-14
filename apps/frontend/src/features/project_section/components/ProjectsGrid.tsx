@@ -52,6 +52,7 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({
                 : "hidden"
             }
             target="_blank"
+            onClick={(e) => e.stopPropagation()}
           >
             <ExternalLink size={20} />
           </a>
@@ -63,6 +64,7 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({
                 : "hidden"
             }
             target="_blank"
+            onClick={(e) => e.stopPropagation()}
           >
             <Github size={20} />
           </a>
@@ -81,31 +83,32 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
       {projects.map((project, index) =>
         index === 0 ? (
           <ToolTip
-		  step = {2}
+            step={2}
             key={project.id}
             id="first-project"
-			placement={window.innerWidth < 1444 ? "bottom" : "left"}
+            placement={window.innerWidth < 1444 ? "bottom" : "left"}
             content={
-  <div className="bg-card text-foreground rounded-lg p-3 shadow-lg max-w-xs text-sm">
-    <p className="mb-2">
-      Click on a project card to open its detailed view and learn more about the
-      project.
-    </p>
-    <p className="mb-2">
-      To access the live demo or explore the source code, use the icons below.
-    </p>
-    <div className="flex items-center gap-3 text-foreground/80">
-      <span className="flex items-center gap-1">
-        <ExternalLink size={16} />
-        <span>Live demo</span>
-      </span>
-      <span className="flex items-center gap-1">
-        <Github size={16} />
-        <span>Source code</span>
-      </span>
-    </div>
-  </div>
-}
+              <div className="bg-card text-foreground rounded-lg p-3 shadow-lg max-w-xs text-sm">
+                <p className="mb-2">
+                  Click on a project card to open its detailed view and learn
+                  more about the project.
+                </p>
+                <p className="mb-2">
+                  To access the live demo or explore the source code, use the
+                  icons below.
+                </p>
+                <div className="flex items-center gap-3 text-foreground/80">
+                  <span className="flex items-center gap-1">
+                    <ExternalLink size={16} />
+                    <span>Live demo</span>
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Github size={16} />
+                    <span>Source code</span>
+                  </span>
+                </div>
+              </div>
+            }
           >
             <ProjectCard
               project={project}

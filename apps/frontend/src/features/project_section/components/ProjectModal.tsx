@@ -79,7 +79,10 @@ The project is designed with extensibility in mind, allowing for easy addition o
 
             <div className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-3 sm:space-y-4">
               {detailedDescription.split("\n\n").map((paragraph, index) => (
-                <p key={index} className={paragraph.startsWith("•") ? "ml-4" : ""}>
+                <p
+                  key={index}
+                  className={paragraph.startsWith("•") ? "ml-4" : ""}
+                >
                   {paragraph}
                 </p>
               ))}
