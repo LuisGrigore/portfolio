@@ -1,5 +1,5 @@
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type NavItem = {
   name: string;
@@ -14,30 +14,42 @@ const navItems: NavItem[] = [
   { name: "Contact", href: "#contact" },
 ];
 
-const MobileNavbar:React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+const MobileNavbar: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
   return (
     <>
-      <button
-        className="md:hidden p-2 text-foreground z-50"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-      >
-        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
+      <div className="flex h-full bg-background/30 z-1100 backdrop-blur-sm">
+        <button
+          className="md:hidden p-2 text-foreground z-1100 relative"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
 
       <div
-        className={`fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center transition-all duration-300 ${
+        className={`fixed inset-0 z-1050 h-screen flex flex-col items-center justify-center
+        bg-black/30 backdrop-blur-lg transition-opacity duration-300 ${
           isMenuOpen
             ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none hidden"
+            : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex flex-col space-y-8">
-          {navItems.map((item, key) => (
+        <div className="flex flex-col space-y-8 text-center">
+          {navItems.map((item, idx) => (
             <a
-              key={key}
+              key={idx}
               href={item.href}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
+              className="text-foreground/90 hover:text-primary text-2xl sm:text-3xl transition-colors duration-300"
               onClick={() => setIsMenuOpen(false)}
             >
               {item.name}
@@ -49,9 +61,9 @@ const MobileNavbar:React.FC = () => {
   );
 };
 
-const DesktopNavbar:React.FC = () => {
+const DesktopNavbar: React.FC = () => {
   return (
-    <div className="hidden md:flex space-x-8">
+    <div className="hidden md:flex space-x-8 px-4 py-2 rounded-md ">
       {navItems.map((item, key) => (
         <a
           key={key}
@@ -65,30 +77,27 @@ const DesktopNavbar:React.FC = () => {
   );
 };
 
-const TitleText:React.FC = () => {
+const TitleText: React.FC = () => {
   return (
     <a
-      className="text-xl font-bold text-primary flex items-center"
+      className="text-xl font-bold text-primary flex items-center  px-2 py-1 rounded-md "
       href="#hero"
     >
       <span className="relative z-10">
-        <span className="text-glow text-foreground"> LuisGrigore </span>{" "}
-        Portfolio
+        <span className="text-glow text-foreground">LuisGrigore </span>Portfolio
       </span>
     </a>
   );
 };
 
-export const Navbar:React.FC = () => {
+export const Navbar: React.FC = () => {
   return (
-    <nav
-      className={
-        "fixed w-full z-40 transition-all duration-300 py-3 bg-background/30 backdrop-blur-[2px] shadow-xs"
-      }
-    >
-      <div className="container flex items-center justify-between">
-        <TitleText />
-        <DesktopNavbar />
+    <nav className="fixed w-full z-1000 transition-all duration-300 shadow-xs">
+      <div className="flex items-center justify-between w-full h-[50px]">
+        <div className="flex items-center justify-between w-full h-full bg-background/30 backdrop-blur-sm md:px-18 px-4">
+          <TitleText />
+          <DesktopNavbar />
+        </div>
         <MobileNavbar />
       </div>
     </nav>
