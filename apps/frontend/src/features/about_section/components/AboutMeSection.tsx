@@ -1,24 +1,13 @@
 import React from "react";
 import { Briefcase, Code, User } from "lucide-react";
 import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
+import paragraph from "../content/paragraph.md?raw";
+import { MarkdownRenderer } from "@shared/components/markdown_renderer/MarkdownRenderer";
 
 const FirstSection: React.FC = () => {
   return (
     <div className="space-y-6">
-      <h3 id="about-title" className="text-xl sm:text-2xl font-semibold">
-        Lorem ipsum dolor sit amet.
-      </h3>
-      <p className="text-sm sm:text-base text-muted-foreground">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.
-      </p>
-      <p className="text-sm sm:text-base text-muted-foreground">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation .
-      </p>
+      <MarkdownRenderer textDir="left">{paragraph}</MarkdownRenderer>
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2">
         <a href="#contact" className="cosmic-button text-center">
           Get In Touch

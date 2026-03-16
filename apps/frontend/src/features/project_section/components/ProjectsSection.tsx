@@ -9,8 +9,9 @@ import { useProjects } from "../hooks/useProjects";
 import type { Project } from "../models/Project.model";
 import ProjectModal from "./ProjectModal";
 
-import "tippy.js/dist/tippy.css"; // estilos base de Tippy
+import "tippy.js/dist/tippy.css";
 import { ToolTip } from "@shared/components/tooltip/ToolTip";
+import paragraph from "../content/paragraph.md?raw";
 
 export const ProjectsSection: React.FC = () => {
   const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
@@ -42,7 +43,7 @@ export const ProjectsSection: React.FC = () => {
         <SectionTitle
           text_white="My"
           text_primary="Projects"
-          introduction="Here are some of the projects I've worked on recently. Feel free to explore and check out the code on GitHub!"
+          introduction={paragraph}
         />
 
         {matchTags({

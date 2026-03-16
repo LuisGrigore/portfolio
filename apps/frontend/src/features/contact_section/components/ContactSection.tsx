@@ -3,6 +3,8 @@ import type { LucideIcon } from "lucide-react";
 import { useRef, type ComponentProps } from "react";
 import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
 import { useContactForm } from "../hooks/useContactForm";
+import paragraph from "../content/paragraph.md?raw";
+
 
 type InputProps = ComponentProps<"input">;
 type TextareaProps = ComponentProps<"textarea">;
@@ -95,8 +97,7 @@ export const ContactSection: React.FC = () => {
         <SectionTitle
           text_white="Get In"
           text_primary="Touch"
-          introduction="I'm always open to discussing new projects, creative ideas, or
-          opportunities to be part of your visions. Feel free to reach out!"
+          introduction={paragraph}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">

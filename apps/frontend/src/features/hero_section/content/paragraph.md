@@ -1,0 +1,1 @@
+I’m a student at the **Universidad Politécnica de Madrid**, passionate about software development and eager to apply my skills in real-world projects. I’m looking for internship opportunities where I can contribute, learn, and grow as a developer.

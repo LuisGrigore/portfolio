@@ -13,7 +13,7 @@ export const Feedback: React.FC = () => {
     setHover,
     sendButtonState,
     handleSubmit,
-	resetFeedback,
+    resetFeedback,
   } = useFeedback(formRef);
 
   return (
@@ -23,10 +23,8 @@ export const Feedback: React.FC = () => {
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 z-1200
 		  flex items-center gap-2
-		  bg-primary text-white
-		  p-3 sm:px-4 sm:py-3
-		  rounded-full
-		  shadow-lg hover:scale-105 transition"
+		  cosmic-button
+		  p-3 sm:px-4 sm:py-3"
       >
         <MessageSquare size={18} />
         <span className="hidden sm:inline">Feedback</span>
@@ -106,11 +104,9 @@ export const Feedback: React.FC = () => {
 
               <button
                 type="submit"
-                className="bg-primary text-white
-                py-2 rounded-md
-                hover:opacity-90 transition"
+                className="cosmic-button mt-4 sm:mt-6 w-full flex items-center justify-center gap-2"
               >
-				{sendButtonState === "Sending" ? "Sending..." : "Send Feedback"}
+                {sendButtonState === "Sending" ? "Sending..." : "Send Feedback"}
               </button>
             </form>
           </div>
