@@ -11,7 +11,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
   return (
     <div className="bg-card p-6 rounded-lg shadow-lg card-hover">
       <div className="text-left mb-4">
-        <h3 className="font-semibold text-lg">{skill.name}</h3>
+        <h3 className="font-semibold text-lg">{skill.title}</h3>
       </div>
       <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden">
         <div

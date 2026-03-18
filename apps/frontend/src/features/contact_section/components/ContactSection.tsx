@@ -5,7 +5,6 @@ import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
 import { useContactForm } from "../hooks/useContactForm";
 import paragraph from "../content/paragraph.md?raw";
 
-
 type InputProps = ComponentProps<"input">;
 type TextareaProps = ComponentProps<"textarea">;
 
@@ -88,11 +87,14 @@ const ContactInfoCard: React.FC<ContactInfoCardProps> = ({
 };
 
 export const ContactSection: React.FC = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const { sendButtonState, handleSubmit } = useContactForm(formRef);
+  //const formRef = useRef<HTMLFormElement>(null);
+  //const { sendButtonState, handleSubmit } = useContactForm(formRef);
 
   return (
-    <section id="contact" className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative bg-secondary/30">
+    <section
+      id="contact"
+      className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative bg-secondary/30"
+    >
       <div className="container mx-auto max-w-5xl">
         <SectionTitle
           text_white="Get In"
@@ -103,7 +105,9 @@ export const ContactSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
           <div className="space-y-6 sm:space-y-8 bg-card/50 p-5 sm:p-6 md:p-8 rounded-lg backdrop-blur-sm">
             <div>
-              <h3 className="text-xl sm:text-2xl font-semibold mb-2">Let's Connect</h3>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-2">
+                Let's Connect
+              </h3>
               <p className="text-xs sm:text-sm text-muted-foreground">
                 Available for opportunities and collaborations
               </p>
@@ -132,8 +136,10 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
           <div className="bg-card/50 p-5 sm:p-6 md:p-8 rounded-lg backdrop-blur-sm relative">
-            <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Send a Message</h3>
-            <form ref={formRef} className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+            <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
+              Send a Message
+            </h3>
+            {/* <form ref={formRef} className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
               <div className="flex flex-col items-center justify-center gap-4 sm:gap-6">
                 <FormField
                   label="Name"
@@ -165,7 +171,14 @@ export const ContactSection: React.FC = () => {
                   <Send size={16} />
                 </button>
               </div>
-            </form>
+            </form> */}
+            <a
+              href="mailto:luiscristiangrigore@proton.me?subject=Contact%20from%20Portfolio"
+              className="cosmic-button w-full flex items-center justify-center gap-2"
+            >
+              Send Email
+              <Send size={16} />
+            </a>
           </div>
         </div>
       </div>
