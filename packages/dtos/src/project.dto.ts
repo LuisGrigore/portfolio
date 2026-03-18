@@ -10,6 +10,7 @@ export const ProjectDTOValidationSchema = t.intersection([
   }),
   t.partial({
     github_url: t.string,
+	readme_url: t.string,
     demo_url: t.string,
   }),
 ]);

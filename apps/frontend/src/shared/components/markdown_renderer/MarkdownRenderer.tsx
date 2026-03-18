@@ -3,17 +3,23 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import rehypeRaw from "rehype-raw";
+import remarkEmoji from "remark-emoji";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 type MarkdownRendererProps = {
   children: string;
-  textDir?: "left" | "right"
+  textDir?: "left" | "right";
 };
 
-export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ children, textDir }) => {
+export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
+  children,
+  textDir,
+}) => {
   return (
     <div className={"max-w-none" + textDir ? "text-" + textDir : ""}>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkBreaks]}
+        remarkPlugins={[remarkGfm, remarkBreaks, remarkEmoji]}
         rehypePlugins={[rehypeRaw]}
         components={{
           h1: ({ ...props }) => (
@@ -40,6 +46,38 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ children, te
               {...props}
             />
           ),
+          img: () => null,
+          table: ({ ...props }) => (
+            <div className="overflow-x-auto my-4">
+              <table className="w-full border border-border" {...props} />
+            </div>
+          ),
+          thead: ({ ...props }) => <thead className="bg-muted" {...props} />,
+          th: ({ ...props }) => (
+            <th
+              className="border px-4 py-2 text-left font-semibold"
+              {...props}
+            />
+          ),
+          td: ({ ...props }) => <td className="border px-4 py-2" {...props} />,
+          tr: ({ ...props }) => <tr className="border-t" {...props} />,
+          code({ className, children }) {
+            const match = /language-(\w+)/.exec(className || "");
+
+            return match ? (
+              <SyntaxHighlighter
+                style={oneDark}
+                language={match[1]}
+                PreTag="div"
+              >
+                {String(children).replace(/\n$/, "")}
+              </SyntaxHighlighter>
+            ) : (
+              <code className="bg-muted px-1 py-0.5 rounded text-sm">
+                {children}
+              </code>
+            );
+          },
         }}
       >
         {children}

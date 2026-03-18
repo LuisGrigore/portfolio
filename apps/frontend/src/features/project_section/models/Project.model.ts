@@ -7,6 +7,7 @@ export type Project = {
   imageUrl: string;
   tags: string[];
   githubUrl?: string;
+  readmeUrl?: string;
   demoUrl?: string;
 };
 
@@ -18,6 +19,7 @@ export const ProjectFactory = {
     imageUrl: string,
     tags: string[],
     githubUrl?: string,
+	readmeUrl?: string,
     demoUrl?: string
   ): Project => ({
     id: id,
@@ -26,6 +28,7 @@ export const ProjectFactory = {
     imageUrl: imageUrl,
     tags: tags,
     githubUrl: githubUrl,
+	readmeUrl: readmeUrl,
     demoUrl: demoUrl,
   }),
   fromProjectDTO: (projectDTO: ProjectDTO) => ({
@@ -35,6 +38,7 @@ export const ProjectFactory = {
     imageUrl: projectDTO.image_url,
     tags: projectDTO.tags,
     githubUrl: projectDTO.github_url,
+	readmeUrl: projectDTO.readme_url,
     demoUrl: projectDTO.demo_url,
   }),
 };

@@ -2,6 +2,12 @@ import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X, ExternalLink, Github } from "lucide-react";
 import type { Project } from "../models/Project.model";
+import { useProjectDetails } from "../hooks/useProjectDetails";
+import { loadingDisplay } from "@shared/components/loading_display/LoadingDisplay";
+import { matchError } from "@shared/errors/errorHandler";
+import { errorDisplay } from "@shared/components/error_display/ErrorDisplay";
+import { div } from "three/src/nodes/math/OperatorNode.js";
+import { MarkdownRenderer } from "@shared/components/markdown_renderer/MarkdownRenderer";
 
 type ProjectModalProps = {
   project: Project;
@@ -9,6 +15,7 @@ type ProjectModalProps = {
 };
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
+  const { matchProjectDetails } = useProjectDetails(project);
   // Placeholder detailed description with proper formatting
   const detailedDescription = `${project.description}
 
@@ -78,14 +85,46 @@ The project is designed with extensibility in mind, allowing for easy addition o
             </div>
 
             <div className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-3 sm:space-y-4">
-              {detailedDescription.split("\n\n").map((paragraph, index) => (
+              {/* {detailedDescription.split("\n\n").map((paragraph, index) => (
                 <p
                   key={index}
                   className={paragraph.startsWith("•") ? "ml-4" : ""}
                 >
                   {paragraph}
                 </p>
-              ))}
+              ))} */}
+              {matchProjectDetails({
+                Idle: () => loadingDisplay("Loading projectDetails..."),
+                Loading: () => loadingDisplay("Loading projectDetails..."),
+                Error: (error) =>
+                  matchError(error, {
+                    NetworkError: (error) =>
+                      errorDisplay(
+                        "NetworkError while loading project details",
+                        error.cause.message,
+                      ),
+                    HttpError: (error) =>
+                      errorDisplay(
+                        "HttpError while loading project details",
+                        error.status.toString(),
+                      ),
+                    ParseError: (error) =>
+                      errorDisplay(
+                        "ParseError while loading project details",
+                        error.message,
+                      ),
+                    ValidationError: (error) =>
+                      errorDisplay(
+                        "ValidationError while loading project details",
+                        error.cause?.toString() || "",
+                      ),
+                  }),
+                Success: (projectDetails) => (
+                  <MarkdownRenderer textDir="left">
+                    {projectDetails}
+                  </MarkdownRenderer>
+                ),
+              })}
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8">

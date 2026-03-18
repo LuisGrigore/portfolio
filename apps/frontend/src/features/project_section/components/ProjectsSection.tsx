@@ -12,6 +12,8 @@ import ProjectModal from "./ProjectModal";
 import "tippy.js/dist/tippy.css";
 import { ToolTip } from "@shared/components/tooltip/ToolTip";
 import paragraph from "../content/paragraph.md?raw";
+import { loadingDisplay } from "@shared/components/loading_display/LoadingDisplay";
+import { errorDisplay } from "@shared/components/error_display/ErrorDisplay";
 
 export const ProjectsSection: React.FC = () => {
   const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
@@ -19,20 +21,6 @@ export const ProjectsSection: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const onClear = () => getAllProjects();
-
-  const loadingDisplay = (message: string) => (
-    <div className="mb-6">
-      <p className="text-sm text-muted-foreground">{message}</p>
-    </div>
-  );
-
-  const errorDisplay = (msg: string, error: string) => (
-    <div className="mb-6">
-      <p className="text-sm text-destructive">
-        {msg}: {error}
-      </p>
-    </div>
-  );
 
   return (
     <section
