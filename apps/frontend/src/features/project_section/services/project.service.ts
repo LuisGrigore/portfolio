@@ -55,9 +55,7 @@ export const getProjectDetails = (project: Project) =>
     : pipe(
         fpFetchJson<{ content: string }>(project.readmeUrl),
         TE.map((data) =>
-          !data.content
-            ? project.description
-            : new TextDecoder().decode(
+          new TextDecoder().decode(
                 Uint8Array.from(atob(data.content), (c) => c.charCodeAt(0)),
               ),
         ), //atob(data.content))

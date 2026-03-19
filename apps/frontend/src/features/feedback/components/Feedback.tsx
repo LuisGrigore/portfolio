@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { MessageSquare, X, Star } from "lucide-react";
 import { useFeedback } from "../hooks/useFeedback";
+import { MarkdownRenderer } from "@shared/components/markdown_renderer/MarkdownRenderer";
 
 export const Feedback: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -101,6 +102,10 @@ export const Feedback: React.FC = () => {
                 bg-background
                 focus:outline-none focus:ring-2 focus:ring-primary"
               />
+
+			  <MarkdownRenderer>
+				Feedback is anonymous. **Do not include any personal information** in the message field.
+			  </MarkdownRenderer>
 
               <button
                 type="submit"

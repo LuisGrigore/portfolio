@@ -5,8 +5,8 @@ import type { Project } from "../models/Project.model";
 import { useProjectDetails } from "../hooks/useProjectDetails";
 import { loadingDisplay } from "@shared/components/loading_display/LoadingDisplay";
 import { matchError } from "@shared/errors/errorHandler";
-import { errorDisplay } from "@shared/components/error_display/ErrorDisplay";
-import { div } from "three/src/nodes/math/OperatorNode.js";
+// import { errorDisplay } from "@shared/components/error_display/ErrorDisplay";
+// import { div } from "three/src/nodes/math/OperatorNode.js";
 import { MarkdownRenderer } from "@shared/components/markdown_renderer/MarkdownRenderer";
 
 type ProjectModalProps = {
@@ -98,26 +98,42 @@ The project is designed with extensibility in mind, allowing for easy addition o
                 Loading: () => loadingDisplay("Loading projectDetails..."),
                 Error: (error) =>
                   matchError(error, {
-                    NetworkError: (error) =>
-                      errorDisplay(
-                        "NetworkError while loading project details",
-                        error.cause.message,
-                      ),
-                    HttpError: (error) =>
-                      errorDisplay(
-                        "HttpError while loading project details",
-                        error.status.toString(),
-                      ),
-                    ParseError: (error) =>
-                      errorDisplay(
-                        "ParseError while loading project details",
-                        error.message,
-                      ),
-                    ValidationError: (error) =>
-                      errorDisplay(
-                        "ValidationError while loading project details",
-                        error.cause?.toString() || "",
-                      ),
+                    NetworkError: (error) => (
+                      <MarkdownRenderer textDir="left">
+                        {project.description}
+                      </MarkdownRenderer>
+                    ),
+                    //   errorDisplay(
+                    //     "NetworkError while loading project details",
+                    //     error.cause.message,
+                    //   ),
+                    HttpError: (error) => (
+                      <MarkdownRenderer textDir="left">
+                        {project.description}
+                      </MarkdownRenderer>
+                    ),
+                    //   errorDisplay(
+                    //     "HttpError while loading project details",
+                    //     error.status.toString(),
+                    //   ),
+                    ParseError: (error) => (
+                      <MarkdownRenderer textDir="left">
+                        {project.description}
+                      </MarkdownRenderer>
+                    ),
+                    //   errorDisplay(
+                    //     "ParseError while loading project details",
+                    //     error.message,
+                    //   ),
+                    ValidationError: (error) => (
+                      <MarkdownRenderer textDir="left">
+                        {project.description}
+                      </MarkdownRenderer>
+                    ),
+                    //   errorDisplay(
+                    //     "ValidationError while loading project details",
+                    //     error.cause?.toString() || "",
+                    //   ),
                   }),
                 Success: (projectDetails) => (
                   <MarkdownRenderer textDir="left">
