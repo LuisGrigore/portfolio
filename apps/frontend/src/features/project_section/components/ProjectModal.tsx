@@ -16,25 +16,6 @@ type ProjectModalProps = {
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
   const { matchProjectDetails } = useProjectDetails(project);
-  // Placeholder detailed description with proper formatting
-  const detailedDescription = `${project.description}
-
-This project showcases advanced development techniques and modern web technologies. Built with attention to performance, user experience, and clean code architecture.
-
-Key Features:
-• Responsive design that works seamlessly across all devices
-• Optimized performance with lazy loading and code splitting
-• Accessible components following WCAG guidelines
-• Clean, maintainable codebase with comprehensive testing
-
-Technologies Used:
-The project leverages cutting-edge tools and frameworks to deliver a robust solution. Each technology was carefully selected to ensure scalability and maintainability.
-
-Challenges Overcome:
-During development, several complex challenges were addressed, including cross-browser compatibility, performance optimization, and implementing complex user interactions.
-
-Future Enhancements:
-The project is designed with extensibility in mind, allowing for easy addition of new features and integrations as requirements evolve.`;
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
