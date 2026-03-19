@@ -19,6 +19,7 @@ export const ProjectsSection: React.FC = () => {
   const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
   const { matchTags } = useProjectTags();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const onClear = () => getAllProjects();
 
@@ -66,7 +67,10 @@ export const ProjectsSection: React.FC = () => {
             >
               <TagFilterBar
                 tags={tags}
-                onSelectionChange={(tags) => getProjectsByTag(tags)}
+                onSelectionChange={(tags) => {
+                  setSelectedTags(tags.map((t) => t.label));
+                  getProjectsByTag(tags);
+                }}
                 onClear={onClear}
               />
             </ToolTip>
@@ -103,6 +107,7 @@ export const ProjectsSection: React.FC = () => {
             <ProjectsGrid
               projects={projects}
               onProjectClick={setSelectedProject}
+              selectedTags={selectedTags}
             />
           ),
         })}

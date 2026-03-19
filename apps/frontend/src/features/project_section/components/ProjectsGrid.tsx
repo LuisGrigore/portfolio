@@ -6,14 +6,18 @@ import { ToolTip } from "../../../shared/components/tooltip/ToolTip";
 type ProjectsGridProps = {
   projects: readonly Project[];
   onProjectClick: (project: Project) => void;
+  selectedTags?: string[];
 };
 
-const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({
-  project,
-  onClick,
-}) => (
+const ProjectCard: React.FC<{
+  project: Project;
+  onClick: () => void;
+  highlight?: boolean;
+}> = ({ project, onClick, highlight }) => (
   <div
-    className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover flex flex-col h-full cursor-pointer"
+    className={`group rounded-lg overflow-hidden shadow-xs card-hover flex flex-col h-full cursor-pointer
+      ${highlight ? "bg-primary" : "bg-card"}
+    `}
     onClick={onClick}
   >
     <div className="h-32 sm:h-40 md:h-48 overflow-hidden">
@@ -46,11 +50,9 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({
         <div className="flex space-x-3">
           <a
             href={project.demoUrl || "#"}
-            className={
-              project.demoUrl
-                ? "text-foreground/80 hover:text-primary transition-colors duration-300"
-                : "hidden"
-            }
+            className={project.demoUrl
+              ? "text-foreground/80 hover:text-primary transition-colors duration-300"
+              : "hidden"}
             target="_blank"
             onClick={(e) => e.stopPropagation()}
           >
@@ -58,11 +60,9 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({
           </a>
           <a
             href={project.githubUrl || "#"}
-            className={
-              project.githubUrl
-                ? "text-foreground/80 hover:text-primary transition-colors duration-300"
-                : "hidden"
-            }
+            className={project.githubUrl
+              ? "text-foreground/80 hover:text-primary transition-colors duration-300"
+              : "hidden"}
             target="_blank"
             onClick={(e) => e.stopPropagation()}
           >
@@ -77,11 +77,14 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({
 export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   projects,
   onProjectClick,
+  selectedTags = [], // array de tags seleccionadas
 }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-      {projects.map((project, index) =>
-        index === 0 ? (
+      {projects.map((project, index) => {
+        const highlight = project.tags.some(tag => selectedTags.includes(tag));
+
+        return index === 0 ? (
           <ToolTip
             step={2}
             key={project.id}
@@ -90,12 +93,10 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
             content={
               <div className="bg-card text-foreground rounded-lg p-3 shadow-lg max-w-xs text-sm">
                 <p className="mb-2">
-                  Click on a project card to open its detailed view and learn
-                  more about the project.
+                  Click on a project card to open its detailed view and learn more about the project.
                 </p>
                 <p className="mb-2">
-                  To access the live demo or explore the source code, use the
-                  icons below.
+                  To access the live demo or explore the source code, use the icons below.
                 </p>
                 <div className="flex items-center gap-3 text-foreground/80">
                   <span className="flex items-center gap-1">
@@ -112,6 +113,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
           >
             <ProjectCard
               project={project}
+              highlight={highlight}
               onClick={() => onProjectClick(project)}
             />
           </ToolTip>
@@ -119,10 +121,11 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({
           <ProjectCard
             key={project.id}
             project={project}
+            highlight={highlight}
             onClick={() => onProjectClick(project)}
           />
-        ),
-      )}
+        );
+      })}
     </div>
   );
 };
