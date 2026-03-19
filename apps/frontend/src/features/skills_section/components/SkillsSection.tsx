@@ -4,18 +4,25 @@ import { useSkills } from "../hooks/useSkills";
 import { useSkillTags } from "../hooks/useSkillTags";
 import { matchError } from "@shared/errors/errorHandler";
 import type { Skill } from "../models/Skill.model";
+import React, { useState } from "react";
 
-type SkillCardProps = { skill: Skill };
+type SkillCardProps = { skill: Skill; highlight?: boolean };
 
-const SkillCard: React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
+const SkillCard: React.FC<SkillCardProps> = ({ skill, highlight }) => {
   return (
-    <div className="bg-card p-6 rounded-lg shadow-lg card-hover">
+    <div
+      className={`p-6 rounded-lg shadow-lg card-hover ${
+        highlight ? "bg-primary" : "bg-card"
+      }`}
+    >
       <div className="text-left mb-4">
         <h3 className="font-semibold text-lg">{skill.title}</h3>
       </div>
       <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden">
         <div
-          className="bg-primary h-2 rounded-full origin-left animate-[grow_1.5s_ease-out]"
+          className={`h-2 rounded-full origin-left animate-[grow_1.5s_ease-out] ${
+            highlight ? "bg-foreground" : "bg-primary"
+          }`}
           style={{ width: skill.level + "%" }}
         />
       </div>
@@ -29,8 +36,10 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill }: SkillCardProps) => {
 export const SkillsSection: React.FC = () => {
   const { matchSkills, getAllSkills, getSkillsByTag } = useSkills();
   const { matchTags } = useSkillTags();
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const onClear = () => {
+    setSelectedTags([]);
     getAllSkills();
   };
 
@@ -49,7 +58,10 @@ export const SkillsSection: React.FC = () => {
   );
 
   return (
-    <section id="skills" className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative bg-secondary/30">
+    <section
+      id="skills"
+      className="py-16 sm:py-20 md:py-24 px-3 sm:px-4 relative bg-secondary/30"
+    >
       <div className="container mx-auto max-w-5xl ">
         <SectionTitle text_white="My" text_primary="Skills" />
         {matchTags({
@@ -78,7 +90,10 @@ export const SkillsSection: React.FC = () => {
           Success: (tags) => (
             <TagFilterBar
               tags={tags}
-              onSelectionChange={(tags) => getSkillsByTag(tags)}
+              onSelectionChange={(tags) => {
+                setSelectedTags(tags.map(t => t.label));
+                getSkillsByTag(tags);
+              }}
               onClear={onClear}
             />
           ),
@@ -110,7 +125,10 @@ export const SkillsSection: React.FC = () => {
           Success: (skills) => (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {skills.map((skill, index) => {
-                return <SkillCard key={index} skill={skill} />;
+                const highlight = skill.tags.some(tag =>
+                  selectedTags.includes(tag)
+                );
+                return <SkillCard key={index} skill={skill} highlight={highlight} />;
               })}
             </div>
           ),

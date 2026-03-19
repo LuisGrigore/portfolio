@@ -2,6 +2,7 @@ import { SkillDTO } from "@portfolio/dtos";
 import { connectDB } from "../db.js";
 import { ISkill, Skill } from "../models/skill.model.js";
 import { toSkillDTO } from "../mappers/skill.mapper.js";
+import mongoose from "mongoose";
 
 interface IGetSkillQueryResult {
   _id: string;
@@ -29,6 +30,64 @@ export async function getAllSkills(): Promise<SkillDTO[]> {
     title: skill.title,
     level: skill.level,
     tags: skill.tags.map((t) => t.tag),
+  }));
+}
+
+export async function getSkillsWithTags(tagsArray: string[]) {
+  await connectDB();
+
+  const tagObjectIds = tagsArray
+    .filter((id) => mongoose.Types.ObjectId.isValid(id))
+    .map((id) => new mongoose.Types.ObjectId(id));
+
+  const skills = await Skill.aggregate([
+    {
+      $addFields: {
+        tagsObjIds: {
+          $map: { input: "$tags", as: "t", in: { $toObjectId: "$$t" } },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "skilltags",
+        localField: "tagsObjIds",
+        foreignField: "_id",
+        as: "tags",
+      },
+    },
+    {
+      $addFields: {
+        tags: {
+          $filter: {
+            input: "$tags",
+            as: "tag",
+            cond: { $eq: ["$$tag.isActive", true] },
+          },
+        },
+      },
+    },
+    {
+      $addFields: {
+        matchScore: {
+          $size: {
+            $filter: {
+              input: "$tags",
+              as: "tag",
+              cond: { $in: ["$$tag._id", tagObjectIds] },
+            },
+          },
+        },
+      },
+    },
+    { $sort: { matchScore: -1, createdAt: -1 } },
+  ]);
+
+  return skills.map((skill) => ({
+    id: skill._id.toString(),
+    title: skill.title,
+    level: skill.level,
+    tags: skill.tags.map((t:any) => t.tag),
   }));
 }
 

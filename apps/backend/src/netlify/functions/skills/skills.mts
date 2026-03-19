@@ -1,4 +1,4 @@
-import { createSkill, getAllSkills } from "../../../services/skill.service.js";
+import { createSkill, getAllSkills, getSkillsWithTags } from "../../../services/skill.service.js";
 import { Handler } from "@netlify/functions";
 
 export const handler: Handler = async (event) => {
@@ -14,23 +14,52 @@ export const handler: Handler = async (event) => {
     }
 
     if (event.httpMethod === "GET") {
-      const projects = await getAllSkills();
-      return { statusCode: 200, headers: corsHeaders, body: JSON.stringify(projects) };
+      const encodedTags = event.queryStringParameters?.tags;
+
+      if (encodedTags) {
+        const decoded = decodeURIComponent(encodedTags);
+        const tagsArray = decoded.split(",");
+
+        const skills = await getSkillsWithTags(tagsArray);
+
+        return {
+          statusCode: 200,
+          headers: corsHeaders,
+          body: JSON.stringify(skills),
+        };
+      }
+
+      const skills = await getAllSkills();
+      return {
+        statusCode: 200,
+        headers: corsHeaders,
+        body: JSON.stringify(skills),
+      };
     }
 
     if (event.httpMethod === "POST") {
       const data = JSON.parse(event.body || "{}");
-      const newProject = await createSkill(data);
-      return { statusCode: 201, headers: corsHeaders, body: JSON.stringify(newProject) };
+      const newSkill = await createSkill(data);
+      return {
+        statusCode: 201,
+        headers: corsHeaders,
+        body: JSON.stringify(newSkill),
+      };
     }
 
-    return { statusCode: 405, headers: corsHeaders, body: "Método no permitido" };
+    return {
+      statusCode: 405,
+      headers: corsHeaders,
+      body: "Método no permitido",
+    };
   } catch (error: any) {
-    console.error("❌ Error en getProjects:", error);
+    console.error("❌ Error en getSkills:", error);
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: error.message || "Error interno del servidor" }),
+      body: JSON.stringify({
+        error: error.message || "Error interno del servidor",
+      }),
     };
   }
 };
