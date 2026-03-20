@@ -16,7 +16,7 @@ interface PopupListProps {
 
 export const PopupList: FC<PopupListProps> = ({ popups, closePopup }) => {
   return (
-    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 flex flex-col items-center sm:items-end space-y-3 z-50">
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 flex flex-col items-center sm:items-end space-y-3 z-2200">
       {popups.map((popup) => (
         <div
           key={popup.id}
