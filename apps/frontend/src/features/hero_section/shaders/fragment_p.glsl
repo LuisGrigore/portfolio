@@ -20,18 +20,15 @@ uniform float uGrainIntensity;
 uniform float uGrainSparsity;
 uniform float uGrainSpeed;
 
-// Particle controls
-uniform float uDensity;      // 0.0 - 1.0  →  prueba con 0.4
-uniform float uParticleSize; // tamaño base →  prueba con 0.35
-uniform float uGlowStrength; // intensidad del halo → prueba con 2.5
-uniform float uGridSize;     // celdas en pantalla →  prueba con 40.0
+uniform float uDensity;
+uniform float uParticleSize;
+uniform float uGlowStrength;
+uniform float uGridSize;
 
-// ── Hash ─────────────────────────────────────────────────────────────────────
 vec2 hash2(vec2 p) {
 	return vec2(fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453), fract(sin(dot(p, vec2(269.5, 183.3))) * 43758.5453));
 }
 
-// ── Simplex noise ─────────────────────────────────────────────────────────────
 vec4 permute(vec4 x) {
 	return floor(fract(sin(x) * 43758.5453123) * 289.0);
 }
@@ -98,14 +95,12 @@ vec3 applySaturation(vec3 rgb, float adj) {
 }
 
 void main() {
-    // ── UV con aspect ratio corregido ─────────────────────────────────────────
 	vec2 baseUv = vUv;
 	baseUv -= 0.5;
 	baseUv.x *= uAspect;
 	baseUv += 0.5;
 	baseUv.y -= uYOffset / 80.0;
 
-    // ── Flow field ────────────────────────────────────────────────────────────
 	vec2 ppp = -1.0 + 2.0 * baseUv;
 	ppp += 0.1 * cos(1.5 * uFlowScale * ppp.yx + 1.1 * uTime + vec2(0.1, 1.1));
 	ppp += 0.1 * cos(2.3 * uFlowScale * ppp.yx + 1.3 * uTime + vec2(3.2, 3.4));
@@ -114,10 +109,9 @@ void main() {
 	float r = length(ppp);
 	vec2 flowUv = mix(baseUv, vec2(baseUv.x * (1.0 - uFlowEase) + r * uFlowEase, baseUv.y), uFlowEase);
 
-    // ── Color mixing (igual que antes) ────────────────────────────────────────
 	vec3 color = uColors[0];
 	vec2 noiseCord = flowUv * uPressure;
-	float noiseVal = 0.0; // guardamos el último n para usarlo en el tamaño
+	float noiseVal = 0.0;
 
 	for(int i = 1; i < 4; i++) {
 		float fi = float(i);
@@ -129,16 +123,13 @@ void main() {
 
 		n = clamp(0.0, 0.9 + fi * 0.02, n);
 		color = mix(color, uColors[i], smoothstep(0.0, uBlending, n));
-		noiseVal = n; // el último n nos da la "intensidad" local del gradiente
+		noiseVal = n;
 	}
 
-    // Post-processing del color
 	color -= pow(1.0 - 0.0, 2.0) * uShadows;
 	color = applySaturation(color, 1.0 + uSaturation);
 	color = color * uBrightness;
 
-    // ── Sistema de partículas en grid ─────────────────────────────────────────
-    // UV en espacio de celdas (con aspect ratio para que sean cuadradas)
 	vec2 aspectUv = vUv;
 	aspectUv.x *= uAspect;
 
@@ -146,15 +137,11 @@ void main() {
 	vec2 cellId = floor(gridUv);
 	vec2 cellUv = fract(gridUv);
 
-    // Posición aleatoria de la partícula dentro de su celda
 	vec2 rnd = hash2(cellId);
 
-    // La partícula se mueve con el mismo flow field que el color
-    // Para eso mapeamos la posición de la celda al espacio UV y aplicamos el flow
 	vec2 cellWorldUv = (cellId + rnd) / uGridSize;
 	cellWorldUv.x /= uAspect;
 
-    // Aplicamos el mismo desplazamiento de flow a la posición de la partícula
 	vec2 cellBase = cellWorldUv;
 	cellBase -= 0.5;
 	cellBase.x *= uAspect;
@@ -169,30 +156,17 @@ void main() {
 	float cr = length(cp);
 	vec2 cellFlow = mix(cellBase, vec2(cellBase.x * (1.0 - uFlowEase) + cr * uFlowEase, cellBase.y), uFlowEase);
 
-    // Noise en la posición de la celda para controlar tamaño y densidad
 	float cellNoise = snoise(vec3(cellFlow * uPressure * 0.5, uTime * 0.05));
-	cellNoise = cellNoise * 0.5 + 0.5; // remapear a [0, 1]
+	cellNoise = cellNoise * 0.5 + 0.5;
 
-    // Densidad: descarta partículas donde cellNoise < (1 - uDensity)
-    // Esto hace que las partículas sigan la distribución del gradiente
 	float particleActive = step(1.0 - uDensity, cellNoise);
 
-    // Tamaño variable con el noise local
+
 	float radius = uParticleSize * (0.1 + 1.4 * cellNoise);
 
-    // Distancia desde el centro de la partícula (en espacio de celda)
-    // rnd es la posición de la partícula dentro de la celda
+
 	float dist = length(cellUv - rnd);
 
-    // Core duro de la partícula
-    // float core = 1.0 - smoothstep(0.0, radius, dist);
-
-    // // Halo/glow exponencial alrededor del core
-    // float glow = exp(-dist * uGlowStrength / radius);
-
-    // // Combina core y glow
-    // float particle = core + glow * 0.4;
-    // particle = clamp(particle, 0.0, 1.0);
 	float core = 1.0 - smoothstep(0.0, radius * 0.5, dist);
 	float innerGlow = exp(-dist * uGlowStrength / radius);
 	float outerGlow = exp(-dist * (uGlowStrength * 0.2) / radius);
@@ -200,13 +174,12 @@ void main() {
 	float particle = core + innerGlow * 0.8 + outerGlow * 0.3;
 	particle = clamp(particle, 0.0, 1.0);
 
-// Color más brillante en el núcleo — simula emisión de luz
+
 	color = mix(color * 2.5, color, smoothstep(0.0, radius, dist));
-	color += outerGlow * 0.15 * color; // el halo tinta el fondo cercano
+	color += outerGlow * 0.15 * color;
 
 	particle *= particleActive;
 
-    // ── Grain ─────────────────────────────────────────────────────────────────
 	vec2 nc = gl_FragCoord.xy / uGrainScale;
 	float grain = fbm(vec3(nc, 0.0));
 	grain = grain * 0.5 + 0.5;
@@ -217,6 +190,5 @@ void main() {
 	color += vec3(grain);
 	color = clamp(color, 0.0, 1.0);
 
-    // Fondo negro, partículas con su color del gradiente
 	gl_FragColor = vec4(color * particle, particle);
 }

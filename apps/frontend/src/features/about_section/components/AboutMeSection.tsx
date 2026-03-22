@@ -1,5 +1,5 @@
 import React from "react";
-import { Briefcase, Code, User } from "lucide-react";
+import { Brain, TrendingUp, Users } from "lucide-react";
 import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
 import paragraph from "../content/paragraph.md?raw";
 import { MarkdownRenderer } from "@shared/components/markdown_renderer/MarkdownRenderer";
@@ -51,19 +51,19 @@ const SkillSection: React.FC<SkillSectionProps> = React.memo(({ skill }) => {
 
 const SKILLS: Skill[] = [
   {
-    icon: <Code className="text-primary w-6 h-6" />,
-    name: "Web",
-    description: "Frontend development, frameworks and tooling.",
+    icon: <Brain className="text-primary w-6 h-6" />,
+    name: "Problem Solving",
+    description: "Analytical mindset with experience tackling complex programming and system-level challenges.",
   },
   {
-    icon: <User className="text-primary w-6 h-6" />,
-    name: "UX",
-    description: "Design thinking and user-centered interfaces.",
+    icon: <Users className="text-primary w-6 h-6" />,
+    name: "Teamwork",
+    description: "Used to collaborative environments and peer-reviewed projects, especially at 42 Madrid.",
   },
   {
-    icon: <Briefcase className="text-primary w-6 h-6" />,
-    name: "Business",
-    description: "Product & project experience.",
+    icon: <TrendingUp className="text-primary w-6 h-6" />,
+    name: "Continuous Learning",
+    description: "Motivated to constantly improve, learn new technologies and grow as a developer.",
   },
 ];
 

@@ -27,7 +27,6 @@ void main(){
     vec2 center = vec2(0.5) + offset * 0.3;
 
     float dist = length(fuv - center);
-    // size oscillation
     float radius = uParticleSize * (0.75 + 0.25 * sin(uTime + r * 3.0));
     float alpha = smoothstep(radius, radius - 0.02, dist);
 
@@ -37,7 +36,6 @@ void main(){
     float ci = mod(cell.x + cell.y, 4.0);
     vec3 col = uColors[int(ci)];
 
-    // brightness pulsing
     float brightness = 1.0 + 0.5 * sin(uTime * 1.5 + r * 6.0);
     col *= brightness;
 
