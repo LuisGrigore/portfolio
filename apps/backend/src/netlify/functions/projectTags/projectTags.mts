@@ -15,16 +15,26 @@ export const handler: Handler = async (event) => {
 
     if (event.httpMethod === "GET") {
       const tags = await getAllProjectTags();
-      return { statusCode: 200, headers: corsHeaders, body: JSON.stringify(tags) };
+      return {
+        statusCode: 200,
+        headers: corsHeaders,
+        body: JSON.stringify(tags),
+      };
     }
 
-    return { statusCode: 405, headers: corsHeaders, body: "Método no permitido" };
+    return {
+      statusCode: 405,
+      headers: corsHeaders,
+      body: "Method not allowed.",
+    };
   } catch (error: any) {
-    console.error("❌ Error en getProjectTags:", error);
+    console.error("Error while retreaving project tags.", error);
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: error.message || "Error interno del servidor" }),
+      body: JSON.stringify({
+        error: error.message || "Internal server error.",
+      }),
     };
   }
 };

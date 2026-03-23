@@ -1,4 +1,8 @@
-import { createSkill, getAllSkills, getSkillsWithTags } from "../../../services/skill.service.js";
+import {
+//   createSkill,
+  getAllSkills,
+  getSkillsWithTags,
+} from "../../../services/skill.service.js";
 import { Handler } from "@netlify/functions";
 
 export const handler: Handler = async (event) => {
@@ -37,28 +41,28 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    if (event.httpMethod === "POST") {
-      const data = JSON.parse(event.body || "{}");
-      const newSkill = await createSkill(data);
-      return {
-        statusCode: 201,
-        headers: corsHeaders,
-        body: JSON.stringify(newSkill),
-      };
-    }
+    // if (event.httpMethod === "POST") {
+    //   const data = JSON.parse(event.body || "{}");
+    //   const newSkill = await createSkill(data);
+    //   return {
+    //     statusCode: 201,
+    //     headers: corsHeaders,
+    //     body: JSON.stringify(newSkill),
+    //   };
+    // }
 
     return {
       statusCode: 405,
       headers: corsHeaders,
-      body: "Método no permitido",
+      body: "Method not allowed.",
     };
   } catch (error: any) {
-    console.error("❌ Error en getSkills:", error);
+    console.error("Error while retreaving skills.", error);
     return {
       statusCode: 500,
       headers: corsHeaders,
       body: JSON.stringify({
-        error: error.message || "Error interno del servidor",
+        error: error.message || "Internal server error.",
       }),
     };
   }

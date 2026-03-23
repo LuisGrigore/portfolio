@@ -31,15 +31,15 @@ export const handler: Handler = async (event) => {
     return {
       statusCode: 405,
       headers: corsHeaders,
-      body: "Método no permitido",
+      body: "Method not allowed.",
     };
   } catch (error: any) {
-    console.error("❌ Error en feedback:", error);
+    console.error("Error while processing feedback", error);
     return {
       statusCode: 500,
       headers: corsHeaders,
       body: JSON.stringify({
-        error: error.message || "Error interno del servidor",
+        error: error.message || "Internal server error.",
       }),
     };
   }
