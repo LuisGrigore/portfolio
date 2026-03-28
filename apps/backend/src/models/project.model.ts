@@ -8,6 +8,7 @@ export interface IProject extends Document {
   github_url?: string;
   readme_url?: string;
   demo_url?: string;
+  priority: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +22,7 @@ const projectSchema = new Schema<IProject>(
     github_url: { type: String, required: false },
 	readme_url: {type: String, required: false},
     demo_url: { type: String, required: false },
+	priority: { type: Number, required: true },
   },
   { timestamps: true }
 );

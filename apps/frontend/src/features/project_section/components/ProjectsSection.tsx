@@ -16,12 +16,13 @@ import { loadingDisplay } from "@shared/components/loading_display/LoadingDispla
 import { errorDisplay } from "@shared/components/error_display/ErrorDisplay";
 
 export const ProjectsSection: React.FC = () => {
-  const { matchProjects, getAllProjects, getProjectsByTag } = useProjects();
+  const { matchProjects, /*getAllProjects,*/ getProjectsByTag } = useProjects();
   const { matchTags } = useProjectTags();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const onClear = () => getAllProjects();
+//   const onClear = () => getAllProjects();
+  const onClear = () => getProjectsByTag([],1);
 
   return (
     <section
@@ -69,7 +70,7 @@ export const ProjectsSection: React.FC = () => {
                 tags={tags}
                 onSelectionChange={(tags) => {
                   setSelectedTags(tags.map((t) => t.label));
-                  getProjectsByTag(tags);
+                  getProjectsByTag(tags,1);
                 }}
                 onClear={onClear}
               />

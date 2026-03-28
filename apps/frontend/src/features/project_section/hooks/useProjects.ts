@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import {
-  getAllProjects,
+//   getAllProjects,
   getProjectsByTags,
 } from "../services/project.service";
 import { useAsync, type AsyncMatch, type GetResourceError } from "@shared/fp_react";
@@ -12,23 +12,24 @@ interface UseProyects {
   matchProjects: <R>(
 	  matcher: AsyncMatch<GetResourceError, readonly Project[], R>
 	) => R;
-  getAllProjects: () => void;
-  getProjectsByTag: (tags: TagFilter[]) => void;
+  //getAllProjects: () => void;
+  getProjectsByTag: (tags: TagFilter[], page:number) => void;
 }
 
 export const useProjects = (): UseProyects => {
   const [matchProjects, runProjectsTask] = useAsync<GetResourceError, readonly Project[]>();
 
-  const getAllProjectsCallback = useCallback(getAllProjects, []);
+
+  //const getAllProjectsCallback = useCallback(getAllProjects, []);
   const getProjectsByTagCallback = useCallback(getProjectsByTags, []);
 
   useEffect(() => {
-	runProjectsTask(getAllProjectsCallback());
-  }, [getAllProjectsCallback]);
+	runProjectsTask(getProjectsByTagCallback([],1)/*getAllProjectsCallback()*/);
+  }, [getProjectsByTagCallback/*getAllProjectsCallback*/]);
   return {
 	matchProjects: matchProjects,
-	getAllProjects: () => pipe(getAllProjectsCallback(), runProjectsTask),
-	getProjectsByTag: (tags: TagFilter[]) =>
-	  pipe(getProjectsByTagCallback(tags), runProjectsTask),
+	//getAllProjects: () => pipe(getAllProjectsCallback(), runProjectsTask),
+	getProjectsByTag: (tags: TagFilter[], page:number) =>
+	  pipe(getProjectsByTagCallback(tags, page), runProjectsTask),
   };
 };

@@ -22,19 +22,19 @@ const defaultBackoffConfig: BackoffConfig = {
   factor: 2,
 };
 
-export const getAllProjects = () =>
-  getResourceFromEndpoint(
-    `${apiUrl}/projects`,
-    ProjectDTOsValidationSchema,
-    (projectDtos) => projectDtos.map(ProjectFactory.fromProjectDTO),
-    defaultBackoffConfig,
-  );
+// export const getAllProjects = () =>
+//   getResourceFromEndpoint(
+//     `${apiUrl}/projects`,
+//     ProjectDTOsValidationSchema,
+//     (projectDtos) => projectDtos.map(ProjectFactory.fromProjectDTO),
+//     defaultBackoffConfig,
+//   );
 
-export const getProjectsByTags = (tags: TagFilter[]) =>
+export const getProjectsByTags = (tags: TagFilter[], page: number) =>
   getResourceFromEndpoint(
     `${apiUrl}/projects?tags=${encodeURIComponent(
       tags.map((tag) => tag.id).join(","),
-    )}`,
+    )}&page=${page}`,
     ProjectDTOsValidationSchema,
     (projectDtos) => projectDtos.map(ProjectFactory.fromProjectDTO),
     defaultBackoffConfig,
@@ -56,7 +56,7 @@ export const getProjectDetails = (project: Project) =>
         fpFetchJson<{ content: string }>(project.readmeUrl),
         TE.map((data) =>
           new TextDecoder().decode(
-                Uint8Array.from(atob(data.content), (c) => c.charCodeAt(0)),
-              ),
-        ), //atob(data.content))
+            Uint8Array.from(atob(data.content), (c) => c.charCodeAt(0)),
+          ),
+        ),
       );

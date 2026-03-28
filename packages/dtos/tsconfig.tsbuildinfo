@@ -1,1 +1,1 @@
-{"root":["./src/feedback.dto.ts","./src/index.ts","./src/message.dto.ts","./src/project.dto.ts","./src/tag.dto.ts"],"version":"5.9.3"}
+{"root":["./src/feedback.dto.ts","./src/index.ts","./src/message.dto.ts","./src/project.dto.ts","./src/skill.dto.ts","./src/tag.dto.ts"],"version":"5.9.3"}

@@ -36,33 +36,83 @@ export async function getAllProjects(): Promise<ProjectDTO[]> {
     image_url: project.image_url,
     tags: project.tags.map((t) => t.tag),
     github_url: project.github_url,
-	readme_url: project.readme_url,
+    readme_url: project.readme_url,
     demo_url: project.demo_url,
   }));
 }
 
-
 import mongoose from "mongoose";
 
-export async function getProjectsWithTags(tagsArray: string[]): Promise<ProjectDTO[]> {
+export async function getProjectsWithTags(
+  tagsArray: string[],
+  page: number
+): Promise<ProjectDTO[]> {
   await connectDB();
 
   const tagObjectIds = tagsArray
     .filter((id) => mongoose.Types.ObjectId.isValid(id))
     .map((id) => new mongoose.Types.ObjectId(id));
 
+  //   const projects = await Project.aggregate([
+  //     {
+  //       $lookup: {
+  //         from: "projecttags",
+  //         localField: "tags",
+  //         foreignField: "_id",
+  //         as: "tags",
+  //       },
+  //     },
+
+  //     {
+  //       $addFields: {
+  //         tags: {
+  //           $filter: {
+  //             input: "$tags",
+  //             as: "tag",
+  //             cond: { $eq: ["$$tag.isActive", true] },
+  //           },
+  //         },
+  //       },
+  //     },
+
+  //     {
+  //       $addFields: {
+  //         matchScore: {
+  //           $size: {
+  //             $filter: {
+  //               input: "$tags",
+  //               as: "tag",
+  //               cond: {
+  //                 $in: ["$$tag._id", tagObjectIds],
+  //               },
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+
+  //     {
+  //       $sort: {
+  //         matchScore: -1,
+  //         createdAt: -1,
+  // 		priority: 1,
+  //       },
+  //     },
+  //   ]);
+
+  //const page = 1;
+  const limit = 6;
+
   const projects = await Project.aggregate([
-    // ✅ lookup correcto
     {
       $lookup: {
-        from: "projecttags", // 👈 AQUÍ estaba el fallo
+        from: "projecttags",
         localField: "tags",
         foreignField: "_id",
         as: "tags",
       },
     },
 
-    // ✅ filtrar solo activas
     {
       $addFields: {
         tags: {
@@ -75,7 +125,6 @@ export async function getProjectsWithTags(tagsArray: string[]): Promise<ProjectD
       },
     },
 
-    // ✅ calcular matchScore correctamente
     {
       $addFields: {
         matchScore: {
@@ -91,27 +140,33 @@ export async function getProjectsWithTags(tagsArray: string[]): Promise<ProjectD
         },
       },
     },
-
-    // ✅ orden correcto (clave para paginación futura)
     {
       $sort: {
-        matchScore: -1,
-        createdAt: -1,
+        matchScore: -1, // 🔥 MÁS coincidencias primero
+        priority: -1, // luego prioridad
+        createdAt: -1, // luego fecha
       },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: limit,
     },
   ]);
 
-  // ✅ map final igual que antes
-  return projects.map((project: any) => ({
+  const a = projects.map((project: any) => ({
     id: project._id.toString(),
     title: project.title,
     description: project.description,
     image_url: project.image_url,
-    tags: project.tags.map((t: any) => t.tag), // 👈 ahora sí funciona
+    tags: project.tags.map((t: any) => t.tag),
     github_url: project.github_url,
     readme_url: project.readme_url,
     demo_url: project.demo_url,
   }));
+  console.log(a);
+  return a;
 }
 
 export async function createProject(
