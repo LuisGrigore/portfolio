@@ -9,10 +9,11 @@ import {
   TagFilterFactory,
   type TagFilter,
 } from "@shared/models/TagFilter.model";
-import { ProjectPageFactory, type Project } from "../models/Project.model";
+import {  type Project } from "../models/Project.model";
 
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/function";
+import { toProjectsPage } from "../mappers/project.mapper";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -28,7 +29,7 @@ export const getProjectsByTags = (tags: TagFilter[], page: number) =>
       tags.map((tag) => tag.id).join(","),
     )}&page=${page}`,
     ProjectsPageDTOValidationSchema,
-    ProjectPageFactory.fromProjectPageDTO,
+    toProjectsPage,
     defaultBackoffConfig,
   );
 

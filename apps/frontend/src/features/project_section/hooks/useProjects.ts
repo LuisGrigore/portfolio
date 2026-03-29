@@ -5,13 +5,13 @@ import {
   type AsyncMatch,
   type GetResourceError,
 } from "@shared/fp_react";
-import type { ProjectPage } from "../models/Project.model";
+import type { ProjectsPage } from "../models/Project.model";
 import { pipe } from "fp-ts/lib/function";
 import type { TagFilter } from "../../../shared/models/TagFilter.model";
 
 interface UseProyects {
   matchProjects: <R>(
-    matcher: AsyncMatch<GetResourceError, ProjectPage, R>,
+    matcher: AsyncMatch<GetResourceError, ProjectsPage, R>,
   ) => R;
   getProjectsByTag: (tags: TagFilter[], page: number) => void;
 }
@@ -19,7 +19,7 @@ interface UseProyects {
 export const useProjects = (): UseProyects => {
   const [matchProjects, runProjectsTask] = useAsync<
     GetResourceError,
-    ProjectPage
+    ProjectsPage
   >();
 
   const getProjectsByTagCallback = useCallback(getProjectsByTags, []);
