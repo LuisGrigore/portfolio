@@ -18,3 +18,13 @@ export const ProjectDTOValidationSchema = t.intersection([
 export const ProjectDTOsValidationSchema = t.array(ProjectDTOValidationSchema); 
 
 export type ProjectDTO = t.TypeOf<typeof ProjectDTOValidationSchema>;
+
+export const ProjectsPageDTOValidationSchema = t.type({
+  projects: ProjectDTOsValidationSchema,
+  total_pages: t.number,
+  current_page: t.number,
+  total_items: t.number,
+  items_per_page: t.number,
+});
+
+export type ProjectsPageDTO = t.TypeOf<typeof ProjectsPageDTOValidationSchema>;

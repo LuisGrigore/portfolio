@@ -1,8 +1,12 @@
 import { connectDB } from "../db.js";
 import { IProject, Project } from "../models/project.model.js";
 import { toProjectDTO } from "../mappers/project.mapper.js";
-import { ProjectDTO } from "@portfolio/dtos/src/project.dto.js";
+import {
+  ProjectDTO,
+  ProjectsPageDTO,
+} from "@portfolio/dtos/src/project.dto.js";
 import "../models/projectTag.model.js";
+import mongoose from "mongoose";
 
 interface IGetProyectQueryResult {
   _id: string;
@@ -41,69 +45,19 @@ export async function getAllProjects(): Promise<ProjectDTO[]> {
   }));
 }
 
-import mongoose from "mongoose";
-
 export async function getProjectsWithTags(
   tagsArray: string[],
-  page: number
-): Promise<ProjectDTO[]> {
+  page: number,
+): Promise<ProjectsPageDTO> {
   await connectDB();
 
   const tagObjectIds = tagsArray
     .filter((id) => mongoose.Types.ObjectId.isValid(id))
     .map((id) => new mongoose.Types.ObjectId(id));
 
-  //   const projects = await Project.aggregate([
-  //     {
-  //       $lookup: {
-  //         from: "projecttags",
-  //         localField: "tags",
-  //         foreignField: "_id",
-  //         as: "tags",
-  //       },
-  //     },
-
-  //     {
-  //       $addFields: {
-  //         tags: {
-  //           $filter: {
-  //             input: "$tags",
-  //             as: "tag",
-  //             cond: { $eq: ["$$tag.isActive", true] },
-  //           },
-  //         },
-  //       },
-  //     },
-
-  //     {
-  //       $addFields: {
-  //         matchScore: {
-  //           $size: {
-  //             $filter: {
-  //               input: "$tags",
-  //               as: "tag",
-  //               cond: {
-  //                 $in: ["$$tag._id", tagObjectIds],
-  //               },
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-
-  //     {
-  //       $sort: {
-  //         matchScore: -1,
-  //         createdAt: -1,
-  // 		priority: 1,
-  //       },
-  //     },
-  //   ]);
-
-  //const page = 1;
   const limit = 6;
 
-  const projects = await Project.aggregate([
+  const result = await Project.aggregate([
     {
       $lookup: {
         from: "projecttags",
@@ -112,7 +66,6 @@ export async function getProjectsWithTags(
         as: "tags",
       },
     },
-
     {
       $addFields: {
         tags: {
@@ -124,7 +77,6 @@ export async function getProjectsWithTags(
         },
       },
     },
-
     {
       $addFields: {
         matchScore: {
@@ -142,20 +94,24 @@ export async function getProjectsWithTags(
     },
     {
       $sort: {
-        matchScore: -1, // 🔥 MÁS coincidencias primero
-        priority: -1, // luego prioridad
-        createdAt: -1, // luego fecha
+        matchScore: -1,
+        priority: -1,
+        createdAt: -1,
       },
     },
+
     {
-      $skip: (page - 1) * limit,
-    },
-    {
-      $limit: limit,
+      $facet: {
+        data: [{ $skip: (page - 1) * limit }, { $limit: limit }],
+        totalCount: [{ $count: "count" }],
+      },
     },
   ]);
 
-  const a = projects.map((project: any) => ({
+  const data = result[0].data;
+  const totalItems = result[0].totalCount[0]?.count ?? 0;
+
+  const projects = data.map((project: any) => ({
     id: project._id.toString(),
     title: project.title,
     description: project.description,
@@ -165,8 +121,16 @@ export async function getProjectsWithTags(
     readme_url: project.readme_url,
     demo_url: project.demo_url,
   }));
-  console.log(a);
-  return a;
+
+  const totalPages = Math.ceil(totalItems / limit);
+
+  return {
+    projects,
+    total_pages: totalPages,
+    current_page: page,
+    total_items: totalItems,
+    items_per_page: limit,
+  };
 }
 
 export async function createProject(

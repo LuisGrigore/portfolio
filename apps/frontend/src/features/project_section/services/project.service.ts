@@ -1,5 +1,5 @@
 import {
-  ProjectDTOsValidationSchema,
+  ProjectsPageDTOValidationSchema,
   TagDTOsValidationSchema,
   type TagDTO,
 } from "@portfolio/dtos";
@@ -9,7 +9,7 @@ import {
   TagFilterFactory,
   type TagFilter,
 } from "@shared/models/TagFilter.model";
-import { ProjectFactory, type Project } from "../models/Project.model";
+import { ProjectPageFactory, type Project } from "../models/Project.model";
 
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -22,21 +22,13 @@ const defaultBackoffConfig: BackoffConfig = {
   factor: 2,
 };
 
-// export const getAllProjects = () =>
-//   getResourceFromEndpoint(
-//     `${apiUrl}/projects`,
-//     ProjectDTOsValidationSchema,
-//     (projectDtos) => projectDtos.map(ProjectFactory.fromProjectDTO),
-//     defaultBackoffConfig,
-//   );
-
 export const getProjectsByTags = (tags: TagFilter[], page: number) =>
   getResourceFromEndpoint(
     `${apiUrl}/projects?tags=${encodeURIComponent(
       tags.map((tag) => tag.id).join(","),
     )}&page=${page}`,
-    ProjectDTOsValidationSchema,
-    (projectDtos) => projectDtos.map(ProjectFactory.fromProjectDTO),
+    ProjectsPageDTOValidationSchema,
+    ProjectPageFactory.fromProjectPageDTO,
     defaultBackoffConfig,
   );
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { Pagination } from "./Pagination";
 import { SectionTitle } from "@shared/components/section_titile/SectionTitle";
 import TagFilterBar from "@shared/components/tag_filter_bar/TagFilterBar";
 import ProjectsGrid from "./ProjectsGrid";
@@ -16,13 +17,22 @@ import { loadingDisplay } from "@shared/components/loading_display/LoadingDispla
 import { errorDisplay } from "@shared/components/error_display/ErrorDisplay";
 
 export const ProjectsSection: React.FC = () => {
-  const { matchProjects, /*getAllProjects,*/ getProjectsByTag } = useProjects();
+  const { matchProjects, getProjectsByTag } = useProjects();
   const { matchTags } = useProjectTags();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [currentTagFilters, setCurrentTagFilters] = useState<
+    import("@shared/models/TagFilter.model").TagFilter[]
+  >([]);
 
-//   const onClear = () => getAllProjects();
-  const onClear = () => getProjectsByTag([],1);
+  const onClear = () => {
+    setCurrentTagFilters([]);
+    getProjectsByTag([], 1);
+  };
+
+  const goToPage = (page: number) => {
+    getProjectsByTag(currentTagFilters, page);
+  };
 
   return (
     <section
@@ -70,7 +80,8 @@ export const ProjectsSection: React.FC = () => {
                 tags={tags}
                 onSelectionChange={(tags) => {
                   setSelectedTags(tags.map((t) => t.label));
-                  getProjectsByTag(tags,1);
+                  setCurrentTagFilters(tags);
+                  getProjectsByTag(tags, 1);
                 }}
                 onClear={onClear}
               />
@@ -104,12 +115,20 @@ export const ProjectsSection: React.FC = () => {
                   error.cause?.toString() || "",
                 ),
             }),
-          Success: (projects) => (
-            <ProjectsGrid
-              projects={projects}
-              onProjectClick={setSelectedProject}
-              selectedTags={selectedTags}
-            />
+          Success: (projectPage) => (
+            <>
+              <ProjectsGrid
+                projects={projectPage.projects}
+                onProjectClick={setSelectedProject}
+                selectedTags={selectedTags}
+              />
+              <Pagination
+                currentPage={projectPage.currentPage}
+                totalPages={projectPage.totalPages}
+                onPrev={() => goToPage(projectPage.currentPage - 1)}
+                onNext={() => goToPage(projectPage.currentPage + 1)}
+              />
+            </>
           ),
         })}
 

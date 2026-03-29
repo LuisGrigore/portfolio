@@ -1,4 +1,4 @@
-import type { ProjectDTO } from "@portfolio/dtos";
+import type { ProjectDTO, ProjectsPageDTO } from "@portfolio/dtos";
 
 export type Project = {
   id: string;
@@ -10,6 +10,19 @@ export type Project = {
   readmeUrl?: string;
   demoUrl?: string;
 };
+
+export type ProjectPage = {
+	projects: Project[];
+	totalPages: number;
+	currentPage: number;
+}
+
+export const ProjectPageFactory = {
+    fromProjectPageDTO: (projectPageDTO: ProjectsPageDTO):ProjectPage => ({
+    projects: projectPageDTO.projects.map((projectDTO) => ProjectFactory.fromProjectDTO(projectDTO)),
+	totalPages: projectPageDTO.total_pages,
+	currentPage: projectPageDTO.current_page
+  }),}
 
 export const ProjectFactory = {
   create: (

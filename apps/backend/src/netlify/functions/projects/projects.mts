@@ -1,7 +1,5 @@
 import type { Handler } from "@netlify/functions";
 import {
-//  getAllProjects,
-//   createProject,
   getProjectsWithTags,
 } from "../../../services/project.service.js";
 
@@ -23,10 +21,6 @@ export const handler: Handler = async (event) => {
 
 	  const tagsArray = encodedTags ? decodeURIComponent(encodedTags).split(",") : [];
 
-    //   if (encodedTags) {
-    //     const decoded = decodeURIComponent(encodedTags);
-    //     const tagsArray = decoded.split(",");
-
         const projects = await getProjectsWithTags(tagsArray, page);
 
         return {
@@ -34,14 +28,6 @@ export const handler: Handler = async (event) => {
           headers: corsHeaders,
           body: JSON.stringify(projects),
         };
-    //   }
-
-    //   const projects = await getAllProjects();
-    //   return {
-    //     statusCode: 200,
-    //     headers: corsHeaders,
-    //     body: JSON.stringify(projects),
-    //   };
     }
 
     // if (event.httpMethod === "POST") {
