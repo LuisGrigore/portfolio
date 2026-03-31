@@ -17,9 +17,6 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
         {text_white} <span className="text-primary">{text_primary}</span>
       </h2>
 	  {introduction && (
-	//   <p className="text-center text-muted-foreground mb-6 sm:mb-8 md:mb-12 max-w-2xl mx-auto text-sm sm:text-base">
-	// 	{introduction}
-	//   </p>
 		<MarkdownRenderer>{introduction}</MarkdownRenderer>
 	  )}
     </>
