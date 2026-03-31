@@ -6,7 +6,8 @@ import {
 import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
 import type { ValidationError } from "@shared/errors/validationErrors";
-import { FeedbackFactory, type Feedback } from "../models/Feedback.model";
+import {  type Feedback } from "../models/Feedback.model";
+import {  toFeedbackDTO } from "../mappers/feedback.mapper";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -16,7 +17,7 @@ export const sendFeedback = (
   feedback: Feedback
 ): TE.TaskEither<SendFeedbackError, void> =>
   taskEitherWithBackoff(
-	pipe(feedback, FeedbackFactory.toDTO, (feedbackDto) =>
+	pipe(feedback, toFeedbackDTO, (feedbackDto) =>
 	  pipe(
 		fpFetchJson<unknown[]>(`${apiUrl}/feedback`, {
 		  method: "POST",

@@ -1,7 +1,7 @@
 import { useAsync } from "@shared/fp_react";
 import { useForm } from "@shared/hooks/useForm";
 import { useEffect, useState } from "react";
-import { FeedbackFactory, type Feedback } from "../models/Feedback.model";
+import { type Feedback } from "../models/Feedback.model";
 import { sendFeedback } from "../services/feedback.service";
 import { pipe } from "fp-ts/lib/function";
 import { usePopup } from "@shared/components/popup/PopupProvider";
@@ -40,7 +40,7 @@ export const useFeedback = (
             message: "Your message was sent successfully 🚀.",
           });
           formRef.current?.reset();
-		  resetFeedback();
+          resetFeedback();
           setSendButtonState("Idle");
         },
         Error: () => {
@@ -58,11 +58,11 @@ export const useFeedback = (
     pipe(
       contactFormData,
       (contactFormData: FeedbackFormData) => {
-        return FeedbackFactory.create(
-          rating,
-          contactFormData.content,
-          new Date(),
-        );
+        return {
+          rating: rating,
+          content: contactFormData.content,
+          createdAt: new Date(),
+        };
       },
       (feedback: Feedback) => pipe(feedback, sendFeedback, runFeedbackTask),
     ),

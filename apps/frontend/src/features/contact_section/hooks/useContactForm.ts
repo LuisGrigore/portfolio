@@ -1,4 +1,3 @@
-import { MessageFactory } from "../models/Message.model";
 import { pipe } from "fp-ts/lib/function";
 import { useSendMessage } from "./useSendMessage";
 import { useForm } from "../../../shared/hooks/useForm";
@@ -12,49 +11,52 @@ type ContactFormData = {
 };
 
 export const useContactForm = (
-  formRef: React.RefObject<HTMLFormElement | null>
+  formRef: React.RefObject<HTMLFormElement | null>,
 ) => {
   const { matchMessage, sendMessage } = useSendMessage();
   const { showPopup } = usePopup();
   const [sendButtonState, setSendButtonState] = useState<"Idle" | "Sending">(
-    "Idle"
+    "Idle",
   );
 
-  useEffect(() => matchMessage({
-    Idle: () => setSendButtonState("Idle"),
-    Loading: () => setSendButtonState("Sending"),
-    Success: () => {
-      showPopup({
-        type: "Success",
-        message: "Your message was sent successfully 🚀.",
-      });
-      formRef.current?.reset();
-      setSendButtonState("Idle");
-    },
-    Error: () => {
-      showPopup({
-        type: "Error",
-        message: "Something went wrong while sending the message.",
-      });
-      setSendButtonState("Idle");
-    },
-  }), [matchMessage]);
-  
+  useEffect(
+    () =>
+      matchMessage({
+        Idle: () => setSendButtonState("Idle"),
+        Loading: () => setSendButtonState("Sending"),
+        Success: () => {
+          showPopup({
+            type: "Success",
+            message: "Your message was sent successfully 🚀.",
+          });
+          formRef.current?.reset();
+          setSendButtonState("Idle");
+        },
+        Error: () => {
+          showPopup({
+            type: "Error",
+            message: "Something went wrong while sending the message.",
+          });
+          setSendButtonState("Idle");
+        },
+      }),
+    [matchMessage],
+  );
 
   const { handleSubmit } = useForm((contactFormData: ContactFormData) =>
     pipe(
       contactFormData,
-      (contactFormData:ContactFormData) => {
-        return MessageFactory.create(
-          contactFormData.name,
-          contactFormData.email,
-          contactFormData.content,
-          new Date()
-        )},
-      sendMessage
-    )
+      (contactFormData: ContactFormData) => {
+        return {
+          name: contactFormData.name,
+          email: contactFormData.email,
+          content: contactFormData.content,
+          createdAt: new Date(),
+        };
+      },
+      sendMessage,
+    ),
   );
 
   return { sendButtonState: sendButtonState, handleSubmit: handleSubmit };
 };
-
