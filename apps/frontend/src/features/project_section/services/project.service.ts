@@ -5,15 +5,13 @@ import {
 } from "@portfolio/dtos";
 import { fpFetchJson, getResourceFromEndpoint } from "@shared/fp_react";
 import type { BackoffConfig } from "@shared/fp_react";
-import {
-  TagFilterFactory,
-  type TagFilter,
-} from "@shared/models/TagFilter.model";
-import {  type Project } from "../models/Project.model";
+import { type TagFilter } from "@shared/models/TagFilter.model";
+import { type Project } from "../models/Project.model";
 
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toProjectsPage } from "../mappers/project.mapper";
+import { toTagFilter } from "@shared/mappers/tag_filter.mapper";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -37,8 +35,7 @@ export const getAllProjectTags = () =>
   getResourceFromEndpoint(
     `${apiUrl}/projectTags`,
     TagDTOsValidationSchema,
-    (projectTagDtos: TagDTO[]): TagFilter[] =>
-      projectTagDtos.map(TagFilterFactory.fromTagDTO),
+    (projectTagDtos: TagDTO[]): TagFilter[] => projectTagDtos.map(toTagFilter),
     defaultBackoffConfig,
   );
 
