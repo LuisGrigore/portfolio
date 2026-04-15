@@ -41,6 +41,20 @@ const ViewWorkButton: React.FC = memo(() => {
   );
 });
 
+const ContactButton: React.FC = memo(() => {
+  return (
+    <div className="opacity-0 animate-fade-in-delay-4 pt-4">
+      <a
+        href="#contact"
+        className="cosmic-button text-center "
+        aria-label="Go to contact section"
+      >
+        Get In Touch
+      </a>
+    </div>
+  );
+});
+
 const ScrollHint: React.FC = () => {
   return (
     <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
@@ -143,7 +157,11 @@ export const HeroSection: React.FC = () => {
           <div className="h-6 sm:h-8 md:h-10" />
           <Paragraph />
           <div className="h-6 sm:h-8 md:h-10" />
-          <ViewWorkButton />
+          <div className="flex flex-row items-center w-full justify-center">
+            <ViewWorkButton />
+			<div className="w-6 sm:h-8 md:h-10" />
+            <ContactButton />
+          </div>
         </div>
       </div>
 

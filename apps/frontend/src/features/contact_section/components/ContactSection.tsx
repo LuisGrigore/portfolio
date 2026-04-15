@@ -172,13 +172,24 @@ export const ContactSection: React.FC = () => {
                 </button>
               </div>
             </form> */}
-            <a
-              href="mailto:luiscristiangrigore@proton.me?subject=Contact%20from%20Portfolio"
-              className="cosmic-button w-full flex items-center justify-center gap-2"
-            >
-              Send Email
-              <Send size={16} />
-            </a>
+            <div className="flex flex-col justify-evenly items-center h-full">
+              <a
+                href="mailto:luiscristiangrigore@proton.me?subject=Contact%20from%20Portfolio"
+                className="cosmic-button flex w-1/2 items-center justify-center gap-2"
+              >
+                Send Email
+                <Send size={16} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/luis-grigore-913b3838b"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cosmic-button w-1/2 flex items-center justify-center gap-2"
+              >
+                LinkedIn Page
+                <Send size={16} />
+              </a>
+            </div>
           </div>
         </div>
       </div>
