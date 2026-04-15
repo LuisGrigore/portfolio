@@ -135,56 +135,25 @@ export const ContactSection: React.FC = () => {
               />
             </div>
           </div>
-          <div className="bg-card/50 p-5 sm:p-6 md:p-8 rounded-lg backdrop-blur-sm relative">
+          <div className="bg-card/50 p-5 sm:p-6 md:p-8 rounded-lg backdrop-blur-sm relative overflow-hidden">
             <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
               Send a Message
             </h3>
-            {/* <form ref={formRef} className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
-              <div className="flex flex-col items-center justify-center gap-4 sm:gap-6">
-                <FormField
-                  label="Name"
-                  name="name"
-                  type="text"
-                  required
-                  placeholder="Enter your full name"
-                />
-                <FormField
-                  label="Email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Enter your professional email"
-                />
-                <FormField
-                  label="Content"
-                  name="content"
-                  type="textarea"
-                  required
-                  placeholder="Share the details of your project, questions, or just say hello!"
-                />
-                <button
-                  type="submit"
-                  disabled={sendButtonState === "Sending"}
-                  className="cosmic-button mt-4 sm:mt-6 w-full flex items-center justify-center gap-2"
-                >
-                  {sendButtonState === "Sending" ? "Sending..." : "Send Message"}
-                  <Send size={16} />
-                </button>
-              </div>
-            </form> */}
-            <div className="flex flex-col justify-evenly items-center h-full">
+
+            <div className="flex flex-col items-center justify-center gap-4 w-full">
               <a
                 href="mailto:luiscristiangrigore@proton.me?subject=Contact%20from%20Portfolio"
-                className="cosmic-button flex w-1/2 items-center justify-center gap-2"
+                className="cosmic-button flex w-full md:w-1/2 items-center justify-center gap-2"
               >
                 Send Email
                 <Send size={16} />
               </a>
+
               <a
                 href="https://www.linkedin.com/in/luis-grigore-913b3838b"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="cosmic-button w-1/2 flex items-center justify-center gap-2"
+                className="cosmic-button flex w-full md:w-1/2 items-center justify-center gap-2"
               >
                 LinkedIn Page
                 <Send size={16} />

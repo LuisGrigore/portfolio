@@ -153,14 +153,17 @@ export const HeroSection: React.FC = () => {
 
       <div className="container max-w-4xl mx-auto text-center z-10">
         <div className="bg-background/30 backdrop-blur-[2px] py-6 px-4 sm:py-8 sm:px-8 md:py-10 md:px-12 rounded-[30px] sm:rounded-[40px] md:rounded-[50px]">
-          <Title />
-          <div className="h-6 sm:h-8 md:h-10" />
-          <Paragraph />
-          <div className="h-6 sm:h-8 md:h-10" />
-          <div className="flex flex-row items-center w-full justify-center">
-            <ViewWorkButton />
-			<div className="w-6 sm:h-8 md:h-10" />
-            <ContactButton />
+          <div className="container max-w-4xl mx-auto text-center z-10 px-4">
+            <div className="bg-background/30 backdrop-blur-[2px] py-6 px-4 sm:py-8 sm:px-8 md:py-10 md:px-12 rounded-[24px] sm:rounded-[32px] md:rounded-[50px]">
+              <Title />
+              <div className="h-4 sm:h-6 md:h-8" />
+              <Paragraph />
+              <div className="h-6 sm:h-8 md:h-10" />
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full">
+                <ViewWorkButton />
+                <ContactButton />
+              </div>
+            </div>
           </div>
         </div>
       </div>
