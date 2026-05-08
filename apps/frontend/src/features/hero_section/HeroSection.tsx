@@ -152,9 +152,8 @@ export const HeroSection: React.FC = () => {
       <HeroBackground />
 
       <div className="container max-w-4xl mx-auto text-center z-10">
-        <div className="bg-background/30 backdrop-blur-[2px] py-6 px-4 sm:py-8 sm:px-8 md:py-10 md:px-12 rounded-[30px] sm:rounded-[40px] md:rounded-[50px]">
           <div className="container max-w-4xl mx-auto text-center z-10 px-4">
-            <div className="bg-background/30 backdrop-blur-[2px] py-6 px-4 sm:py-8 sm:px-8 md:py-10 md:px-12 rounded-[24px] sm:rounded-[32px] md:rounded-[50px]">
+            <div className="bg-background/30 backdrop-blur-[2px] py-6 px-4 sm:py-8 sm:px-8 md:py-10 md:px-12 rounded-3xl sm:rounded-4xl md:rounded-[50px]">
               <Title />
               <div className="h-4 sm:h-6 md:h-8" />
               <Paragraph />
@@ -163,7 +162,6 @@ export const HeroSection: React.FC = () => {
                 <ViewWorkButton />
                 <ContactButton />
               </div>
-            </div>
           </div>
         </div>
       </div>
